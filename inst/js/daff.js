@@ -1430,6 +1430,7 @@ coopy.Coopy.prototype = {
 			var td = new coopy.TableDiff(align,flags);
 			var o = new coopy.SimpleTable(0,0);
 			td.hilite(o);
+
 			if(color) {
 				var render = new coopy.TerminalDiffRender();
 				tool.saveText(output,render.render(o));
@@ -4150,24 +4151,24 @@ coopy.Coopy.main();
 
 if (typeof exports != "undefined") {
     // avoid having excess nesting (coopy.coopy) when using node
-    for (f in exports.coopy) { 
+    for (f in exports.coopy) {
 	if (exports.coopy.hasOwnProperty(f)) {
-	    exports[f] = exports.coopy[f]; 
+	    exports[f] = exports.coopy[f];
 	}
-    } 
+    }
     // promote methods of coopy.Coopy
-    for (f in exports.Coopy) { 
+    for (f in exports.Coopy) {
 	if (exports.Coopy.hasOwnProperty(f)) {
-	    exports[f] = exports.Coopy[f]; 
+	    exports[f] = exports.Coopy[f];
 	}
-    } 
+    }
 } else {
     // promote methods of coopy.Coopy
-    for (f in coopy.Coopy) { 
+    for (f in coopy.Coopy) {
 	if (coopy.Coopy.hasOwnProperty(f)) {
-	    coopy[f] = coopy.Coopy[f]; 
+	    coopy[f] = coopy.Coopy[f];
 	}
-    } 
+    }
     daff = coopy;
 }
 (function() {
@@ -4365,7 +4366,7 @@ TableView.prototype.isSimilar = function(alt) {
     for (var c=0; c<this.width; c++) {
 	for (var r=0; r<this.height; r++) {
 	    var v1 = "" + this.getCell(c,r);
-	    var v2 = "" + alt.getCell(c,r); 
+	    var v2 = "" + alt.getCell(c,r);
 	    if (v1!=v2) {
 		console.log("MISMATCH "+ v1 + " " + v2);
 		return false;
@@ -4384,7 +4385,7 @@ if (typeof exports != "undefined") {
 
 })();
 if (typeof exports != "undefined") {
-    
+
     var tio = {};
     var tio_args = [];
 
@@ -4392,7 +4393,7 @@ if (typeof exports != "undefined") {
     var fs = require('fs');
     var exec = require('child_process').exec;
     var readline = null;
-    
+
     tio.getContent = function(name) {
 	if (name=="-") {
 	    // only works on Linux, all other solutions seem broken
@@ -4400,23 +4401,23 @@ if (typeof exports != "undefined") {
 	}
 	return fs.readFileSync(name,"utf8");
     }
-    
+
     tio.saveContent = function(name,txt) {
 	return fs.writeFileSync(name,txt,"utf8");
     }
-    
+
     tio.args = function() {
 	return tio_args;
     }
-    
+
     tio.writeStdout = function(txt) {
 	process.stdout.write(txt);
     }
-    
+
     tio.writeStderr = function(txt) {
 	process.stderr.write(txt);
     }
-    
+
     tio.async = function() {
 	return true;
     }
@@ -4465,7 +4466,7 @@ if (typeof exports != "undefined") {
 	    return code;
 	}
     }
-    
+
     exports.run_daff_main = function() {
 	var main = new exports.Coopy();
 	var code = run_daff_base(main,process.argv.slice(2));

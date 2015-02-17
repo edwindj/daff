@@ -38,3 +38,11 @@ function to_csv(table){
   var csv = new daff.Csv();
   return csv.renderTable(table);
 }
+
+function from_csv(txt){
+  var csv = new daff.Csv();
+  var output = new daff.SimpleTable(0,0);
+	csv.parseTable(txt,output);
+	if(output != null) output.trimBlank();
+	return output;
+}
