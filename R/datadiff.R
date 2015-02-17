@@ -1,3 +1,8 @@
+#' data diff
+#' @param data \code{data.frame} to check for changes
+#' @param data_ref \code{data.frame} reference data frame
+#' @return difference object
+#' @export
 data_diff <- function(data, data_ref){
   ctx <- get_context()
   tv <- TableView(ctx, data)
