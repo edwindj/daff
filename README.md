@@ -6,9 +6,9 @@ Currently work in progress.
 
 TODO:
 
-- add patch and merge functionality
 - add render functionality
 - add htmlwidgets
+- add merge functionality
 
 # Install
 
