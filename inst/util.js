@@ -23,3 +23,13 @@ function to_objects(x){
   }
   return result;
 }
+
+function diff(table1, table2){
+  var alignment = daff.compareTables(table1,table2).align();
+  var flags = new daff.CompareFlags();
+  var highlighter = new daff.TableDiff(alignment,flags);
+  var data_diff = [];
+  var table_diff = new daff.TableView(data_diff);
+  highlighter.hilite(table_diff);
+  return table_diff;
+}
