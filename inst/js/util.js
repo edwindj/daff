@@ -24,8 +24,8 @@ function to_objects(x){
   return result;
 }
 
-function diff(table1, table2){
-  var alignment = daff.compareTables(table1,table2).align();
+function diff(src, target){
+  var alignment = daff.compareTables(src,target).align();
   var flags = new daff.CompareFlags();
   var highlighter = new daff.TableDiff(alignment,flags);
   var data_diff = [];
@@ -45,4 +45,10 @@ function from_csv(txt){
 	csv.parseTable(txt,output);
 	if(output != null) output.trimBlank();
 	return output;
+}
+
+function patch_data(table, patch){
+  var patcher = new daff.HighlightPatch(table, patch);
+  patcher.apply();
+  return table;
 }

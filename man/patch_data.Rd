@@ -4,7 +4,7 @@
 \alias{patch_data}
 \title{patch data}
 \usage{
-patch_data(data, diff)
+patch_data(data, patch)
 }
 \description{
 patch data

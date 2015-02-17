@@ -2,4 +2,5 @@
 
 S3method(print,TableView)
 export(data_diff)
+export(diff_data)
 export(patch_data)

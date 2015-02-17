@@ -9,3 +9,29 @@ TODO:
 - add patch and merge functionality
 - add render functionality
 - add htmlwidgets
+
+# Install
+
+`daff` is not yet on CRAN but can be installed for now with `devtools`
+
+```S
+devtools::install_github("edwindj/daff")
+```
+Note that it is still work in progress!
+
+# Usage
+
+```S
+library(daff)
+x <- iris
+#change a value
+x[1,1] <- 1000
+
+patch <- diff_data(iris, x)
+print(patch)
+
+# apply patch
+iris_patched <- patch_data(iris, patch)
+
+iris_patched[1,1] == 1000
+```

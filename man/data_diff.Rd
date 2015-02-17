@@ -2,7 +2,7 @@
 % Please edit documentation in R/datadiff.R
 \name{data_diff}
 \alias{data_diff}
-\title{data diff}
+\title{data diff,}
 \usage{
 data_diff(data, data_ref)
 }
@@ -15,12 +15,10 @@ data_diff(data, data_ref)
 difference object
 }
 \description{
-Find differences with a reference data set.
+This is the same function as \code{\link{diff_data}} but with arguments
+reversed. This is more useful when using \code{dplyr} and \code{magrittr}
 }
-\examples{
-library(daff)
-x <- iris
-x[1,1] <- 10
-data_diff(x, iris)
+\seealso{
+diff_data
 }
 
