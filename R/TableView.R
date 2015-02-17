@@ -16,11 +16,15 @@ TableView <- function(ctx, df, var_name){
     ctx$get(var_name)
   }
 
+  to_csv <- function(){
+    ctx$call("to_csv", I(var_name))
+  }
+
   if (!missing(df)){
     set_data(df)
   }
 
-  structure( list(set_data=set_data, get_data=get_data, var_name=var_name, raw=raw, ctx=ctx)
+  structure( list(set_data=set_data, get_data=get_data, var_name=var_name, raw=raw, to_csv=to_csv)
              , class="TableView"
   )
 }

@@ -33,3 +33,8 @@ function diff(table1, table2){
   highlighter.hilite(table_diff);
   return table_diff;
 }
+
+function to_csv(table){
+  var csv = new daff.Csv();
+  return csv.renderTable(table);
+}
