@@ -1,0 +1,10 @@
+Package: daff
+Title: Data diff
+Version: 0.1
+Authors@R: c( person("Paul", "Fitzpatrick", email="paul@robotrebuilt.com", role="aut"),
+              person("Edwin", "de Jonge", email="edwindjonge@gmail.com", role=c("aut","cre")))
+Description: Diff, patch and merge for data frames
+Depends: R (>= 3.1.2)
+License: MIT
+LazyData: true
+Imports: V8
