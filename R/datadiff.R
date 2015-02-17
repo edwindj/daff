@@ -1,4 +1,8 @@
 #' data diff
+#'
+#' Find differences with a reference data set.
+#'
+#' @example ./examples/datadiff.R
 #' @param data \code{data.frame} to check for changes
 #' @param data_ref \code{data.frame} reference data frame
 #' @return difference object

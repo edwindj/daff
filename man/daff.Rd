@@ -4,8 +4,8 @@
 \name{daff}
 \alias{daff}
 \alias{daff-package}
-\title{daff.}
+\title{Data diff, patch and merge for R}
 \description{
-daff.
+Data diff, patch and merge for R
 }
 

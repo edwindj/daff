@@ -24,3 +24,10 @@ TableView <- function(ctx, df, var_name){
              , class="TableView"
   )
 }
+
+#' @export
+print.TableView <- function(x, ...){
+  txt <- x$get_data()
+  print(txt)
+  invisible(txt)
+}

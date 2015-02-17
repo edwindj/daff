@@ -15,6 +15,12 @@ data_diff(data, data_ref)
 difference object
 }
 \description{
-data diff
+Find differences with a reference data set.
+}
+\examples{
+library(daff)
+x <- iris
+x[1,1] <- 10
+data_diff(x, iris)
 }
 
