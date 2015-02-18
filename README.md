@@ -5,6 +5,11 @@ daff is an R package that wraps the daff.js library of Paul Fitzpatrick [http://
 [![Build Status](https://travis-ci.org/edwindj/daff.png?branch=master)](https://travis-ci.org/edwindj/daff)
 
 Work in progress.
+Working:
+
+- diff: `diff_data`
+- patch: `patch_data`
+- write/read diff: `read_diff` and `write_diff`
 
 TODO:
 
