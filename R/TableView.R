@@ -49,9 +49,9 @@ print.TableView <- function(x, ...){
   invisible(txt)
 }
 
-write_diff <- function(diff, con){
+write_diff <- function(diff, file){
   stopifnot(inherits(diff, "TableView"))
-  writeLines(diff$to_csv(), con)
+  cat(diff$to_csv(), file=file)
 }
 
 read_diff <- function(con){

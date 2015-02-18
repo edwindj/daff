@@ -7,7 +7,7 @@
 #' @param data_ref \code{data.frame} reference data frame
 #' @return difference object
 #' @export
-#' @seealso data_diff
+#' @seealso differs_from
 diff_data <- function(data_ref, data){
   ctx <- get_context()
   tv <- TableView(ctx, data)
@@ -19,7 +19,7 @@ diff_data <- function(data_ref, data){
 }
 
 
-#' data diff,
+#' differs from,
 #'
 #' This is the same function as \code{\link{diff_data}} but with arguments
 #' reversed. This is more useful when using \code{dplyr} and \code{magrittr}
@@ -29,6 +29,6 @@ diff_data <- function(data_ref, data){
 #' @return difference object
 #' @export
 #' @seealso diff_data
-data_diff <- function(data, data_ref){
-  diff_data(data_ref, data)
+differs_from <- function(data, data_ref){
+  diff_data(data_ref=data_ref, data=data)
 }
