@@ -30,7 +30,14 @@ TableView <- function(ctx, df, var_name){
     set_data(df)
   }
 
-  structure( list(set_data=set_data, get_data=get_data, var_name=var_name, raw=raw, to_csv=to_csv, from_csv=from_csv)
+  structure( list( set_data=set_data
+                 , get_data=get_data
+                 , var_name=var_name
+                 , raw=raw
+                 , to_csv=to_csv
+                 , from_csv=from_csv
+                 , ctx=ctx
+                 )
              , class="TableView"
   )
 }

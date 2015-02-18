@@ -2,7 +2,8 @@
 #'
 #'@export
 patch_data <- function(data, patch){
-  ctx <- get_context()
+  stopifnot(inherits(patch, "TableView"))
+  ctx <- patch$ctx
   tv <- TableView(ctx, data)
   ctx$call("patch_data", I(tv$var_name), I(patch$var_name))
   tv$get_data()
