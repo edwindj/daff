@@ -1,3 +1,4 @@
+#'@importFrom jsonlite toJSON
 TableView <- function(ctx, df, var_name){
   if (missing(var_name)){
     var_name <- ctx$get(I("_.uniqueId('tv')"))

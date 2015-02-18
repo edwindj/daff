@@ -8,5 +8,5 @@ Description: Diff, patch and merge for data frames. Document changes in data set
 Depends: R (>= 3.1.2)
 License: MIT + file LICENSE
 LazyData: true
-Imports: V8
+Imports: V8, jsonlite
 URL: http://github.com/edwindj/daff
