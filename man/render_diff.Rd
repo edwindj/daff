@@ -4,7 +4,12 @@
 \alias{render_diff}
 \title{Render a diff table to html}
 \usage{
-render_diff(diff)
+render_diff(diff, file = "")
+}
+\arguments{
+\item{diff}{object}
+
+\item{file}{to write to}
 }
 \description{
 Render a diff table to html

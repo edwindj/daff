@@ -52,3 +52,13 @@ function patch_data(table, patch){
   patcher.apply();
   return table;
 }
+
+function render_diff(diff){
+  var fragment = false, pretty = true;
+
+  var renderer = new daff.DiffRender();
+	renderer.usePrettyArrows(pretty);
+	renderer.render(diff);
+	if(!fragment) renderer.completeHtml();
+	return renderer.html();
+}
