@@ -3,9 +3,15 @@ TableView <- function(ctx, df, var_name){
     var_name <- ctx$get(I("_.uniqueId('tv')"))
   }
 
-  set_data <- function(df){
-    ctx$assign(var_name, df)
-    ctx$assign(var_name, I(paste0("to_table_view(",var_name,")")))
+  set_data <- function(df, convert=TRUE){
+    if (convert){
+      ctx$assign(var_name, df)
+      ctx$assign(var_name, I(paste0("to_table_view(",var_name,", true)")))
+    } else {
+      df <- jsonlite::toJSON(df, dataframe = "values")
+      ctx$assign(var_name, I(df))
+      ctx$assign(var_name, I(paste0("to_table_view(",var_name,", false)")))
+    }
   }
 
   get_data <- function(){
@@ -47,17 +53,4 @@ print.TableView <- function(x, ...){
   txt <- x$get_data()
   print(txt)
   invisible(txt)
-}
-
-write_diff <- function(diff, file){
-  stopifnot(inherits(diff, "TableView"))
-  cat(diff$to_csv(), file=file)
-}
-
-read_diff <- function(con){
-  ctx <- get_context()
-  diff <- TableView(ctx)
-  txt <- paste0(readLines(con), collapse = "\n")
-  diff$from_csv(txt)
-  diff
 }

@@ -1,5 +1,5 @@
-function to_table_view(table){
-  var view = to_array(table);
+function to_table_view(table, convert){
+  var view = (convert)? to_array(table): table;
   return new daff.TableView(view);
 }
 
