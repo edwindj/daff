@@ -4,7 +4,8 @@
 \alias{render_diff}
 \title{Render a data diff  to html}
 \usage{
-render_diff(diff, file = tempfile(fileext = ".html"), view = missing(file))
+render_diff(diff, file = tempfile(fileext = ".html"), view = missing(file),
+  fragment = FALSE, pretty = FALSE)
 }
 \arguments{
 \item{diff}{object generated with \code{\link{diff_data}}}
@@ -13,6 +14,10 @@ render_diff(diff, file = tempfile(fileext = ".html"), view = missing(file))
 
 \item{view}{\code{TRUE} or \code{FALSE}, if \code{TRUE} render_diff will show the diff
 the browser}
+
+\item{fragment}{if \code{FALSE} the generated HTML will be a valid HTML document, otherwise it is a HTML fragment}
+
+\item{pretty}{if \code{TRUE} the 'pretty' arrow symbols are used in the HTML.}
 }
 \description{
 \code{render_diff}
@@ -20,13 +25,20 @@ the browser}
 the result in a browser.
 }
 \examples{
-x <- iris[1:2,]
-x[1,1] <- 10
+y <- iris[1:3,]
+x <- y
 
-diff <- diff_data(iris[1:2,], x)
+x <- head(x,2) # remove a row
+x[1,1] <- 10 # change a value
+x$hello <- "world"  # add a column
+x$Species <- NULL # remove a column
+
+patch <- diff_data(y, x)
+
 # render_diff(diff) # will show an html diff
+render_diff(patch, file="")
 
-render_diff(diff, file="")
-
+#apply patch
+y_patched <- patch_data(y, patch)
 }
 

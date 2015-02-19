@@ -4,7 +4,7 @@ Version: 0.1
 Authors@R: c( person("Paul", "Fitzpatrick", email="paul@robotrebuilt.com", role="aut"),
               person("Edwin", "de Jonge", email="edwindjonge@gmail.com", role=c("aut","cre")))
 Description: Diff, patch and merge for data frames. Document changes in data sets and use them to apply patches.
-    daff currently only exposes a limited subset of the functionality of daff.js
+    Changes to data can be made visible by using render_diff. daff currently only exposes a limited subset of the functionality of daff.js
 Depends: R (>= 3.1.2)
 License: MIT + file LICENSE
 LazyData: true

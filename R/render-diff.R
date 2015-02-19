@@ -9,10 +9,17 @@
 #' @param file to write to
 #' @param view \code{TRUE} or \code{FALSE}, if \code{TRUE} render_diff will show the diff
 #' the browser
+#' @param fragment if \code{FALSE} the generated HTML will be a valid HTML document, otherwise it is a HTML fragment
+#' @param pretty if \code{TRUE} the 'pretty' arrow symbols are used in the HTML.
 #'@export
-render_diff <- function(diff, file=tempfile(fileext = ".html"), view=missing(file)){
+render_diff <- function( diff
+                       , file=tempfile(fileext = ".html")
+                       , view=missing(file)
+                       , fragment=FALSE
+                       , pretty=FALSE
+                       ){
   ctx <- diff$ctx
-  html <- ctx$call("render_diff", I(diff$var_name))
+  html <- ctx$call("render_diff", I(diff$var_name), fragment, pretty)
   cat(html, file = file)
   if (view && file != ""){
     viewer <- getOption("viewer")

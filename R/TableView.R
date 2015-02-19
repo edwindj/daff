@@ -19,6 +19,10 @@ TableView <- function(ctx, df, var_name){
     ctx$get(I(paste0("to_objects(",var_name,".data)")))
   }
 
+  get_matrix <- function(){
+    ctx$get(I(paste0(var_name, ".data")))
+  }
+
   raw <- function(){
     ctx$get(var_name)
   }
@@ -26,6 +30,7 @@ TableView <- function(ctx, df, var_name){
   to_csv <- function(){
     csv <- ctx$call("to_csv", I(var_name))
     gsub("\r", "", csv) # remove those \r's
+    #csv
   }
 
   from_csv <- function(txt){
@@ -43,6 +48,7 @@ TableView <- function(ctx, df, var_name){
                  , raw=raw
                  , to_csv=to_csv
                  , from_csv=from_csv
+                 , get_matrix=get_matrix
                  , ctx=ctx
                  )
              , class="TableView"
@@ -51,7 +57,5 @@ TableView <- function(ctx, df, var_name){
 
 #' @export
 print.TableView <- function(x, ...){
-  txt <- x$get_data()
-  print(txt)
-  invisible(txt)
+  cat(x$to_csv())
 }

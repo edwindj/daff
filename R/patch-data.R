@@ -8,7 +8,14 @@
 patch_data <- function(data, patch){
   stopifnot(inherits(patch, "TableView"))
   ctx <- patch$ctx
+  mode <- patch$mode
+
   tv <- TableView(ctx, data)
   ctx$call("patch_data", I(tv$var_name), I(patch$var_name))
-  tv$get_data()
+  data <- tv$get_data()
+
+  for (n in names(data)){
+    mode(data[[n]]) <- mode[n]
+  }
+  data
 }

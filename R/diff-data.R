@@ -13,6 +13,9 @@ diff_data <- function(data_ref, data){
   tv <- TableView(ctx, data)
   tv_ref <- TableView(ctx, data_ref)
   tv_diff <- TableView(ctx) # does not yet exist
+  # add target classes to diff
+  tv_diff$mode <- sapply(data, mode)
+
   diff <- paste0("diff(",tv_ref$var_name,",",tv$var_name,")")
   ctx$assign(tv_diff$var_name, I(diff))
   tv_diff

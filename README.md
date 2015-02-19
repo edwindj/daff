@@ -28,12 +28,15 @@ Note that it is still work in progress!
 
 ```S
 library(daff)
-x <- iris
-#change a value
-x[1,1] <- 1000
+y <- iris[1:3,]
+x <- y
 
-patch <- diff_data(iris, x)
-print(patch)
+x <- head(x,2) # remove a row
+x[1,1] <- 10 # change a value
+x$hello <- "world"  # add a column
+x$Species <- NULL # remove a column
+
+patch <- diff_data(y, x)
 
 # write a patch to disk
 write_diff(patch, "patch.csv")
@@ -42,7 +45,9 @@ write_diff(patch, "patch.csv")
 patch <- read_diff("patch.csv")
 
 # apply patch
-iris_patched <- patch_data(iris, patch)
-
-iris_patched[1,1] == 1000
+y_patched <- patch_data(y, patch)
 ```
+
+`render_diff(patch)` will generate the following HTML page:
+
+![render_diff](examples/render_diff.png "render_diff")
