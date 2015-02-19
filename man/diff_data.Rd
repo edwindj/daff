@@ -12,9 +12,9 @@ diff_data(data_ref, data, ids = NULL, ignore = NULL, context = 1,
 
 \item{data}{\code{data.frame} to check for changes}
 
-\item{ids}{\code{identification} columns (not yet working)}
+\item{ids}{\code{character} identification columns}
 
-\item{ignore}{\code{character} columns to ignore (not yet working)}
+\item{ignore}{\code{character} columns to ignore}
 
 \item{context}{\code{integer} number of context rows (not yet working)}
 
