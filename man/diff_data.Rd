@@ -12,13 +12,13 @@ diff_data(data_ref, data, ids = NULL, ignore = NULL, context = 1,
 
 \item{data}{\code{data.frame} to check for changes}
 
-\item{ids}{\code{character} identification columns}
+\item{ids}{\code{character} identification columns (not yet working)}
 
-\item{ignore}{\code{character} columns to ignore}
+\item{ignore}{\code{character} columns to ignore (not yet working)}
 
 \item{context}{\code{integer} number of context rows (not yet working)}
 
-\item{show_all}{\code{logical} show all rows or only changed rows?}
+\item{show_all}{\code{logical} show all rows or only changed rows?  (not yet working)}
 }
 \value{
 difference object

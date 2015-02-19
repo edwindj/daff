@@ -5,10 +5,10 @@
 #' @example ./examples/datadiff.R
 #' @param data \code{data.frame} to check for changes
 #' @param data_ref \code{data.frame} reference data frame
-#' @param ids \code{character} identification columns
-#' @param ignore \code{character} columns to ignore
+#' @param ids \code{character} identification columns (not yet working)
+#' @param ignore \code{character} columns to ignore (not yet working)
 #' @param context \code{integer} number of context rows (not yet working)
-#' @param show_all \code{logical} show all rows or only changed rows?
+#' @param show_all \code{logical} show all rows or only changed rows?  (not yet working)
 #' @return difference object
 #' @export
 #' @seealso differs_from

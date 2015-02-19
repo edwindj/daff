@@ -29,8 +29,8 @@ function diff(src, target, ids, ignore, context, show_all){
   var flags = new daff.CompareFlags();
   flags.ids = ids;
   flags.column_to_ignore = ignore;
-  flags.unchanged_column_context = context;
-  flags.show_unchanged_columns = !show_all
+  flags.unchanged_context = context;
+  flags.show_unchanged = show_all
   var highlighter = new daff.TableDiff(alignment,flags);
   var data_diff = [];
   var table_diff = new daff.TableView(data_diff);
