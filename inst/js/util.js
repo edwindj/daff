@@ -57,6 +57,16 @@ function patch_data(table, patch){
   return table;
 }
 
+function merge_data(parent, a, b){
+	var merger = new daff.Merger(parent,a,b); //add flags?
+	var conflicts = merger.apply();
+  return {
+    merged: a,
+    conflicts: conflicts
+    ok: conflicts == 0
+  };
+}
+
 function render_diff(diff, fragment, pretty){
   fragment = !!fragment;
   pretty = !!pretty

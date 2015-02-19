@@ -12,7 +12,7 @@
 #' @return difference object
 #' @export
 #' @seealso differs_from
-diff_data <- function(data_ref, data, ids=NULL, ignore=NULL, context=1, show_all=FALSE){
+diff_data <- function(data_ref, data, ids=NULL, ignore=NULL, context=1L, show_all=FALSE){
   ctx <- get_context()
   tv <- TableView(ctx, data)
   tv_ref <- TableView(ctx, data_ref)
