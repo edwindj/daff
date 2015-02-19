@@ -17,7 +17,10 @@ the browser}
 
 \item{fragment}{if \code{FALSE} the generated HTML will be a valid HTML document, otherwise it is a HTML fragment}
 
-\item{pretty}{if \code{TRUE} the 'pretty' arrow symbols are used in the HTML.}
+\item{pretty}{if \code{TRUE} use fancy utf8 characters to make arrows prettier.}
+}
+\value{
+generated html
 }
 \description{
 \code{render_diff}

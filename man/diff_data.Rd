@@ -4,12 +4,21 @@
 \alias{diff_data}
 \title{Do a data diff}
 \usage{
-diff_data(data_ref, data)
+diff_data(data_ref, data, ids = NULL, ignore = NULL, context = 1,
+  show_all = FALSE)
 }
 \arguments{
 \item{data_ref}{\code{data.frame} reference data frame}
 
 \item{data}{\code{data.frame} to check for changes}
+
+\item{ids}{\code{identification} columns (not yet working)}
+
+\item{ignore}{\code{character} columns to ignore (not yet working)}
+
+\item{context}{\code{integer} number of context rows (not yet working)}
+
+\item{show_all}{\code{logical} show all rows or only changed rows?}
 }
 \value{
 difference object

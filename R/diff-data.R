@@ -5,10 +5,14 @@
 #' @example ./examples/datadiff.R
 #' @param data \code{data.frame} to check for changes
 #' @param data_ref \code{data.frame} reference data frame
+#' @param ids \code{identification} columns (not yet working)
+#' @param ignore \code{character} columns to ignore (not yet working)
+#' @param context \code{integer} number of context rows (not yet working)
+#' @param show_all \code{logical} show all rows or only changed rows?
 #' @return difference object
 #' @export
 #' @seealso differs_from
-diff_data <- function(data_ref, data){
+diff_data <- function(data_ref, data, ids=NULL, ignore=NULL, context=1, show_all=FALSE){
   ctx <- get_context()
   tv <- TableView(ctx, data)
   tv_ref <- TableView(ctx, data_ref)
@@ -16,7 +20,12 @@ diff_data <- function(data_ref, data){
   # add target classes to diff
   tv_diff$mode <- sapply(data, mode)
 
-  diff <- paste0("diff(",tv_ref$var_name,",",tv$var_name,")")
+  ctx$assign("ids", ids)
+  ctx$assign("ignore", ignore)
+  ctx$assign("context", context)
+  ctx$assign("show_all", show_all)
+
+  diff <- paste0("diff(",tv_ref$var_name,",",tv$var_name,",ids, ignore, context, show_all)")
   ctx$assign(tv_diff$var_name, I(diff))
   tv_diff
 }

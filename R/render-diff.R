@@ -10,7 +10,8 @@
 #' @param view \code{TRUE} or \code{FALSE}, if \code{TRUE} render_diff will show the diff
 #' the browser
 #' @param fragment if \code{FALSE} the generated HTML will be a valid HTML document, otherwise it is a HTML fragment
-#' @param pretty if \code{TRUE} the 'pretty' arrow symbols are used in the HTML.
+#' @param pretty if \code{TRUE} use fancy utf8 characters to make arrows prettier.
+#' @return generated html
 #'@export
 render_diff <- function( diff
                        , file=tempfile(fileext = ".html")
