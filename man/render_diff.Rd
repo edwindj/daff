@@ -2,16 +2,31 @@
 % Please edit documentation in R/render-diff.R
 \name{render_diff}
 \alias{render_diff}
-\title{Render a diff table to html}
+\title{Render a data diff  to html}
 \usage{
-render_diff(diff, file = "")
+render_diff(diff, file = tempfile(fileext = ".html"), view = missing(file))
 }
 \arguments{
-\item{diff}{object}
+\item{diff}{object generated with \code{\link{diff_data}}}
 
 \item{file}{to write to}
+
+\item{view}{\code{TRUE} or \code{FALSE}, if \code{TRUE} render_diff will show the diff
+the browser}
 }
 \description{
-Render a diff table to html
+\code{render_diff}
+\code{render_diff} will show a diff in html. When \code{view} is \code{TRUE} \code{render_diff} will show
+the result in a browser.
+}
+\examples{
+x <- iris[1:2,]
+x[1,1] <- 10
+
+diff <- diff_data(iris[1:2,], x)
+# render_diff(diff) # will show an html diff
+
+render_diff(diff, file="")
+
 }
 

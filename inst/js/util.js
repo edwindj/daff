@@ -53,8 +53,9 @@ function patch_data(table, patch){
   return table;
 }
 
-function render_diff(diff){
-  var fragment = false, pretty = true;
+function render_diff(diff, fragment, pretty){
+  fragment = !!fragment;
+  pretty = !!pretty
 
   var renderer = new daff.DiffRender();
 	renderer.usePrettyArrows(pretty);
