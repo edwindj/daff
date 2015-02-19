@@ -1,6 +1,8 @@
 # Daff, diff for data
 
-daff is an R package that wraps the daff.js library of Paul Fitzpatrick [http://paulfitz.github.io/daff/](http://paulfitz.github.io/daff/) using the [V8 package](https://github.com/jeroenooms/v8)
+daff is an R package that wraps the daff.js library [http://paulfitz.github.io/daff/](http://paulfitz.github.io/daff/) using the [V8 package](https://github.com/jeroenooms/v8)
+
+[![Build Status](https://travis-ci.org/edwindj/daff.svg?branch=master)](https://travis-ci.org/edwindj/daff)
 
 Work in progress.
 Working:
@@ -8,10 +10,10 @@ Working:
 - diff: `diff_data`
 - patch: `patch_data`
 - write/read diff: `read_diff` and `write_diff`
+- render to html `render_diff`
 
 TODO:
 
-- add render functionality
 - add htmlwidgets
 - add merge functionality
 
