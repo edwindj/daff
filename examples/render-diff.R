@@ -7,9 +7,7 @@ x$hello <- "world"  # add a column
 x$Species <- NULL # remove a column
 
 patch <- diff_data(y, x)
-
-# render_diff(diff) # will show an html diff
-render_diff(patch, file="")
+render_diff(patch)
 
 #apply patch
 y_patched <- patch_data(y, patch)

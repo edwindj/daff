@@ -13,7 +13,7 @@ render_diff(diff, file = tempfile(fileext = ".html"), view = missing(file),
 \item{file}{to write to}
 
 \item{view}{\code{TRUE} or \code{FALSE}, if \code{TRUE} render_diff will show the diff
-the browser}
+in the browser (only R is used interactively)}
 
 \item{fragment}{if \code{FALSE} the generated HTML will be a valid HTML document, otherwise it is a HTML fragment}
 
@@ -37,9 +37,7 @@ x$hello <- "world"  # add a column
 x$Species <- NULL # remove a column
 
 patch <- diff_data(y, x)
-
-# render_diff(diff) # will show an html diff
-render_diff(patch, file="")
+render_diff(patch)
 
 #apply patch
 y_patched <- patch_data(y, patch)

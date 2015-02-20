@@ -8,7 +8,7 @@
 #' @param diff object generated with \code{\link{diff_data}}
 #' @param file to write to
 #' @param view \code{TRUE} or \code{FALSE}, if \code{TRUE} render_diff will show the diff
-#' the browser
+#' in the browser (only R is used interactively)
 #' @param fragment if \code{FALSE} the generated HTML will be a valid HTML document, otherwise it is a HTML fragment
 #' @param pretty if \code{TRUE} use fancy utf8 characters to make arrows prettier.
 #' @return generated html
@@ -22,7 +22,7 @@ render_diff <- function( diff
   ctx <- diff$ctx
   html <- ctx$call("render_diff", I(diff$var_name), fragment, pretty)
   cat(html, file = file)
-  if (view && file != ""){
+  if (view && file != "" && interactive()){
     viewer <- getOption("viewer")
     if (!is.null(viewer) && is.function(viewer)){
       viewer(file)

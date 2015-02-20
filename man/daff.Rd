@@ -14,4 +14,8 @@ Storing the difference between data sets allows for tracking or incorporating ma
 Ideally changes to data should be scripted to be reproducable, but there are situations or scenario's where
 this is not possible or happens out of your control. \code{daff} can help track these changes.
 }
+\section{daff.js}{
+
+Daff wraps the daff.js library which offers more functionality.
+}
 
