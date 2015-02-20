@@ -1,5 +1,8 @@
 #' Write or read a diff to or from a file
 #'
+#' The diff information is stored in the Coopy highlighter diff format:
+#' \url{http://dataprotocols.org/tabular-diff-format/}
+#'
 #' Note that type information of the target data.frame is lost when writing a patch to disk.
 #' Using a stored diff to patch a \code{data.frame} will use the column types of the source
 #' \code{data.frame} to determine the target column types. New introduced columns may become \code{characters}.
