@@ -4,7 +4,7 @@
 \alias{diff_data}
 \title{Do a data diff}
 \usage{
-diff_data(data_ref, data, ids = NULL, ignore = NULL, context = 1,
+diff_data(data_ref, data, ids = NULL, ignore = NULL, context = 1L,
   show_all = FALSE)
 }
 \arguments{

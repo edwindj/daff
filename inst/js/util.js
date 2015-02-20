@@ -62,7 +62,7 @@ function merge_data(parent, a, b){
 	var conflicts = merger.apply();
   return {
     merged: a,
-    conflicts: conflicts
+    conflicts: conflicts,
     ok: conflicts == 0
   };
 }
