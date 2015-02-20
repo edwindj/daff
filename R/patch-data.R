@@ -7,15 +7,27 @@
 #'@export
 patch_data <- function(data, patch){
   stopifnot(inherits(patch, "TableView"))
+
   ctx <- patch$ctx
-  mode <- patch$mode
+
+  mode <- patch$mode %||% sapply(data, storage.mode)
+  is_factor <- patch$is_factor %||% sapply(data, is.factor)
+  levels <- patch$levels
 
   tv <- TableView(ctx, data)
   ctx$call("patch_data", I(tv$var_name), I(patch$var_name))
-  data <- tv$get_data()
 
-  for (n in names(data)){
-    mode(data[[n]]) <- mode[n]
+  data <- tv$get_data()
+  for (n in names(mode)){
+    if (is_factor[n]){
+      if (is.null(levs <- levels[[n]])){
+        data[[n]] <- factor(data[[n]])
+      } else {
+        data[[n]] <- factor(data[[n]], levels=levs)
+      }
+    } else {
+      storage.mode(data[[n]]) <- mode[n]
+    }
   }
   data
 }

@@ -17,8 +17,12 @@ diff_data <- function(data_ref, data, ids=NULL, ignore=NULL, context=1L, show_al
   tv <- TableView(ctx, data)
   tv_ref <- TableView(ctx, data_ref)
   tv_diff <- TableView(ctx) # does not yet exist
+
   # add target classes to diff
-  tv_diff$mode <- sapply(data, mode)
+  tv_diff$mode <- sapply(data, storage.mode)
+  tv_diff$is_factor <- sapply(data, is.factor)
+  tv_diff$levels <- lapply(data, levels)
+  #print(tv_diff$levels)
 
   ctx$assign("ids", ids)
   ctx$assign("ignore", ignore)

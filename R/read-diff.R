@@ -1,5 +1,9 @@
 #' Write or read a diff to or from a file
 #'
+#' Note that type information of the target data.frame is lost when writing a patch to disk.
+#' Using a stored diff to patch a \code{data.frame} will use the column types of the source
+#' \code{data.frame} to determine the target column types. New introduced columns may become \code{characters}.
+#'
 #' @param diff generated with diff_data
 #' @param file filename or connection
 #' @export

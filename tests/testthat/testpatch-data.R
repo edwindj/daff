@@ -46,3 +46,11 @@ test_that("Removing column works",{
   patch <- diff_data(x,y)
   expect_equal(patch_data(x, patch), y)
 })
+
+test_that("Changing a factor works",{
+  x <- data.frame(a=factor(c("A","B")), b=1:2)
+  y <- x
+  y$a[1] <- "B"
+  patch <- diff_data(x,y)
+  expect_equal(patch_data(x, patch), y)
+})
