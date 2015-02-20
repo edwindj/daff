@@ -4,12 +4,14 @@
 \alias{differs_from}
 \title{differs from,}
 \usage{
-differs_from(data, data_ref)
+differs_from(data, data_ref, ...)
 }
 \arguments{
 \item{data}{\code{data.frame} to check for changes}
 
 \item{data_ref}{\code{data.frame} reference data frame}
+
+\item{...}{not further specified}
 }
 \value{
 difference object

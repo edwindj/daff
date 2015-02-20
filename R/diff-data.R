@@ -1,6 +1,7 @@
 #' Do a data diff
 #'
-#' Find differences with a reference data set.
+#' Find differences with a reference data set. The diff can be used to \code{\link{patch_data}}, to store the difference
+#' for documentation purposes using \code{\link{write_diff}} or to visualize the difference using \code{\link{render_diff}}
 #'
 #' @example ./examples/datadiff.R
 #' @param data \code{data.frame} to check for changes
@@ -42,9 +43,10 @@ diff_data <- function(data_ref, data, ids=NULL, ignore=NULL, context=1L, show_al
 #'
 #' @param data \code{data.frame} to check for changes
 #' @param data_ref \code{data.frame} reference data frame
+#' @param ... not further specified
 #' @return difference object
 #' @export
 #' @seealso diff_data
-differs_from <- function(data, data_ref){
-  diff_data(data_ref=data_ref, data=data)
+differs_from <- function(data, data_ref, ...){
+  diff_data(data_ref=data_ref, data=data, ...)
 }
