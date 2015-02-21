@@ -11,11 +11,11 @@ Working:
 - patch: `patch_data`
 - write/read diff: `read_diff` and `write_diff`
 - render to html `render_diff`
+- merge two tables based on a same version.
 
 TODO:
 
 - add htmlwidgets
-- add merge functionality
 
 # Install
 
