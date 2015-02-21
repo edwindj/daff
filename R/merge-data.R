@@ -2,9 +2,19 @@
 #'
 #' \code{merge_data} provides a three-way merge: suppose two versions are based on a common
 #' version, this function will merge tables \code{a} and \code{b}.
+#'
+#' If both \code{a} and \code{b} change the same table cell with a different value, this results in a
+#' conflict. In that case a warning will be generated with the number of conflicts.
+#' In the returned \code{data.frame} of a conflicting merge columns with conflicting values are of type
+#' \code{character} and contain all three values coded as
+#'
+#' (parent) a /// b
+#'
 #' @param parent \code{data.frame}
 #' @param a \code{data.frame} changed version of \code{parent}
 #' @param b \code{data.frame} other changed version of \code{parent}
+#' @return merged \code{data.frame}. When a merge has conflicts the columns of conflicting changes
+#' are of type \code{character} and contain all three values.
 #' @example ./examples/merge-data.R
 #' @export
 merge_data <- function(parent, a, b){

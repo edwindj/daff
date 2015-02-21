@@ -13,9 +13,21 @@ merge_data(parent, a, b)
 
 \item{b}{\code{data.frame} other changed version of \code{parent}}
 }
+\value{
+merged \code{data.frame}. When a merge has conflicts the columns of conflicting changes
+are of type \code{character} and contain all three values.
+}
 \description{
 \code{merge_data} provides a three-way merge: suppose two versions are based on a common
 version, this function will merge tables \code{a} and \code{b}.
+}
+\details{
+If both \code{a} and \code{b} change the same table cell with a different value, this results in a
+conflict. In that case a warning will be generated with the number of conflicts.
+In the returned \code{data.frame} of a conflicting merge columns with conflicting values are of type
+\code{character} and contain all three values coded as
+
+(parent) a /// b
 }
 \examples{
 parent <- a <- b <- iris[1:3,]
