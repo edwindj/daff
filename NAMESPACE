@@ -3,6 +3,7 @@
 S3method(print,TableView)
 export(diff_data)
 export(differs_from)
+export(merge_data)
 export(patch_data)
 export(read_diff)
 export(render_diff)

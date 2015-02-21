@@ -58,10 +58,10 @@ function patch_data(table, patch){
 }
 
 function merge_data(parent, a, b){
-	var merger = new daff.Merger(parent,a,b); //add flags?
+  var flags = new daff.CompareFlags()
+	var merger = new daff.Merger(parent,a,b,flags); //add flags?
 	var conflicts = merger.apply();
   return {
-    merged: a,
     conflicts: conflicts,
     ok: conflicts == 0
   };
