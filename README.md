@@ -19,12 +19,11 @@ TODO:
 
 # Install
 
-`daff` is not yet on CRAN but can be installed for now with `devtools`
+The latest version of `daff` can be installed for now with `devtools`
 
 ```S
 devtools::install_github("edwindj/daff")
 ```
-Note that it is still work in progress!
 
 # Usage
 
