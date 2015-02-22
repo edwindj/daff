@@ -4,7 +4,7 @@ Version: 0.1
 Authors@R: c( person("Paul", "Fitzpatrick", email="paul@robotrebuilt.com", role="aut"),
               person("Edwin", "de Jonge", email="edwindjonge@gmail.com", role=c("aut","cre")))
 Description: Diff and patch for data frames. Document changes in data sets and use them to apply patches.
-    Changes to data can be made visible by using render_diff. Daff wraps the daff.js library and exposes a subset
+    Changes to data can be made visible by using render_diff. Daff wraps the daff.js library using V8 and exposes a subset
     of its functionality.
 Depends: R (>= 3.1.2)
 License: MIT + file LICENSE
