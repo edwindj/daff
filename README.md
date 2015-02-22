@@ -4,7 +4,6 @@ daff is an R package that wraps the [daff.js](http://paulfitz.github.io/daff/) l
 
 [![Build Status](https://travis-ci.org/edwindj/daff.svg?branch=master)](https://travis-ci.org/edwindj/daff)
 
-Work in progress.
 Working:
 
 - diff: `diff_data`
@@ -16,6 +15,7 @@ Working:
 TODO:
 
 - add htmlwidgets
+- implement extra parameters for `diff_data`: `ids`, `ignore` etc.
 
 # Install
 
