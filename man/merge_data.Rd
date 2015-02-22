@@ -40,7 +40,13 @@ parent <- a <- b <- iris[1:3,]
 a[1,1] <- 10
 b[1,1] <- 11
 # conflicting merge (both a and b change same cell)
-merge_data(parent, a, b)
+merged <- merge_data(parent, a, b)
+merged #note the conflict
 
+#find out which rows contain a conflict
+which_conflicts(merged)
+}
+\seealso{
+\code{\link{which_conflicts}}
 }
 

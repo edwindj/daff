@@ -17,6 +17,7 @@
 #' are of type \code{character} and contain all three values.
 #' @example ./examples/merge-data.R
 #' @export
+#' @seealso \code{\link{which_conflicts}}
 merge_data <- function(parent, a, b){
   ctx <- get_context()
   tv_parent <- TableView(ctx, parent)
@@ -43,9 +44,31 @@ merge_data <- function(parent, a, b){
       }
     }
   } else {
-    warning(res$conflicts, " conflict(s) detected! Conflicts are noted with '///'.\n")
+    warning( "\n\t", res$conflicts, " conflict(s) detected!"
+           , "\n\tConflicting values are noted with '(((parent))) a /// b'."
+           , "\n\tUse 'which_conflict' to find out which rows contain conflicting values."
+           )
   }
   merged
+}
+
+#' return which rows of a merged \code{data.frame} contain conflicts
+#'
+#' return which rows of a merged \code{data.frame} contain conflicts.
+#' @param merged \code{data.frame} merged data.frame with possible conflicts.
+#' @return \code{integer} vector with row positions containing conflicts.
+#' @export
+#' @example ./examples/merge-data.R
+#' @seealso \code{\link{merge_data}}
+which_conflicts <- function(merged){
+  #only character column can contain conflicts
+  is_char <- sapply(merged, is.character) | sapply(merged, is.factor)
+  conflicts <- lapply(merged[is_char], function(v){
+    # TODO make this more reliable?
+    grepl("///", v)
+  })
+  conflicts <- Reduce(`|`, conflicts)
+  which(conflicts)
 }
 
 # x <- y <- iris[1:3,]
