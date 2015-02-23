@@ -17,7 +17,7 @@ TODO:
 
 - add htmlwidgets
 - implement extra parameters for `diff_data`: `ids`, `ignore` etc.
-- see if daff can be implemented in C++, using the Haxe C++ target of daff
+- see if daff can be implemented in C++, using the Haxe C++ target of daff: this would remove the V8/jsonlite dependency
 
 # Install
 
