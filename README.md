@@ -1,6 +1,7 @@
 # Daff, diff for data
 
-daff is an R package that wraps the [daff.js](http://paulfitz.github.io/daff/) library using the [V8 ](https://github.com/jeroenooms/v8) package
+daff is an R package that can find different values between `data.frame`s, store this difference, render it and apply this difference to patch a `data.frame`. It can also merge two versions of a `data.frame` having a common parent.
+It wraps the [daff.js](http://paulfitz.github.io/daff/) library using the [V8 ](https://github.com/jeroenooms/v8) package
 
 [![Build Status](https://travis-ci.org/edwindj/daff.svg?branch=master)](https://travis-ci.org/edwindj/daff)
 
@@ -28,6 +29,8 @@ devtools::install_github("edwindj/daff")
 # Usage
 
 ## diff_data
+
+Calculate the difference between a reference and a changed `data.frame`
 ```S
 library(daff)
 y <- iris[1:3,]
@@ -50,6 +53,8 @@ write_diff(patch, "patch.csv")
 
 
 ## patch_data
+
+Patch a `data.frame` using a diff generated with `diff_data`.
 ```S
 # read a diff from disk
 patch <- read_diff("patch.csv")
@@ -59,6 +64,8 @@ y_patched <- patch_data(y, patch)
 ```
 
 ## merge_data
+
+Merge two `data.frame`s that have diverged from a common parent `data.frame`.
 ```S
 parent <- a <- b <- iris[1:3,]
 a[1,1] <- 10
