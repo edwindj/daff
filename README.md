@@ -1,3 +1,5 @@
+**NOTE `daff` on CRAN does not work on data.frames containing `NA`, this is solved in the latest github version.** 
+
 # Daff, diff, patch and merge for data.frames
 
 daff is an R package that can find difference in values between `data.frame`s, store this difference, render it and apply this difference to patch a `data.frame`. It can also merge two versions of a `data.frame` having a common parent.
