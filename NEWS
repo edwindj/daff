@@ -1,0 +1,5 @@
+0.1.2
+- fixed issue #5 handling NA's, thanks to @eusebe
+
+0.1.1
+- initial version
