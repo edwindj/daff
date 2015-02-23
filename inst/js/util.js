@@ -1,5 +1,8 @@
-function to_table_view(table, convert){
-  var view = (convert)? to_array(table): table;
+function to_table_view(table, names){
+  var view = table;
+  if (names){
+    view.unshift(names)
+  }
   return new daff.TableView(view);
 }
 

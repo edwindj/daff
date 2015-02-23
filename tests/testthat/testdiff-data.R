@@ -41,4 +41,10 @@ test_that("Removing column works",{
   expect_equal(diff_data(x,y)$to_csv(), "!,,---\n@@,a,b\n")
 })
 
+test_that("Changing to NA works", {
+  y <- x <- data.frame(a=1, b=2)
+  y$a <- NA
+  expect_equal(diff_data(x,y)$to_csv(), "@@,a,b\n->,1->NULL,2\n")
+})
+
 

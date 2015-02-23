@@ -6,8 +6,10 @@ TableView <- function(ctx, df, var_name){
 
   set_data <- function(df, convert=TRUE){
     if (convert){
-      ctx$assign(var_name, df)
-      ctx$assign(var_name, I(paste0("to_table_view(",var_name,", true)")))
+      nms <- jsonlite::toJSON(names(df))
+      df <- jsonlite::toJSON(df, dataframe = "values")
+      ctx$assign(var_name, I(df))
+      ctx$assign(var_name, I(paste0("to_table_view(",var_name,",",nms,")")))
     } else {
       df <- jsonlite::toJSON(df, dataframe = "values")
       ctx$assign(var_name, I(df))
