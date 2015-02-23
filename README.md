@@ -1,7 +1,9 @@
-# Daff, diff for data
+# Daff, diff, patch and merge for data.frames
 
 daff is an R package that can find difference in values between `data.frame`s, store this difference, render it and apply this difference to patch a `data.frame`. It can also merge two versions of a `data.frame` having a common parent.
-It wraps the [daff.js](http://paulfitz.github.io/daff/) library using the [V8 ](https://github.com/jeroenooms/v8) package
+It wraps the [daff.js](http://paulfitz.github.io/daff/) library using the [V8 ](https://github.com/jeroenooms/v8) package.
+
+The diff format is described in http://dataprotocols.org/tabular-diff-format.
 
 [![Build Status](https://travis-ci.org/edwindj/daff.svg?branch=master)](https://travis-ci.org/edwindj/daff)
 
@@ -17,11 +19,16 @@ TODO:
 
 - add htmlwidgets
 - implement extra parameters for `diff_data`: `ids`, `ignore` etc.
+- see if daff can be implemented in C++, using the Haxe C++ target of daff: this would remove the V8/jsonlite dependency
 
 # Install
 
-The latest version of `daff` can be installed for now with `devtools`
+Install from CRAN
+```S
+install.packages('daff')
+```
 
+The latest version of `daff` can be installed for now with `devtools`
 ```S
 devtools::install_github("edwindj/daff")
 ```
