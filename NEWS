@@ -1,5 +1,6 @@
 0.1.2
 - fixed issue #5 handling NA's, thanks to @eusebe
+- removed the R version dependency (is dependent on V8)
 
 0.1.1
 - initial version
