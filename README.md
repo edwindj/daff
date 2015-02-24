@@ -30,7 +30,7 @@ Install from CRAN
 install.packages('daff')
 ```
 
-The latest version of `daff` can be installed for now with `devtools`
+The latest version of `daff` can be installed with `devtools`
 ```S
 devtools::install_github("edwindj/daff")
 ```
