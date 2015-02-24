@@ -1,4 +1,4 @@
-**NOTE `daff` on CRAN does not work on data.frames containing `NA`, this is solved in the latest github version.** 
+**NOTE `daff` version 0.1.1 does not work on data.frames containing `NA`, this is solved in the later versions (as on github).** 
 
 # Daff, diff, patch and merge for data.frames
 
