@@ -7,13 +7,15 @@ The diff format is described in http://dataprotocols.org/tabular-diff-format.
 
 [![Build Status](https://travis-ci.org/edwindj/daff.svg?branch=master)](https://travis-ci.org/edwindj/daff)
 
+**Note: daff 0.1.1 contains a bug, it does not work correctly on `data.frame`s containing `NA`. This is solved in v0.1.2 and later.**
+
 Working:
 
 - diff: `diff_data`
 - patch: `patch_data`
 - write/read diff: `read_diff` and `write_diff`
-- render to html `render_diff`
-- merge two tables based on a same version.
+- render to html: `render_diff`
+- merge two tables based on a same version: `merge_data`
 
 TODO:
 
