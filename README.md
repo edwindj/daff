@@ -1,4 +1,4 @@
-# Daff, diff, patch and merge for data.frames
+# Daff: diff, patch and merge for data.frames
 
 daff is an R package that can find difference in values between `data.frames`, store this difference, render it and apply this difference to patch a `data.frame`. It can also merge two versions of a `data.frame` having a common parent.
 It wraps the [daff.js](http://paulfitz.github.io/daff/) library using the [V8 ](https://github.com/jeroenooms/v8) package.
