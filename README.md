@@ -1,24 +1,27 @@
-# Daff, diff, patch and merge for data.frames
+# Daff: diff, patch and merge for data.frames
 
-daff is an R package that can find difference in values between `data.frame`s, store this difference, render it and apply this difference to patch a `data.frame`. It can also merge two versions of a `data.frame` having a common parent.
+daff is an R package that can find difference in values between `data.frames`, store this difference, render it and apply this difference to patch a `data.frame`. It can also merge two versions of a `data.frame` having a common parent.
 It wraps the [daff.js](http://paulfitz.github.io/daff/) library using the [V8 ](https://github.com/jeroenooms/v8) package.
 
 The diff format is described in http://dataprotocols.org/tabular-diff-format.
 
 [![Build Status](https://travis-ci.org/edwindj/daff.svg?branch=master)](https://travis-ci.org/edwindj/daff)
 
+**Note: daff 0.1.1 contained a bug, it did not work correctly on `data.frames` containing `NA`. This is solved in v0.1.2 and later.**
+
 Working:
 
 - diff: `diff_data`
 - patch: `patch_data`
 - write/read diff: `read_diff` and `write_diff`
-- render to html `render_diff`
-- merge two tables based on a same version.
+- render to html: `render_diff`
+- merge two tables based on a same version: `merge_data`
 
 TODO:
 
 - add htmlwidgets
 - implement extra parameters for `diff_data`: `ids`, `ignore` etc.
+- make column type changes explicit (is now internally available)
 - see if daff can be implemented in C++, using the Haxe C++ target of daff: this would remove the V8/jsonlite dependency
 
 # Install
@@ -28,7 +31,7 @@ Install from CRAN
 install.packages('daff')
 ```
 
-The latest version of `daff` can be installed for now with `devtools`
+The latest version of `daff` can be installed with `devtools`
 ```S
 devtools::install_github("edwindj/daff")
 ```
