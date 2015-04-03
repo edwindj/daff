@@ -11,6 +11,6 @@ Description: Diff, patch and merge for data frames. Document changes in data set
     Daff exposes a subset of 'daff.js' functionality, tailored for usage within R.
 License: MIT + file LICENSE
 LazyData: true
-Imports: V8 (>= 0.5), jsonlite
+Imports: V8 (>= 0.6), jsonlite
 URL: http://github.com/edwindj/daff
 Suggests: testthat

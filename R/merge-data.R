@@ -25,9 +25,9 @@ merge_data <- function(parent, a, b){
   tv_b <- TableView(ctx, b)
 
   res <- ctx$call( "merge_data"
-                 , I(tv_parent$var_name)
-                 , I(tv_a$var_name)
-                 , I(tv_b$var_name)
+                 , JS(tv_parent$var_name)
+                 , JS(tv_a$var_name)
+                 , JS(tv_b$var_name)
                  )
 
   merged <- tv_a$get_data()
