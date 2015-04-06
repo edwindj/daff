@@ -19,7 +19,7 @@ render_diff <- function( diff
                        , pretty=FALSE
                        ){
   ctx <- diff$ctx
-  html <- ctx$call("render_diff", I(diff$var_name), fragment, pretty)
+  html <- ctx$call("render_diff", JS(diff$var_name), fragment, pretty)
   cat(html, file = file)
   if (view && file != "" && interactive()){
     viewer <- getOption("viewer")

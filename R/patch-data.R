@@ -16,7 +16,7 @@ patch_data <- function(data, patch){
   levels <- patch$levels
 
   tv <- TableView(ctx, data)
-  ctx$call("patch_data", I(tv$var_name), I(patch$var_name))
+  ctx$call("patch_data", JS(tv$var_name), JS(patch$var_name))
 
   data <- tv$get_data()
   for (n in names(mode)){

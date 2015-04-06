@@ -1,4 +1,4 @@
-#' @importFrom V8 new_context
+#' @importFrom V8 new_context JS
 get_context <- function(){
   ctx <- V8::new_context("window")
   ctx$source(system.file("js/underscore.js", package="V8"))
