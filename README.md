@@ -5,9 +5,10 @@ It wraps the [daff.js](http://paulfitz.github.io/daff/) library using the [V8 ](
 
 The diff format is described in http://dataprotocols.org/tabular-diff-format.
 
+![version](http://www.r-pkg.org/badges/version/daff)
+![downloads](http://cranlogs.r-pkg.org/badges/daff)
 [![Build Status](https://travis-ci.org/edwindj/daff.svg?branch=master)](https://travis-ci.org/edwindj/daff)
-
-**Note: daff 0.1.1 contained a bug, it did not work correctly on `data.frames` containing `NA`. This is solved in v0.1.2 and later.**
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/edwindj/daff?branch=master)](https://ci.appveyor.com/project/edwindj/daff)
 
 Working:
 

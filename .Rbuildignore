@@ -2,3 +2,4 @@
 ^\.Rproj\.user$
 ^examples
 ^\.travis\.yml$
+^appveyor\.yml$
