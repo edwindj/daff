@@ -1,19 +1,19 @@
 function to_table_view(table, names){
   var view = table;
   if (names){
-    view.unshift(names)
+    view.unshift(names);
   }
   return new daff.TableView(view);
 }
 
 function to_array(table){
-  var view = []
-  if (table.length == 0){
+  var view = [];
+  if (table.length === 0){
     return view;
   }
   view.push(_.keys(table[0]));
   for (var i=0; i < table.length; i++){
-    view.push(_.values(table[i]))
+    view.push(_.values(table[i]));
   }
   return view;
 }
@@ -22,7 +22,7 @@ function to_objects(x){
   var keys = x[0];
   var result = [];
   for (var i=1; i < x.length; i++){
-    result.push(_.object(keys, x[i]))
+    result.push(_.object(keys, x[i]));
   }
   return result;
 }
@@ -66,7 +66,7 @@ function merge_data(parent, a, b){
 	var conflicts = merger.apply();
   return {
     conflicts: conflicts,
-    ok: conflicts == 0
+    ok: conflicts === 0
   };
 }
 

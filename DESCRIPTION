@@ -5,11 +5,17 @@ Authors@R: c( person("Paul", "Fitzpatrick", email="paul@robotrebuilt.com", role=
                      comment="JavaScript original, http://paulfitz.github.io/daff/"),
               person("Edwin", "de Jonge", email="edwindjonge@gmail.com", role=c("aut","cre"),
                      comment="R wrapper"))
-Description: Diff, patch and merge for data frames. Document changes in data sets and use them to apply patches.
-    Changes to data can be made visible by using render_diff. The V8 package is used to
-    wrap the 'daff.js' JavaScript library which is included in the package.
+Description: Diff, patch and merge for data frames. Document changes in data
+    sets and use them to apply patches. Changes to data can be made visible by using
+    render_diff. The V8 package is used to wrap the 'daff.js' JavaScript library
+    which is included in the package.
 License: MIT + file LICENSE
 LazyData: true
-Imports: V8 (>= 0.6), jsonlite
+Imports:
+    V8 (>= 0.6),
+    jsonlite,
+    utils
 URL: http://github.com/edwindj/daff
-Suggests: testthat
+Suggests:
+    testthat
+RoxygenNote: 5.0.1

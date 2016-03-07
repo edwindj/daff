@@ -22,7 +22,7 @@ write_diff <- function(diff, file="diff.csv"){
 read_diff <- function(file){
   ctx <- get_context()
   diff <- TableView(ctx)
-  tab <- read.csv(file, header=FALSE)
+  tab <- utils::read.csv(file, header=FALSE)
   diff$set_data(tab, FALSE)
   diff
 }
