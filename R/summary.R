@@ -1,3 +1,4 @@
+#' @export
 summary.data_diff <- function(object, ...){
   patch_data <- object$get_data()
   col_names <- names(patch_data)

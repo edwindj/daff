@@ -39,4 +39,3 @@ dd <- diff_data(x, iris)
 \seealso{
 differs_from
 }
-

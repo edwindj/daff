@@ -41,4 +41,3 @@ render_diff(patch)
 #apply patch
 y_patched <- patch_data(y, patch)
 }
-
