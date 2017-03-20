@@ -16,8 +16,8 @@ render_diff <- function( diff
                          , file=tempfile(fileext = ".html")
                          , view=interactive()
                          , fragment=FALSE
-                         , pretty=FALSE
-                         , title="Daff"
+                         , pretty=TRUE
+                         , title=paste("Daff Comparison -",   Sys.time())
                          , ...
 )
 {
