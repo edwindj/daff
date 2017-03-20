@@ -1,0 +1,51 @@
+
+R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
+Copyright (C) 2016 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> df.ref <- data.frame(letters=letters,
++                      ints=1:26,
++                      doubles=(1:26)+0.5,
++                      factors=factor(LETTERS)
++                      )
+> df     <- df.ref
+> 
+> df$letters <- as.character(df$letters)
+> df[ 3, "letters"] <- NA
+> df[ 4, "letters"] <- ""
+> df[ 5, "letters"] <- LETTERS[5]
+> df[ 6, "letters"] <- paste0(letters[6], letters[7])
+> 
+> # df[ 8, "ints"   ] <- NA
+> # df[ 9, "ints"   ] <- 0
+> # df[10, "ints"   ] <- -1
+> 
+> df[13, "doubles"] <- NA
+> df[14, "doubles"] <- 0.1
+> df[15, "doubles"] <- -1.1
+> 
+> df[18, "factors"] <- NA
+> df[19, "factors"] <- LETTERS[26]
+> 
+> levels(df$factors) <- c(levels(df$factors), letters, "")
+> df[20, "factors"] <- letters[20]
+> df[21, "factors"] <- ""
+> 
+> # test
+> render_diff(diff_data(df.ref, df))
+Error: could not find function "render_diff"
+Execution halted
