@@ -33,6 +33,13 @@ diff_data <- function(data_ref, data, ids=NULL, ignore=NULL, context=1L, show_al
   diff <- paste0("diff(",tv_ref$var_name,",",tv$var_name,",ids, ignore, context, show_all)")
   ctx$assign(tv_diff$var_name, JS(diff))
   class(tv_diff) <- c("data_diff", class(tv_diff))
+
+  # store names of the compared objects for later use by render_diff
+  names <- list("data_ref" = deparse(substitute(data_ref)),
+                "data"     = deparse(substitute(data    ))
+  )
+  attr(tv_diff, "data_names") <- names
+
   tv_diff
 }
 
