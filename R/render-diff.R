@@ -10,7 +10,6 @@
 #' in the browser (only if R is used interactively)
 #' @param fragment if \code{FALSE} the generated HTML will be a valid HTML document, otherwise it is a HTML fragment
 #' @param pretty if \code{TRUE} use fancy utf8 characters to make arrows prettier.
-#' @param symbol.right html code to use for arrowsq
 #' @return generated html
 #'@export
 render_diff <- function( diff
