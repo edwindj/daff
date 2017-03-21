@@ -43,6 +43,9 @@ TableView <- function(ctx, df, var_name){
   if (!missing(df)){
     set_data(df)
   }
+  else{
+    set_data(data.frame(x=NA))
+  }
 
   structure( list( set_data=set_data
                  , get_data=get_data
@@ -58,6 +61,16 @@ TableView <- function(ctx, df, var_name){
 }
 
 #' @export
-print.TableView <- function(x, ...){
-  cat(x$to_csv())
+print.TableView <- function(x, ...)
+{
+  print(x$get_data())
+  invisible(x)
+}
+
+#' @export
+print.data_diff <- function(x, ...)
+{
+  data_names <- attr(x, "data_names")
+  cat("Daff Comparison:", sQuote(data_names$data_ref), "vs.", sQuote(data_names$data), "\n")
+  NextMethod()
 }

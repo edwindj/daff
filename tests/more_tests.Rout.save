@@ -1,0 +1,1255 @@
+
+R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
+Copyright (C) 2016 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(daff)
+> set.seed(42)
+> 
+> df.orig <- data.frame(letters=letters,
++                      ints=1:26,
++                      doubles=(1:26)+0.5,
++                      factors=factor(LETTERS),
++                      LETTERS=LETTERS,
++                      lL=paste (letters, LETTERS),
++                      stringsAsFactors = FALSE,
++                      unchanged=paste0(letters, LETTERS)
++                      )
+> df.ref <- df.orig
+> df     <- df.orig
+> 
+> df$letters <- as.character(df$letters)
+> df[ 3, "letters"] <- NA
+> df[ 4, "letters"] <- ""
+> df[ 5, "letters"] <- LETTERS[5]
+> df[ 6, "letters"] <- paste0(letters[6], letters[7])
+> 
+> # df[ 8, "ints"   ] <- NA
+> # df[ 9, "ints"   ] <- 0
+> # df[10, "ints"   ] <- -1
+> 
+> df[13, "doubles"] <- NA
+> df[14, "doubles"] <- 0.1
+> df[15, "doubles"] <- -1.1
+> 
+> df[18, "factors"] <- NA
+> df[19, "factors"] <- LETTERS[26]
+> 
+> levels(df$factors) <- c(levels(df$factors), letters, "")
+> df[20, "factors"] <- letters[20]
+> df[21, "factors"] <- ""
+> 
+> #df$lL[6:10]  <- gsub("^\\s*",   "",           df.ref$lL[ 6:10])
+> df$lL[11:15] <- paste0(" ",   df.ref$lL[11:15]     )
+> df$lL[16:20] <- paste0(       df.ref$lL[16:20], " ")
+> df$lL[21:26] <- paste0(" ",   df.ref$lL[21:26], " ")
+> df.changed <- df
+> 
+> # test
+> df <- df.changed
+> render_diff(diff_data(df.ref, df))
+> 
+> # permute rows!
+> df <- df.orig[sample(nrow(df)),]
+> render_diff(diff_data(df.ref, df))
+> 
+> # permute cols!
+> df <- df.orig[, sample(ncol(df))]
+> render_diff(diff_data(df.ref, df))
+> 
+> # add a row
+> df <- rbind(df.orig, df.orig[14,])
+> df[nrow(df), "ints"] <- 75
+> render_diff(diff_data(df.ref, df))
+> 
+> # remove a row
+> df <- df.orig[-21, ]
+> render_diff(diff_data(df.ref, df))
+> 
+> # add a column
+> df <- cbind(df.orig, addded=1:nrow(df.orig))
+> render_diff(diff_data(df.ref, df))
+> 
+> # remove a column
+> df <- df.orig[, -3]
+> render_diff(diff_data(df.ref, df))
+> 
+> df <- df.changed
+> # cute use of binary operator!
+> "%~%" <- function(...) { render_diff(diff_data(...))}
+> df.ref %~% df.changed
+> 
+> # test some diff flags
+> do <- function(x=df.ref, y=df, ..., print=TRUE, render=TRUE)
++   {
++   diff <- diff_data(df.ref, df, ...)
++   if(print )  print(diff)
++   if(render)  render_diff(diff)
++   invisible(diff)
++ }
+> 
+> df.ref <- df.orig
+> df     <- df.changed
+> do(df.ref, df, always_show_header=TRUE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors LETTERS         lL unchanged
+1  ...     ...  ...        ...     ...     ...        ...       ...
+2            b    2        2.5       B       B        b B        bB
+3   -> c->NULL    3        3.5       C       C        c C        cC
+4   ->     d->    4        4.5       D       D        d D        dD
+5   ->    e->E    5        5.5       E       E        e E        eE
+6   ->   f->fg    6        6.5       F       F        f F        fF
+7            g    7        7.5       G       G        g G        gG
+8  ...     ...  ...        ...     ...     ...        ...       ...
+9            j   10       10.5       J       J        j J        jJ
+10  ->       k   11       11.5       K       K  k K-> k K        kK
+11  ->       l   12       12.5       L       L  l L-> l L        lL
+12  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+13  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+14  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+15  ->       p   16       16.5       P       P  p P->p P         pP
+16  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+17  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+18  ->       s   19       19.5    S->Z       S  s S->s S         sS
+19  ->       t   20       20.5    T->t       T  t T->t T         tT
+20  ->       u   21       21.5     U->       U u U-> u U         uU
+21  ->       v   22       22.5       V       V v V-> v V         vV
+22  ->       w   23       23.5       W       W w W-> w W         wW
+23  ->       x   24       24.5       X       X x X-> x X         xX
+24  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+25  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> do(df.ref, df, always_show_header=FALSE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+   ...
+1   bB
+2   cC
+3   dD
+4   eE
+5   fF
+6   gG
+7  ...
+8   jJ
+9   kK
+10  lL
+11  mM
+12  nN
+13  oO
+14  pP
+15  qQ
+16  rR
+17  sS
+18  tT
+19  uU
+20  vV
+21  wW
+22  xX
+23  yY
+24  zZ
+> 
+> 
+> df.ref <- df.orig
+> df     <- df.changed
+> do(always_show_order=FALSE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors LETTERS         lL unchanged
+1  ...     ...  ...        ...     ...     ...        ...       ...
+2            b    2        2.5       B       B        b B        bB
+3   -> c->NULL    3        3.5       C       C        c C        cC
+4   ->     d->    4        4.5       D       D        d D        dD
+5   ->    e->E    5        5.5       E       E        e E        eE
+6   ->   f->fg    6        6.5       F       F        f F        fF
+7            g    7        7.5       G       G        g G        gG
+8  ...     ...  ...        ...     ...     ...        ...       ...
+9            j   10       10.5       J       J        j J        jJ
+10  ->       k   11       11.5       K       K  k K-> k K        kK
+11  ->       l   12       12.5       L       L  l L-> l L        lL
+12  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+13  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+14  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+15  ->       p   16       16.5       P       P  p P->p P         pP
+16  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+17  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+18  ->       s   19       19.5    S->Z       S  s S->s S         sS
+19  ->       t   20       20.5    T->t       T  t T->t T         tT
+20  ->       u   21       21.5     U->       U u U-> u U         uU
+21  ->       v   22       22.5       V       V v V-> v V         vV
+22  ->       w   23       23.5       W       W w W-> w W         wW
+23  ->       x   24       24.5       X       X x X-> x X         xX
+24  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+25  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> do(always_show_order=TRUE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+     @:@         0:0  1:1        2:2     3:3     4:4        5:5       6:6
+1         @@ letters ints    doubles factors LETTERS         lL unchanged
+2        ...     ...  ...        ...     ...     ...        ...       ...
+3    2:2           b    2        2.5       B       B        b B        bB
+4    3:3  -> c->NULL    3        3.5       C       C        c C        cC
+5    4:4  ->     d->    4        4.5       D       D        d D        dD
+6    5:5  ->    e->E    5        5.5       E       E        e E        eE
+7    6:6  ->   f->fg    6        6.5       F       F        f F        fF
+8    7:7           g    7        7.5       G       G        g G        gG
+9        ...     ...  ...        ...     ...     ...        ...       ...
+10 10:10           j   10       10.5       J       J        j J        jJ
+11 11:11  ->       k   11       11.5       K       K  k K-> k K        kK
+12 12:12  ->       l   12       12.5       L       L  l L-> l L        lL
+13 13:13  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+14 14:14  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+15 15:15  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+16 16:16  ->       p   16       16.5       P       P  p P->p P         pP
+17 17:17  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+18 18:18  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+19 19:19  ->       s   19       19.5    S->Z       S  s S->s S         sS
+20 20:20  ->       t   20       20.5    T->t       T  t T->t T         tT
+21 21:21  ->       u   21       21.5     U->       U u U-> u U         uU
+22 22:22  ->       v   22       22.5       V       V v V-> v V         vV
+23 23:23  ->       w   23       23.5       W       W w W-> w W         wW
+24 24:24  ->       x   24       24.5       X       X x X-> x X         xX
+25 25:25  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+26 26:26  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> 
+> df.ref <- df.orig
+> df <- df.changed
+> do(columns_to_ignore=NULL)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors LETTERS         lL unchanged
+1  ...     ...  ...        ...     ...     ...        ...       ...
+2            b    2        2.5       B       B        b B        bB
+3   -> c->NULL    3        3.5       C       C        c C        cC
+4   ->     d->    4        4.5       D       D        d D        dD
+5   ->    e->E    5        5.5       E       E        e E        eE
+6   ->   f->fg    6        6.5       F       F        f F        fF
+7            g    7        7.5       G       G        g G        gG
+8  ...     ...  ...        ...     ...     ...        ...       ...
+9            j   10       10.5       J       J        j J        jJ
+10  ->       k   11       11.5       K       K  k K-> k K        kK
+11  ->       l   12       12.5       L       L  l L-> l L        lL
+12  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+13  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+14  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+15  ->       p   16       16.5       P       P  p P->p P         pP
+16  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+17  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+18  ->       s   19       19.5    S->Z       S  s S->s S         sS
+19  ->       t   20       20.5    T->t       T  t T->t T         tT
+20  ->       u   21       21.5     U->       U u U-> u U         uU
+21  ->       v   22       22.5       V       V v V-> v V         vV
+22  ->       w   23       23.5       W       W w W-> w W         wW
+23  ->       x   24       24.5       X       X x X-> x X         xX
+24  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+25  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> do(columns_to_ignore=c())
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors LETTERS         lL unchanged
+1  ...     ...  ...        ...     ...     ...        ...       ...
+2            b    2        2.5       B       B        b B        bB
+3   -> c->NULL    3        3.5       C       C        c C        cC
+4   ->     d->    4        4.5       D       D        d D        dD
+5   ->    e->E    5        5.5       E       E        e E        eE
+6   ->   f->fg    6        6.5       F       F        f F        fF
+7            g    7        7.5       G       G        g G        gG
+8  ...     ...  ...        ...     ...     ...        ...       ...
+9            j   10       10.5       J       J        j J        jJ
+10  ->       k   11       11.5       K       K  k K-> k K        kK
+11  ->       l   12       12.5       L       L  l L-> l L        lL
+12  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+13  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+14  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+15  ->       p   16       16.5       P       P  p P->p P         pP
+16  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+17  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+18  ->       s   19       19.5    S->Z       S  s S->s S         sS
+19  ->       t   20       20.5    T->t       T  t T->t T         tT
+20  ->       u   21       21.5     U->       U u U-> u U         uU
+21  ->       v   22       22.5       V       V v V-> v V         vV
+22  ->       w   23       23.5       W       W w W-> w W         wW
+23  ->       x   24       24.5       X       X x X-> x X         xX
+24  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+25  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> do(columns_to_ignore=c("ints", "letters"))
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@    doubles factors LETTERS         lL unchanged
+1  ...        ...     ...     ...        ...       ...
+2            10.5       J       J        j J        jJ
+3   ->       11.5       K       K  k K-> k K        kK
+4   ->       12.5       L       L  l L-> l L        lL
+5   ->   13.5->NA       M       M  m M-> m M        mM
+6   ->  14.5->0.1       N       N  n N-> n N        nN
+7   -> 15.5->-1.1       O       O  o O-> o O        oO
+8   ->       16.5       P       P  p P->p P         pP
+9   ->       17.5       Q       Q  q Q->q Q         qQ
+10  ->       18.5 R->NULL       R  r R->r R         rR
+11  ->       19.5    S->Z       S  s S->s S         sS
+12  ->       20.5    T->t       T  t T->t T         tT
+13  ->       21.5     U->       U u U-> u U         uU
+14  ->       22.5       V       V v V-> v V         vV
+15  ->       23.5       W       W w W-> w W         wW
+16  ->       24.5       X       X x X-> x X         xX
+17  ->       25.5       Y       Y y Y-> y Y         yY
+18  ->       26.5       Z       Z z Z-> z Z         zZ
+> do(columns_to_ignore=c("letters"))
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ ints    doubles factors LETTERS         lL unchanged
+1  ...  ...        ...     ...     ...        ...       ...
+2        10       10.5       J       J        j J        jJ
+3   ->   11       11.5       K       K  k K-> k K        kK
+4   ->   12       12.5       L       L  l L-> l L        lL
+5   ->   13   13.5->NA       M       M  m M-> m M        mM
+6   ->   14  14.5->0.1       N       N  n N-> n N        nN
+7   ->   15 15.5->-1.1       O       O  o O-> o O        oO
+8   ->   16       16.5       P       P  p P->p P         pP
+9   ->   17       17.5       Q       Q  q Q->q Q         qQ
+10  ->   18       18.5 R->NULL       R  r R->r R         rR
+11  ->   19       19.5    S->Z       S  s S->s S         sS
+12  ->   20       20.5    T->t       T  t T->t T         tT
+13  ->   21       21.5     U->       U u U-> u U         uU
+14  ->   22       22.5       V       V v V-> v V         vV
+15  ->   23       23.5       W       W w W-> w W         wW
+16  ->   24       24.5       X       X x X-> x X         xX
+17  ->   25       25.5       Y       Y y Y-> y Y         yY
+18  ->   26       26.5       Z       Z z Z-> z Z         zZ
+> 
+> 
+> df.ref <- df.orig
+> df <- df.changed
+> do(count_like_a_spreadsheet=NULL,  always_show_order=TRUE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+     @:@         A:A  B:B        C:C     D:D     E:E        F:F       G:G
+1         @@ letters ints    doubles factors LETTERS         lL unchanged
+2        ...     ...  ...        ...     ...     ...        ...       ...
+3    2:2           b    2        2.5       B       B        b B        bB
+4    3:3  -> c->NULL    3        3.5       C       C        c C        cC
+5    4:4  ->     d->    4        4.5       D       D        d D        dD
+6    5:5  ->    e->E    5        5.5       E       E        e E        eE
+7    6:6  ->   f->fg    6        6.5       F       F        f F        fF
+8    7:7           g    7        7.5       G       G        g G        gG
+9        ...     ...  ...        ...     ...     ...        ...       ...
+10 10:10           j   10       10.5       J       J        j J        jJ
+11 11:11  ->       k   11       11.5       K       K  k K-> k K        kK
+12 12:12  ->       l   12       12.5       L       L  l L-> l L        lL
+13 13:13  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+14 14:14  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+15 15:15  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+16 16:16  ->       p   16       16.5       P       P  p P->p P         pP
+17 17:17  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+18 18:18  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+19 19:19  ->       s   19       19.5    S->Z       S  s S->s S         sS
+20 20:20  ->       t   20       20.5    T->t       T  t T->t T         tT
+21 21:21  ->       u   21       21.5     U->       U u U-> u U         uU
+22 22:22  ->       v   22       22.5       V       V v V-> v V         vV
+23 23:23  ->       w   23       23.5       W       W w W-> w W         wW
+24 24:24  ->       x   24       24.5       X       X x X-> x X         xX
+25 25:25  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+26 26:26  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> do(count_like_a_spreadsheet=TRUE,  always_show_order=TRUE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+     @:@         A:A  B:B        C:C     D:D     E:E        F:F       G:G
+1         @@ letters ints    doubles factors LETTERS         lL unchanged
+2        ...     ...  ...        ...     ...     ...        ...       ...
+3    2:2           b    2        2.5       B       B        b B        bB
+4    3:3  -> c->NULL    3        3.5       C       C        c C        cC
+5    4:4  ->     d->    4        4.5       D       D        d D        dD
+6    5:5  ->    e->E    5        5.5       E       E        e E        eE
+7    6:6  ->   f->fg    6        6.5       F       F        f F        fF
+8    7:7           g    7        7.5       G       G        g G        gG
+9        ...     ...  ...        ...     ...     ...        ...       ...
+10 10:10           j   10       10.5       J       J        j J        jJ
+11 11:11  ->       k   11       11.5       K       K  k K-> k K        kK
+12 12:12  ->       l   12       12.5       L       L  l L-> l L        lL
+13 13:13  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+14 14:14  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+15 15:15  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+16 16:16  ->       p   16       16.5       P       P  p P->p P         pP
+17 17:17  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+18 18:18  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+19 19:19  ->       s   19       19.5    S->Z       S  s S->s S         sS
+20 20:20  ->       t   20       20.5    T->t       T  t T->t T         tT
+21 21:21  ->       u   21       21.5     U->       U u U-> u U         uU
+22 22:22  ->       v   22       22.5       V       V v V-> v V         vV
+23 23:23  ->       w   23       23.5       W       W w W-> w W         wW
+24 24:24  ->       x   24       24.5       X       X x X-> x X         xX
+25 25:25  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+26 26:26  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> do(count_like_a_spreadsheet=FALSE, always_show_order=TRUE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+     @:@         0:0  1:1        2:2     3:3     4:4        5:5       6:6
+1         @@ letters ints    doubles factors LETTERS         lL unchanged
+2        ...     ...  ...        ...     ...     ...        ...       ...
+3    2:2           b    2        2.5       B       B        b B        bB
+4    3:3  -> c->NULL    3        3.5       C       C        c C        cC
+5    4:4  ->     d->    4        4.5       D       D        d D        dD
+6    5:5  ->    e->E    5        5.5       E       E        e E        eE
+7    6:6  ->   f->fg    6        6.5       F       F        f F        fF
+8    7:7           g    7        7.5       G       G        g G        gG
+9        ...     ...  ...        ...     ...     ...        ...       ...
+10 10:10           j   10       10.5       J       J        j J        jJ
+11 11:11  ->       k   11       11.5       K       K  k K-> k K        kK
+12 12:12  ->       l   12       12.5       L       L  l L-> l L        lL
+13 13:13  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+14 14:14  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+15 15:15  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+16 16:16  ->       p   16       16.5       P       P  p P->p P         pP
+17 17:17  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+18 18:18  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+19 19:19  ->       s   19       19.5    S->Z       S  s S->s S         sS
+20 20:20  ->       t   20       20.5    T->t       T  t T->t T         tT
+21 21:21  ->       u   21       21.5     U->       U u U-> u U         uU
+22 22:22  ->       v   22       22.5       V       V v V-> v V         vV
+23 23:23  ->       w   23       23.5       W       W w W-> w W         wW
+24 24:24  ->       x   24       24.5       X       X x X-> x X         xX
+25 25:25  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+26 26:26  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> 
+> 
+> df.ref <- df.orig
+> df <- df.changed
+> df$unchanged <- rev(df$unchanged)
+> df$ints <- sample(nrow(df), 26, replace=TRUE)
+> do(ids=NULL)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+   @@ letters   ints    doubles factors LETTERS         lL unchanged
+1  ->       a  1->18        1.5       A       A        a A    aA->zZ
+2  ->       b   2->1        2.5       B       B        b B    bB->yY
+3  -> c->NULL  3->22        3.5       C       C        c C    cC->xX
+4  ->     d->   4->1        4.5       D       D        d D    dD->wW
+5  ->    e->E   5->6        5.5       E       E        e E    eE->vV
+6  ->   f->fg  6->24        6.5       F       F        f F    fF->uU
+7  ->       g  7->16        7.5       G       G        g G    gG->tT
+8  ->       h  8->10        8.5       H       H        h H    hH->sS
+9  ->       i  9->12        9.5       I       I        i I    iI->rR
+10 ->       j  10->1       10.5       J       J        j J    jJ->qQ
+11 ->       k 11->26       11.5       K       K  k K-> k K    kK->pP
+12 ->       l     12       12.5       L       L  l L-> l L    lL->oO
+13 ->       m 13->25   13.5->NA       M       M  m M-> m M    mM->nN
+14 ->       n 14->24  14.5->0.1       N       N  n N-> n N    nN->mM
+15 ->       o 15->17 15.5->-1.1       O       O  o O-> o O    oO->lL
+16 ->       p 16->26       16.5       P       P  p P->p P     pP->kK
+17 ->       q     17       17.5       Q       Q  q Q->q Q     qQ->jJ
+18 ->       r  18->9       18.5 R->NULL       R  r R->r R     rR->iI
+19 ->       s 19->10       19.5    S->Z       S  s S->s S     sS->hH
+20 ->       t 20->11       20.5    T->t       T  t T->t T     tT->gG
+21 ->       u     21       21.5     U->       U u U-> u U     uU->fF
+22 ->       v  22->2       22.5       V       V v V-> v V     vV->eE
+23 ->       w 23->20       23.5       W       W w W-> w W     wW->dD
+24 ->       x 24->18       24.5       X       X x X-> x X     xX->cC
+25 ->       y  25->5       25.5       Y       Y y Y-> y Y     yY->bB
+26 ->       z  26->7       26.5       Z       Z z Z-> z Z     zZ->aA
+> do(ids=c("ints", "letters"))
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+   @@ letters   ints    doubles factors LETTERS         lL unchanged
+1  ->       a  1->18        1.5       A       A        a A    aA->zZ
+2  ->       b   2->1        2.5       B       B        b B    bB->yY
+3  -> c->NULL  3->22        3.5       C       C        c C    cC->xX
+4  ->     d->   4->1        4.5       D       D        d D    dD->wW
+5  ->    e->E   5->6        5.5       E       E        e E    eE->vV
+6  ->   f->fg  6->24        6.5       F       F        f F    fF->uU
+7  ->       g  7->16        7.5       G       G        g G    gG->tT
+8  ->       h  8->10        8.5       H       H        h H    hH->sS
+9  ->       i  9->12        9.5       I       I        i I    iI->rR
+10 ->       j  10->1       10.5       J       J        j J    jJ->qQ
+11 ->       k 11->26       11.5       K       K  k K-> k K    kK->pP
+12 ->       l     12       12.5       L       L  l L-> l L    lL->oO
+13 ->       m 13->25   13.5->NA       M       M  m M-> m M    mM->nN
+14 ->       n 14->24  14.5->0.1       N       N  n N-> n N    nN->mM
+15 ->       o 15->17 15.5->-1.1       O       O  o O-> o O    oO->lL
+16 ->       p 16->26       16.5       P       P  p P->p P     pP->kK
+17 ->       q     17       17.5       Q       Q  q Q->q Q     qQ->jJ
+18 ->       r  18->9       18.5 R->NULL       R  r R->r R     rR->iI
+19 ->       s 19->10       19.5    S->Z       S  s S->s S     sS->hH
+20 ->       t 20->11       20.5    T->t       T  t T->t T     tT->gG
+21 ->       u     21       21.5     U->       U u U-> u U     uU->fF
+22 ->       v  22->2       22.5       V       V v V-> v V     vV->eE
+23 ->       w 23->20       23.5       W       W w W-> w W     wW->dD
+24 ->       x 24->18       24.5       X       X x X-> x X     xX->cC
+25 ->       y  25->5       25.5       Y       Y y Y-> y Y     yY->bB
+26 ->       z  26->7       26.5       Z       Z z Z-> z Z     zZ->aA
+> do(ids=c(""))
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+   @@ letters   ints    doubles factors LETTERS         lL unchanged
+1  ->       a  1->18        1.5       A       A        a A    aA->zZ
+2  ->       b   2->1        2.5       B       B        b B    bB->yY
+3  -> c->NULL  3->22        3.5       C       C        c C    cC->xX
+4  ->     d->   4->1        4.5       D       D        d D    dD->wW
+5  ->    e->E   5->6        5.5       E       E        e E    eE->vV
+6  ->   f->fg  6->24        6.5       F       F        f F    fF->uU
+7  ->       g  7->16        7.5       G       G        g G    gG->tT
+8  ->       h  8->10        8.5       H       H        h H    hH->sS
+9  ->       i  9->12        9.5       I       I        i I    iI->rR
+10 ->       j  10->1       10.5       J       J        j J    jJ->qQ
+11 ->       k 11->26       11.5       K       K  k K-> k K    kK->pP
+12 ->       l     12       12.5       L       L  l L-> l L    lL->oO
+13 ->       m 13->25   13.5->NA       M       M  m M-> m M    mM->nN
+14 ->       n 14->24  14.5->0.1       N       N  n N-> n N    nN->mM
+15 ->       o 15->17 15.5->-1.1       O       O  o O-> o O    oO->lL
+16 ->       p 16->26       16.5       P       P  p P->p P     pP->kK
+17 ->       q     17       17.5       Q       Q  q Q->q Q     qQ->jJ
+18 ->       r  18->9       18.5 R->NULL       R  r R->r R     rR->iI
+19 ->       s 19->10       19.5    S->Z       S  s S->s S     sS->hH
+20 ->       t 20->11       20.5    T->t       T  t T->t T     tT->gG
+21 ->       u     21       21.5     U->       U u U-> u U     uU->fF
+22 ->       v  22->2       22.5       V       V v V-> v V     vV->eE
+23 ->       w 23->20       23.5       W       W w W-> w W     wW->dD
+24 ->       x 24->18       24.5       X       X x X-> x X     xX->cC
+25 ->       y  25->5       25.5       Y       Y y Y-> y Y     yY->bB
+26 ->       z  26->7       26.5       Z       Z z Z-> z Z     zZ->aA
+> 
+> df.ref <- df.orig
+> df <- df.changed
+> do()
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors LETTERS         lL unchanged
+1  ...     ...  ...        ...     ...     ...        ...       ...
+2            b    2        2.5       B       B        b B        bB
+3   -> c->NULL    3        3.5       C       C        c C        cC
+4   ->     d->    4        4.5       D       D        d D        dD
+5   ->    e->E    5        5.5       E       E        e E        eE
+6   ->   f->fg    6        6.5       F       F        f F        fF
+7            g    7        7.5       G       G        g G        gG
+8  ...     ...  ...        ...     ...     ...        ...       ...
+9            j   10       10.5       J       J        j J        jJ
+10  ->       k   11       11.5       K       K  k K-> k K        kK
+11  ->       l   12       12.5       L       L  l L-> l L        lL
+12  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+13  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+14  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+15  ->       p   16       16.5       P       P  p P->p P         pP
+16  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+17  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+18  ->       s   19       19.5    S->Z       S  s S->s S         sS
+19  ->       t   20       20.5    T->t       T  t T->t T         tT
+20  ->       u   21       21.5     U->       U u U-> u U         uU
+21  ->       v   22       22.5       V       V v V-> v V         vV
+22  ->       w   23       23.5       W       W w W-> w W         wW
+23  ->       x   24       24.5       X       X x X-> x X         xX
+24  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+25  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> do(ignore_whitespace=NULL)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors LETTERS ...
+1  ...     ...  ...        ...     ...     ... ...
+2            b    2        2.5       B       B ...
+3   -> c->NULL    3        3.5       C       C ...
+4   ->     d->    4        4.5       D       D ...
+5   ->    e->E    5        5.5       E       E ...
+6   ->   f->fg    6        6.5       F       F ...
+7            g    7        7.5       G       G ...
+8  ...     ...  ...        ...     ...     ... ...
+9            l   12       12.5       L       L ...
+10  ->       m   13   13.5->NA       M       M ...
+11  ->       n   14  14.5->0.1       N       N ...
+12  ->       o   15 15.5->-1.1       O       O ...
+13           p   16       16.5       P       P ...
+14           q   17       17.5       Q       Q ...
+15  ->       r   18       18.5 R->NULL       R ...
+16  ->       s   19       19.5    S->Z       S ...
+17  ->       t   20       20.5    T->t       T ...
+18  ->       u   21       21.5     U->       U ...
+19           v   22       22.5       V       V ...
+20 ...     ...  ...        ...     ...     ... ...
+> do(ignore_whitespace=FALSE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors LETTERS         lL unchanged
+1  ...     ...  ...        ...     ...     ...        ...       ...
+2            b    2        2.5       B       B        b B        bB
+3   -> c->NULL    3        3.5       C       C        c C        cC
+4   ->     d->    4        4.5       D       D        d D        dD
+5   ->    e->E    5        5.5       E       E        e E        eE
+6   ->   f->fg    6        6.5       F       F        f F        fF
+7            g    7        7.5       G       G        g G        gG
+8  ...     ...  ...        ...     ...     ...        ...       ...
+9            j   10       10.5       J       J        j J        jJ
+10  ->       k   11       11.5       K       K  k K-> k K        kK
+11  ->       l   12       12.5       L       L  l L-> l L        lL
+12  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+13  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+14  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+15  ->       p   16       16.5       P       P  p P->p P         pP
+16  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+17  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+18  ->       s   19       19.5    S->Z       S  s S->s S         sS
+19  ->       t   20       20.5    T->t       T  t T->t T         tT
+20  ->       u   21       21.5     U->       U u U-> u U         uU
+21  ->       v   22       22.5       V       V v V-> v V         vV
+22  ->       w   23       23.5       W       W w W-> w W         wW
+23  ->       x   24       24.5       X       X x X-> x X         xX
+24  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+25  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> do(ignore_whitespace=TRUE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors LETTERS ...
+1  ...     ...  ...        ...     ...     ... ...
+2            b    2        2.5       B       B ...
+3   -> c->NULL    3        3.5       C       C ...
+4   ->     d->    4        4.5       D       D ...
+5   ->    e->E    5        5.5       E       E ...
+6   ->   f->fg    6        6.5       F       F ...
+7            g    7        7.5       G       G ...
+8  ...     ...  ...        ...     ...     ... ...
+9            l   12       12.5       L       L ...
+10  ->       m   13   13.5->NA       M       M ...
+11  ->       n   14  14.5->0.1       N       N ...
+12  ->       o   15 15.5->-1.1       O       O ...
+13           p   16       16.5       P       P ...
+14           q   17       17.5       Q       Q ...
+15  ->       r   18       18.5 R->NULL       R ...
+16  ->       s   19       19.5    S->Z       S ...
+17  ->       t   20       20.5    T->t       T ...
+18  ->       u   21       21.5     U->       U ...
+19           v   22       22.5       V       V ...
+20 ...     ...  ...        ...     ...     ... ...
+> 
+> df.ref <- df.orig
+> df <- df.changed
+> do()
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors LETTERS         lL unchanged
+1  ...     ...  ...        ...     ...     ...        ...       ...
+2            b    2        2.5       B       B        b B        bB
+3   -> c->NULL    3        3.5       C       C        c C        cC
+4   ->     d->    4        4.5       D       D        d D        dD
+5   ->    e->E    5        5.5       E       E        e E        eE
+6   ->   f->fg    6        6.5       F       F        f F        fF
+7            g    7        7.5       G       G        g G        gG
+8  ...     ...  ...        ...     ...     ...        ...       ...
+9            j   10       10.5       J       J        j J        jJ
+10  ->       k   11       11.5       K       K  k K-> k K        kK
+11  ->       l   12       12.5       L       L  l L-> l L        lL
+12  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+13  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+14  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+15  ->       p   16       16.5       P       P  p P->p P         pP
+16  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+17  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+18  ->       s   19       19.5    S->Z       S  s S->s S         sS
+19  ->       t   20       20.5    T->t       T  t T->t T         tT
+20  ->       u   21       21.5     U->       U u U-> u U         uU
+21  ->       v   22       22.5       V       V v V-> v V         vV
+22  ->       w   23       23.5       W       W w W-> w W         wW
+23  ->       x   24       24.5       X       X x X-> x X         xX
+24  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+25  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> do(never_show_order=NULL)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors LETTERS         lL unchanged
+1  ...     ...  ...        ...     ...     ...        ...       ...
+2            b    2        2.5       B       B        b B        bB
+3   -> c->NULL    3        3.5       C       C        c C        cC
+4   ->     d->    4        4.5       D       D        d D        dD
+5   ->    e->E    5        5.5       E       E        e E        eE
+6   ->   f->fg    6        6.5       F       F        f F        fF
+7            g    7        7.5       G       G        g G        gG
+8  ...     ...  ...        ...     ...     ...        ...       ...
+9            j   10       10.5       J       J        j J        jJ
+10  ->       k   11       11.5       K       K  k K-> k K        kK
+11  ->       l   12       12.5       L       L  l L-> l L        lL
+12  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+13  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+14  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+15  ->       p   16       16.5       P       P  p P->p P         pP
+16  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+17  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+18  ->       s   19       19.5    S->Z       S  s S->s S         sS
+19  ->       t   20       20.5    T->t       T  t T->t T         tT
+20  ->       u   21       21.5     U->       U u U-> u U         uU
+21  ->       v   22       22.5       V       V v V-> v V         vV
+22  ->       w   23       23.5       W       W w W-> w W         wW
+23  ->       x   24       24.5       X       X x X-> x X         xX
+24  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+25  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> do(never_show_order=FALSE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors LETTERS         lL unchanged
+1  ...     ...  ...        ...     ...     ...        ...       ...
+2            b    2        2.5       B       B        b B        bB
+3   -> c->NULL    3        3.5       C       C        c C        cC
+4   ->     d->    4        4.5       D       D        d D        dD
+5   ->    e->E    5        5.5       E       E        e E        eE
+6   ->   f->fg    6        6.5       F       F        f F        fF
+7            g    7        7.5       G       G        g G        gG
+8  ...     ...  ...        ...     ...     ...        ...       ...
+9            j   10       10.5       J       J        j J        jJ
+10  ->       k   11       11.5       K       K  k K-> k K        kK
+11  ->       l   12       12.5       L       L  l L-> l L        lL
+12  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+13  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+14  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+15  ->       p   16       16.5       P       P  p P->p P         pP
+16  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+17  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+18  ->       s   19       19.5    S->Z       S  s S->s S         sS
+19  ->       t   20       20.5    T->t       T  t T->t T         tT
+20  ->       u   21       21.5     U->       U u U-> u U         uU
+21  ->       v   22       22.5       V       V v V-> v V         vV
+22  ->       w   23       23.5       W       W w W-> w W         wW
+23  ->       x   24       24.5       X       X x X-> x X         xX
+24  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+25  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> do(never_show_order=TRUE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors LETTERS         lL unchanged
+1  ...     ...  ...        ...     ...     ...        ...       ...
+2            b    2        2.5       B       B        b B        bB
+3   -> c->NULL    3        3.5       C       C        c C        cC
+4   ->     d->    4        4.5       D       D        d D        dD
+5   ->    e->E    5        5.5       E       E        e E        eE
+6   ->   f->fg    6        6.5       F       F        f F        fF
+7            g    7        7.5       G       G        g G        gG
+8  ...     ...  ...        ...     ...     ...        ...       ...
+9            j   10       10.5       J       J        j J        jJ
+10  ->       k   11       11.5       K       K  k K-> k K        kK
+11  ->       l   12       12.5       L       L  l L-> l L        lL
+12  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+13  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+14  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+15  ->       p   16       16.5       P       P  p P->p P         pP
+16  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+17  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+18  ->       s   19       19.5    S->Z       S  s S->s S         sS
+19  ->       t   20       20.5    T->t       T  t T->t T         tT
+20  ->       u   21       21.5     U->       U u U-> u U         uU
+21  ->       v   22       22.5       V       V v V-> v V         vV
+22  ->       w   23       23.5       W       W w W-> w W         wW
+23  ->       x   24       24.5       X       X x X-> x X         xX
+24  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+25  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> 
+> tmp <- df.changed
+> tmp <- tmp[sample(nrow(tmp)), ]
+> do(y=tmp)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors LETTERS         lL unchanged
+1  ...     ...  ...        ...     ...     ...        ...       ...
+2            b    2        2.5       B       B        b B        bB
+3   -> c->NULL    3        3.5       C       C        c C        cC
+4   ->     d->    4        4.5       D       D        d D        dD
+5   ->    e->E    5        5.5       E       E        e E        eE
+6   ->   f->fg    6        6.5       F       F        f F        fF
+7            g    7        7.5       G       G        g G        gG
+8  ...     ...  ...        ...     ...     ...        ...       ...
+9            j   10       10.5       J       J        j J        jJ
+10  ->       k   11       11.5       K       K  k K-> k K        kK
+11  ->       l   12       12.5       L       L  l L-> l L        lL
+12  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+13  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+14  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+15  ->       p   16       16.5       P       P  p P->p P         pP
+16  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+17  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+18  ->       s   19       19.5    S->Z       S  s S->s S         sS
+19  ->       t   20       20.5    T->t       T  t T->t T         tT
+20  ->       u   21       21.5     U->       U u U-> u U         uU
+21  ->       v   22       22.5       V       V v V-> v V         vV
+22  ->       w   23       23.5       W       W w W-> w W         wW
+23  ->       x   24       24.5       X       X x X-> x X         xX
+24  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+25  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> do(y=tmp, ordered=NULL)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors LETTERS         lL unchanged
+1  ...     ...  ...        ...     ...     ...        ...       ...
+2            b    2        2.5       B       B        b B        bB
+3   -> c->NULL    3        3.5       C       C        c C        cC
+4   ->     d->    4        4.5       D       D        d D        dD
+5   ->    e->E    5        5.5       E       E        e E        eE
+6   ->   f->fg    6        6.5       F       F        f F        fF
+7            g    7        7.5       G       G        g G        gG
+8  ...     ...  ...        ...     ...     ...        ...       ...
+9            j   10       10.5       J       J        j J        jJ
+10  ->       k   11       11.5       K       K  k K-> k K        kK
+11  ->       l   12       12.5       L       L  l L-> l L        lL
+12  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+13  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+14  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+15  ->       p   16       16.5       P       P  p P->p P         pP
+16  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+17  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+18  ->       s   19       19.5    S->Z       S  s S->s S         sS
+19  ->       t   20       20.5    T->t       T  t T->t T         tT
+20  ->       u   21       21.5     U->       U u U-> u U         uU
+21  ->       v   22       22.5       V       V v V-> v V         vV
+22  ->       w   23       23.5       W       W w W-> w W         wW
+23  ->       x   24       24.5       X       X x X-> x X         xX
+24  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+25  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> do(y=tmp, ordered=TRUE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors LETTERS         lL unchanged
+1  ...     ...  ...        ...     ...     ...        ...       ...
+2            b    2        2.5       B       B        b B        bB
+3   -> c->NULL    3        3.5       C       C        c C        cC
+4   ->     d->    4        4.5       D       D        d D        dD
+5   ->    e->E    5        5.5       E       E        e E        eE
+6   ->   f->fg    6        6.5       F       F        f F        fF
+7            g    7        7.5       G       G        g G        gG
+8  ...     ...  ...        ...     ...     ...        ...       ...
+9            j   10       10.5       J       J        j J        jJ
+10  ->       k   11       11.5       K       K  k K-> k K        kK
+11  ->       l   12       12.5       L       L  l L-> l L        lL
+12  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+13  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+14  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+15  ->       p   16       16.5       P       P  p P->p P         pP
+16  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+17  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+18  ->       s   19       19.5    S->Z       S  s S->s S         sS
+19  ->       t   20       20.5    T->t       T  t T->t T         tT
+20  ->       u   21       21.5     U->       U u U-> u U         uU
+21  ->       v   22       22.5       V       V v V-> v V         vV
+22  ->       w   23       23.5       W       W w W-> w W         wW
+23  ->       x   24       24.5       X       X x X-> x X         xX
+24  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+25  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> do(y=tmp, ordered=FALSE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors LETTERS         lL unchanged
+1  ...     ...  ...        ...     ...     ...        ...       ...
+2            b    2        2.5       B       B        b B        bB
+3   -> c->NULL    3        3.5       C       C        c C        cC
+4   ->     d->    4        4.5       D       D        d D        dD
+5   ->    e->E    5        5.5       E       E        e E        eE
+6   ->   f->fg    6        6.5       F       F        f F        fF
+7            g    7        7.5       G       G        g G        gG
+8  ...     ...  ...        ...     ...     ...        ...       ...
+9            j   10       10.5       J       J        j J        jJ
+10  ->       k   11       11.5       K       K  k K-> k K        kK
+11  ->       l   12       12.5       L       L  l L-> l L        lL
+12  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+13  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+14  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+15  ->       p   16       16.5       P       P  p P->p P         pP
+16  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+17  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+18  ->       s   19       19.5    S->Z       S  s S->s S         sS
+19  ->       t   20       20.5    T->t       T  t T->t T         tT
+20  ->       u   21       21.5     U->       U u U-> u U         uU
+21  ->       v   22       22.5       V       V v V-> v V         vV
+22  ->       w   23       23.5       W       W w W-> w W         wW
+23  ->       x   24       24.5       X       X x X-> x X         xX
+24  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+25  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> 
+> df.ref <- df.orig
+> df     <- rbind(df.ref[1:20,], df.changed[21:26,])
+> do(padding_strategy="auto"  )
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+   @@ letters ints doubles factors LETTERS         lL unchanged
+1 ...     ...  ...     ...     ...     ...        ...       ...
+2           t   20    20.5       T       T        t T        tT
+3  ->       u   21    21.5     U->       U u U-> u U         uU
+4  ->       v   22    22.5       V       V v V-> v V         vV
+5  ->       w   23    23.5       W       W w W-> w W         wW
+6  ->       x   24    24.5       X       X x X-> x X         xX
+7  ->       y   25    25.5       Y       Y y Y-> y Y         yY
+8  ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+> do(padding_strategy="smart" )
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+   @@ letters ints doubles factors LETTERS         lL unchanged
+1 ...     ...  ...     ...     ...     ...        ...       ...
+2           t   20    20.5       T       T        t T        tT
+3  ->       u   21    21.5     U->       U u U-> u U         uU
+4  ->       v   22    22.5       V       V v V-> v V         vV
+5  ->       w   23    23.5       W       W w W-> w W         wW
+6  ->       x   24    24.5       X       X x X-> x X         xX
+7  ->       y   25    25.5       Y       Y y Y-> y Y         yY
+8  ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+> do(padding_strategy="dense" )
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+   @@ letters ints doubles factors LETTERS         lL unchanged
+1 ...     ...  ...     ...     ...     ...        ...       ...
+2           t   20    20.5       T       T        t T        tT
+3  ->       u   21    21.5     U->       U u U-> u U         uU
+4  ->       v   22    22.5       V       V v V-> v V         vV
+5  ->       w   23    23.5       W       W w W-> w W         wW
+6  ->       x   24    24.5       X       X x X-> x X         xX
+7  ->       y   25    25.5       Y       Y y Y-> y Y         yY
+8  ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+> do(padding_strategy="sparse")
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+   @@ letters ints doubles factors LETTERS         lL unchanged
+1 ...     ...  ...     ...     ...     ...        ...       ...
+2           t   20    20.5       T       T        t T        tT
+3  ->       u   21    21.5     U->       U u U-> u U         uU
+4  ->       v   22    22.5       V       V v V-> v V         vV
+5  ->       w   23    23.5       W       W w W-> w W         wW
+6  ->       x   24    24.5       X       X x X-> x X         xX
+7  ->       y   25    25.5       Y       Y y Y-> y Y         yY
+8  ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+> 
+> df.ref <- df.orig
+> df     <- rbind(df.ref[1:20,], df.changed)
+> do(show_unchanged=TRUE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints doubles factors LETTERS         lL unchanged
+1            a    1     1.5       A    <NA>        a A      <NA>
+2            b    2     2.5       B    <NA>        b B      <NA>
+3            c    3     3.5       C    <NA>        c C      <NA>
+4            d    4     4.5       D    <NA>        d D      <NA>
+5            e    5     5.5       E    <NA>        e E      <NA>
+6            f    6     6.5       F    <NA>        f F      <NA>
+7            g    7     7.5       G    <NA>        g G      <NA>
+8            h    8     8.5       H    <NA>        h H      <NA>
+9            i    9     9.5       I    <NA>        i I      <NA>
+10           j   10    10.5       J    <NA>        j J      <NA>
+11           k   11    11.5       K    <NA>        k K      <NA>
+12           l   12    12.5       L    <NA>        l L      <NA>
+13           m   13    13.5       M    <NA>        m M      <NA>
+14           n   14    14.5       N    <NA>        n N      <NA>
+15           o   15    15.5       O    <NA>        o O      <NA>
+16           p   16    16.5       P    <NA>        p P      <NA>
+17           q   17    17.5       Q    <NA>        q Q      <NA>
+18           r   18    18.5       R    <NA>        r R      <NA>
+19           s   19    19.5       S    <NA>        s S      <NA>
+20           t   20    20.5       T    <NA>        t T      <NA>
+21 +++       a    1     1.5       A       A        a A        aA
+22 +++       b    2     2.5       B       B        b B        bB
+23 +++    <NA>    3     3.5       C       C        c C        cC
+24 +++            4     4.5       D       D        d D        dD
+25 +++       E    5     5.5       E       E        e E        eE
+26 +++      fg    6     6.5       F       F        f F        fF
+27 +++       g    7     7.5       G       G        g G        gG
+28 +++       h    8     8.5       H       H        h H        hH
+29 +++       i    9     9.5       I       I        i I        iI
+30 +++       j   10    10.5       J       J        j J        jJ
+31 +++       k   11    11.5       K       K        k K        kK
+32 +++       l   12    12.5       L       L        l L        lL
+33 +++       m   13      NA       M       M        m M        mM
+34 +++       n   14     0.1       N       N        n N        nN
+35 +++       o   15    -1.1       O       O        o O        oO
+36 +++       p   16    16.5       P       P       p P         pP
+37 +++       q   17    17.5       Q       Q       q Q         qQ
+38 +++       r   18    18.5    <NA>       R       r R         rR
+39 +++       s   19    19.5       Z       S       s S         sS
+40 +++       t   20    20.5       t       T       t T         tT
+41  ->       u   21    21.5     U->       U u U-> u U         uU
+42  ->       v   22    22.5       V       V v V-> v V         vV
+43  ->       w   23    23.5       W       W w W-> w W         wW
+44  ->       x   24    24.5       X       X x X-> x X         xX
+45  ->       y   25    25.5       Y       Y y Y-> y Y         yY
+46  ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+> do(show_unchanged=FALSE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints doubles factors LETTERS         lL unchanged
+1  ...     ...  ...     ...     ...     ...        ...       ...
+2            t   20    20.5       T       T        t T        tT
+3  +++       a    1     1.5       A       A        a A        aA
+4  +++       b    2     2.5       B       B        b B        bB
+5  +++    <NA>    3     3.5       C       C        c C        cC
+6  +++            4     4.5       D       D        d D        dD
+7  +++       E    5     5.5       E       E        e E        eE
+8  +++      fg    6     6.5       F       F        f F        fF
+9  +++       g    7     7.5       G       G        g G        gG
+10 +++       h    8     8.5       H       H        h H        hH
+11 +++       i    9     9.5       I       I        i I        iI
+12 +++       j   10    10.5       J       J        j J        jJ
+13 +++       k   11    11.5       K       K        k K        kK
+14 +++       l   12    12.5       L       L        l L        lL
+15 +++       m   13      NA       M       M        m M        mM
+16 +++       n   14     0.1       N       N        n N        nN
+17 +++       o   15    -1.1       O       O        o O        oO
+18 +++       p   16    16.5       P       P       p P         pP
+19 +++       q   17    17.5       Q       Q       q Q         qQ
+20 +++       r   18    18.5    <NA>       R       r R         rR
+21 +++       s   19    19.5       Z       S       s S         sS
+22 +++       t   20    20.5       t       T       t T         tT
+23  ->       u   21    21.5     U->       U u U-> u U         uU
+24  ->       v   22    22.5       V       V v V-> v V         vV
+25  ->       w   23    23.5       W       W w W-> w W         wW
+26  ->       x   24    24.5       X       X x X-> x X         xX
+27  ->       y   25    25.5       Y       Y y Y-> y Y         yY
+28  ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+> 
+> 
+> df <- df.orig
+> df <- cbind(df.changed[,1:2], df.orig[, -c(1:2)])
+> do(show_unchanged_columns=TRUE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+   @@ letters ints doubles factors LETTERS  lL unchanged
+1 ...     ...  ...     ...     ...     ... ...       ...
+2           b    2     2.5       B       B b B        bB
+3  -> c->NULL    3     3.5       C       C c C        cC
+4  ->     d->    4     4.5       D       D d D        dD
+5  ->    e->E    5     5.5       E       E e E        eE
+6  ->   f->fg    6     6.5       F       F f F        fF
+7           g    7     7.5       G       G g G        gG
+8 ...     ...  ...     ...     ...     ... ...       ...
+> do(show_unchanged_columns=FALSE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+   @@ letters ints doubles ...
+1 ...     ...  ...     ... ...
+2           b    2     2.5 ...
+3  -> c->NULL    3     3.5 ...
+4  ->     d->    4     4.5 ...
+5  ->    e->E    5     5.5 ...
+6  ->   f->fg    6     6.5 ...
+7           g    7     7.5 ...
+8 ...     ...  ...     ... ...
+> 
+> # Test 'meta' changes in column type
+> df.ref <- cbind(df.orig,    df.orig)
+> df     <- cbind(df.changed, df.orig)
+> df$letters  <- factor(df$letters)
+> df$letters
+ [1] a    b    <NA>      E    fg   g    h    i    j    k    l    m    n    o   
+[16] p    q    r    s    t    u    v    w    x    y    z   
+Levels:  a b E fg g h i j k l m n o p q r s t u v w x y z
+> df$ints     <- as.character(df$ints)
+> df$ints
+ [1] "1"  "2"  "3"  "4"  "5"  "6"  "7"  "8"  "9"  "10" "11" "12" "13" "14" "15"
+[16] "16" "17" "18" "19" "20" "21" "22" "23" "24" "25" "26"
+> df$factors  <- df$factors
+> 
+> diff_data(as.data.frame(sapply(df.ref, class)),
++           as.data.frame(sapply(df,     class))
++           )
+Daff Comparison: ‘as.data.frame(sapply(df.ref, class))’ vs. ‘as.data.frame(sapply(df, class))’ 
+    ! (sapply(df.ref, class))
+1  @@       sapply(df, class)
+2 +++                  factor
+3                   character
+4 ---                 integer
+5                     numeric
+6 ...                     ...
+> 
+> do(df.ref, show_unchanged_meta=TRUE)   #! doesn't seem to be working!!
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@
+1  +++
+2  +++
+3  +++
+4  +++
+5  +++
+6  +++
+7  +++
+8  +++
+9  +++
+10 +++
+11 +++
+12 +++
+13 +++
+14 +++
+15 +++
+16 +++
+17 +++
+18 +++
+19 +++
+20 +++
+21 +++
+22 +++
+23 +++
+24 +++
+25 +++
+26 +++
+27 ---
+28 ---
+29 ---
+30 ---
+31 ---
+32 ---
+33 ---
+34 ---
+35 ---
+36 ---
+37 ---
+38 ---
+39 ---
+40 ---
+41 ---
+42 ---
+43 ---
+44 ---
+45 ---
+46 ---
+47 ---
+48 ---
+49 ---
+50 ---
+51 ---
+52 ---
+> do(show_unchanged_meta=FALSE)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@
+1  +++
+2  +++
+3  +++
+4  +++
+5  +++
+6  +++
+7  +++
+8  +++
+9  +++
+10 +++
+11 +++
+12 +++
+13 +++
+14 +++
+15 +++
+16 +++
+17 +++
+18 +++
+19 +++
+20 +++
+21 +++
+22 +++
+23 +++
+24 +++
+25 +++
+26 +++
+27 ---
+28 ---
+29 ---
+30 ---
+31 ---
+32 ---
+33 ---
+34 ---
+35 ---
+36 ---
+37 ---
+38 ---
+39 ---
+40 ---
+41 ---
+42 ---
+43 ---
+44 ---
+45 ---
+46 ---
+47 ---
+48 ---
+49 ---
+50 ---
+51 ---
+52 ---
+> 
+> 
+> # Test context vars
+> df.ref <- df.orig
+> df     <- df.changed
+> 
+> do(unchanged_column_context=0)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors ...         lL
+1  ...     ...  ...        ...     ... ...        ...
+2            b    2        2.5       B ...        b B
+3   -> c->NULL    3        3.5       C ...        c C
+4   ->     d->    4        4.5       D ...        d D
+5   ->    e->E    5        5.5       E ...        e E
+6   ->   f->fg    6        6.5       F ...        f F
+7            g    7        7.5       G ...        g G
+8  ...     ...  ...        ...     ... ...        ...
+9            j   10       10.5       J ...        j J
+10  ->       k   11       11.5       K ...  k K-> k K
+11  ->       l   12       12.5       L ...  l L-> l L
+12  ->       m   13   13.5->NA       M ...  m M-> m M
+13  ->       n   14  14.5->0.1       N ...  n N-> n N
+14  ->       o   15 15.5->-1.1       O ...  o O-> o O
+15  ->       p   16       16.5       P ...  p P->p P 
+16  ->       q   17       17.5       Q ...  q Q->q Q 
+17  ->       r   18       18.5 R->NULL ...  r R->r R 
+18  ->       s   19       19.5    S->Z ...  s S->s S 
+19  ->       t   20       20.5    T->t ...  t T->t T 
+20  ->       u   21       21.5     U-> ... u U-> u U 
+21  ->       v   22       22.5       V ... v V-> v V 
+22  ->       w   23       23.5       W ... w W-> w W 
+23  ->       x   24       24.5       X ... x X-> x X 
+24  ->       y   25       25.5       Y ... y Y-> y Y 
+25  ->       z   26       26.5       Z ... z Z-> z Z 
+> do(unchanged_column_context=5)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+    @@ letters ints    doubles factors LETTERS         lL unchanged
+1  ...     ...  ...        ...     ...     ...        ...       ...
+2            b    2        2.5       B       B        b B        bB
+3   -> c->NULL    3        3.5       C       C        c C        cC
+4   ->     d->    4        4.5       D       D        d D        dD
+5   ->    e->E    5        5.5       E       E        e E        eE
+6   ->   f->fg    6        6.5       F       F        f F        fF
+7            g    7        7.5       G       G        g G        gG
+8  ...     ...  ...        ...     ...     ...        ...       ...
+9            j   10       10.5       J       J        j J        jJ
+10  ->       k   11       11.5       K       K  k K-> k K        kK
+11  ->       l   12       12.5       L       L  l L-> l L        lL
+12  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+13  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+14  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+15  ->       p   16       16.5       P       P  p P->p P         pP
+16  ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+17  ->       r   18       18.5 R->NULL       R  r R->r R         rR
+18  ->       s   19       19.5    S->Z       S  s S->s S         sS
+19  ->       t   20       20.5    T->t       T  t T->t T         tT
+20  ->       u   21       21.5     U->       U u U-> u U         uU
+21  ->       v   22       22.5       V       V v V-> v V         vV
+22  ->       w   23       23.5       W       W w W-> w W         wW
+23  ->       x   24       24.5       X       X x X-> x X         xX
+24  ->       y   25       25.5       Y       Y y Y-> y Y         yY
+25  ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> 
+> do(unchanged_context=0)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+   @@ letters ints    doubles factors LETTERS         lL unchanged
+1  -> c->NULL    3        3.5       C       C        c C        cC
+2  ->     d->    4        4.5       D       D        d D        dD
+3  ->    e->E    5        5.5       E       E        e E        eE
+4  ->   f->fg    6        6.5       F       F        f F        fF
+5  ->       k   11       11.5       K       K  k K-> k K        kK
+6  ->       l   12       12.5       L       L  l L-> l L        lL
+7  ->       m   13   13.5->NA       M       M  m M-> m M        mM
+8  ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+9  ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+10 ->       p   16       16.5       P       P  p P->p P         pP
+11 ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+12 ->       r   18       18.5 R->NULL       R  r R->r R         rR
+13 ->       s   19       19.5    S->Z       S  s S->s S         sS
+14 ->       t   20       20.5    T->t       T  t T->t T         tT
+15 ->       u   21       21.5     U->       U u U-> u U         uU
+16 ->       v   22       22.5       V       V v V-> v V         vV
+17 ->       w   23       23.5       W       W w W-> w W         wW
+18 ->       x   24       24.5       X       X x X-> x X         xX
+19 ->       y   25       25.5       Y       Y y Y-> y Y         yY
+20 ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> do(unchanged_context=5)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+   @@ letters ints    doubles factors LETTERS         lL unchanged
+1           a    1        1.5       A       A        a A        aA
+2           b    2        2.5       B       B        b B        bB
+3  -> c->NULL    3        3.5       C       C        c C        cC
+4  ->     d->    4        4.5       D       D        d D        dD
+5  ->    e->E    5        5.5       E       E        e E        eE
+6  ->   f->fg    6        6.5       F       F        f F        fF
+7           g    7        7.5       G       G        g G        gG
+8           h    8        8.5       H       H        h H        hH
+9           i    9        9.5       I       I        i I        iI
+10          j   10       10.5       J       J        j J        jJ
+11 ->       k   11       11.5       K       K  k K-> k K        kK
+12 ->       l   12       12.5       L       L  l L-> l L        lL
+13 ->       m   13   13.5->NA       M       M  m M-> m M        mM
+14 ->       n   14  14.5->0.1       N       N  n N-> n N        nN
+15 ->       o   15 15.5->-1.1       O       O  o O-> o O        oO
+16 ->       p   16       16.5       P       P  p P->p P         pP
+17 ->       q   17       17.5       Q       Q  q Q->q Q         qQ
+18 ->       r   18       18.5 R->NULL       R  r R->r R         rR
+19 ->       s   19       19.5    S->Z       S  s S->s S         sS
+20 ->       t   20       20.5    T->t       T  t T->t T         tT
+21 ->       u   21       21.5     U->       U u U-> u U         uU
+22 ->       v   22       22.5       V       V v V-> v V         vV
+23 ->       w   23       23.5       W       W w W-> w W         wW
+24 ->       x   24       24.5       X       X x X-> x X         xX
+25 ->       y   25       25.5       Y       Y y Y-> y Y         yY
+26 ->       z   26       26.5       Z       Z z Z-> z Z         zZ
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  2.631   0.131   2.751 
