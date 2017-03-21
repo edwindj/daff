@@ -3,6 +3,9 @@ summary.data_diff <- function(object, ...){
   patch_data <- object$get_data()
   col_names <- names(patch_data)
 
+
+  #print(list(patch_data = patch_data))
+
   rows_changed <- sum(patch_data[[1]] == "->")
   rows_added   <- sum(patch_data[[1]] == "+++")
   rows_removed <- sum(patch_data[[1]] == "---")
@@ -23,6 +26,8 @@ summary.data_diff <- function(object, ...){
   )
 }
 
+
+#' @export
 print.data_diff_summary <- function(x, n=6, ...){
   cat("\nData diff:\n")
 
