@@ -43,6 +43,9 @@ TableView <- function(ctx, df, var_name){
   if (!missing(df)){
     set_data(df)
   }
+  else{
+    set_data(data.frame(x=NA))
+  }
 
   structure( list( set_data=set_data
                  , get_data=get_data
