@@ -18,7 +18,6 @@
 #' @return generated html
 #'
 #' @seealso data_diff
-#' @seealso summary.data_diff
 #'
 #' @export
 render_diff <- function(  diff

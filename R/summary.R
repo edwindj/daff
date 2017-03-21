@@ -1,4 +1,4 @@
-#' @export
+### ' @export  #NB: Print and summary methods are not usually exported.
 summary.data_diff <- function(object, ...){
   patch_data <- object$get_data()
   col_names <- names(patch_data)
