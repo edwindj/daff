@@ -5,12 +5,12 @@
 \title{Do a data diff}
 \usage{
 diff_data(data_ref, data, always_show_header = TRUE,
-  always_show_order = NULL, columns_to_ignore = NULL,
-  count_like_a_spreadsheet = TRUE, ids = NULL, ignore_whitespace = FALSE,
-  never_show_order = NULL, ordered = TRUE, padding_strategy = NULL,
-  show_unchanged = FALSE, show_unchanged_columns = FALSE,
-  show_unchanged_meta = FALSE, unchanged_column_context = 1L,
-  unchanged_context = 1L)
+  always_show_order = FALSE, columns_to_ignore = c(),
+  count_like_a_spreadsheet = FALSE, ids = c(), ignore_whitespace = FALSE,
+  never_show_order = FALSE, ordered = TRUE, padding_strategy = c("auto",
+  "smart", "dense", "sparse"), show_meta = TRUE, show_unchanged = FALSE,
+  show_unchanged_columns = FALSE, show_unchanged_meta = FALSE,
+  unchanged_column_context = 1L, unchanged_context = 1L)
 }
 \arguments{
 \item{data_ref}{\code{data.frame} reference data frame}
@@ -19,7 +19,7 @@ diff_data(data_ref, data, always_show_header = TRUE,
 
 \item{always_show_header}{\code{logical}
 Should we always give a table header in diffs? This defaults
-to true, and - frankly - you should leave it at true for now.}
+to TRUE, and - frankly - you should leave it at TRUE for now.}
 
 \item{always_show_order}{\code{logical}
 Diffs for tables where row/column order has been permuted may include
@@ -33,13 +33,13 @@ related to these columns should be discounted.}
 
 \item{count_like_a_spreadsheet}{\code{logical}
 Should column numbers, if present, be rendered spreadsheet-style
-as A,B,C,...,AA,BB,CC?  Defaults to true.}
+as A,B,C,...,AA,BB,CC?  Defaults to TRUE.}
 
 \item{ids}{\code{charcter}
 List of columns that make up a primary key, if known. Otherwise heuristics are used to find a decent key (or a set of decent keys). Please set via (multiple calls of) addPrimaryKey(). This variable will be made private soon.}
 
 \item{ignore_whitespace}{\code{logical}
-Should whitespace be omitted from comparisons.  Defaults to false.}
+Should whitespace be omitted from comparisons.  Defaults to FALSE.}
 
 \item{never_show_order}{\code{logical}
 Diffs for tables where row/column order has been permuted may include
@@ -48,11 +48,14 @@ If you'd like to be sure that that row/column is *never
 included, turn on this flag, and turn off always_show_order.}
 
 \item{ordered}{\code{logical}
-Is the order of rows and columns meaningful? Defaults to `true`.}
+Is the order of rows and columns meaningful? Defaults to `TRUE`.}
 
 \item{padding_strategy}{\code{logical}
-Strategy to use when padding columns.  Valid values are "smart", "dense",
-and "sparse".  Leave null for a sensible default.}
+Strategy to use when padding columns.  Valid values are "auto",
+"smart", "dense", and "sparse".  Leave null for a sensible default.}
+
+\item{show_meta}{\code{logical}
+Show changes in column properties, not just data, if available. Defaults to TRUE.}
 
 \item{show_unchanged}{\code{logical}
 Should we show all rows in diffs?  We default to showing
@@ -70,7 +73,7 @@ in the diff.}
 
 \item{show_unchanged_meta}{\code{logical}
 Show all column properties, if available, even if unchanged.
-Defaults to false.}
+Defaults to FALSE.}
 
 \item{unchanged_column_context}{\code{integer}
 When showing context columns around a changed column, what
