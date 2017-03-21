@@ -17,6 +17,8 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
+> library(daff)
+> 
 > df.ref <- data.frame(letters=letters,
 +                      ints=1:26,
 +                      doubles=(1:26)+0.5,
@@ -47,5 +49,28 @@ Type 'q()' to quit R.
 > 
 > # test
 > render_diff(diff_data(df.ref, df))
-Error: could not find function "render_diff"
-Execution halted
+> 
+> # permute rows!
+> df <- df[sample(nrow(df)),]
+> render_diff(diff_data(df.ref, df))
+> 
+> # permute cols!
+> df <- df[, sample(ncol(df))]
+> render_diff(diff_data(df.ref, df))
+> 
+> # add a row
+> df <- rbind(df, df[14,])
+> df[nrow(df), "ints"] <- 75
+> render_diff(diff_data(df.ref, df))
+> 
+> # remove a row
+> df <- df[-21, ]
+> render_diff(diff_data(df.ref, df))
+> 
+> # remove a column
+> df <- df[, -3]
+> render_diff(diff_data(df.ref, df))
+> 
+> proc.time()
+   user  system elapsed 
+  0.502   0.042   0.535 
