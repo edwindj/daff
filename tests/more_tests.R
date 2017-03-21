@@ -1,3 +1,5 @@
+library(daff)
+
 df.ref <- data.frame(letters=letters,
                      ints=1:26,
                      doubles=(1:26)+0.5,

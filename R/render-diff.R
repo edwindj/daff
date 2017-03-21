@@ -26,7 +26,6 @@ render_diff <- function(  diff
                         , fragment=FALSE
                         , pretty=TRUE
                         , title
-                        , ...
 )
 {
   # construct the title string

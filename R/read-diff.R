@@ -7,7 +7,8 @@
 #' Using a stored diff to patch a \code{data.frame} will use the column types of the source
 #' \code{data.frame} to determine the target column types. New introduced columns may become \code{characters}.
 #'
-#' Names of the reference and comparison dataset are also lost when writing a patch to disk.
+#' Names of the reference and comparison dataset are also lost when writing a data_diff object
+#' to disk.
 #'
 #' @param diff generated with diff_data
 #' @param file filename or connection

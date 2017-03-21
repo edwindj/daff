@@ -72,9 +72,9 @@ diff_data <- function(data_ref,
                       padding_strategy         = NULL,
                       show_unchanged           = FALSE, # rows
                       show_unchanged_columns   = FALSE,
+                      show_unchanged_meta      = FALSE,
                       unchanged_column_context = 1L,
-                      unchanged_context        = 1L,     # rows
-                      new                      = FALSE
+                      unchanged_context        = 1L     # rows
                       ){
   ctx     <- get_context()
   tv      <- TableView(ctx, data)
@@ -101,6 +101,7 @@ diff_data <- function(data_ref,
   cf["padding_strategy"         ] <- to.null( padding_strategy         )
   cf["show_unchanged"           ] <- to.null( show_unchanged           )
   cf["show_unchanged_columns"   ] <- to.null( show_unchanged_columns   )
+  cf["show_unchanged_meta"      ] <- to.null( show_unchanged_meta      )
   cf["unchanged_column_context" ] <- to.null( unchanged_column_context )
 
   # add vector options
