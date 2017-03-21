@@ -17,12 +17,18 @@ render_diff <- function( diff
                          , view=interactive()
                          , fragment=FALSE
                          , pretty=TRUE
-                         , title=paste("Daff Comparison -",   Sys.time())
+                         , title
                          , ...
 )
 {
   ctx <- diff$ctx
   html <- ctx$call("render_diff", JS(diff$var_name), fragment, pretty)
+
+  if(missing(title))
+  {
+    data_names <- attr(diff, "data_names")
+    title <- paste(data_names$data_ref, "vs.", data_names$data)
+  }
 
   if(pretty)
   {
@@ -49,14 +55,14 @@ render_diff <- function( diff
                  fixed=TRUE)
   }
 
-  # Add title and header if provided
-  if(!fragment && !missing(title))
+  # Add title in header and body, as well as date and time
+  if(!fragment)
     html <- gsub("</head>\\s*<body>",
                  paste0("<title>", title ,"</title>", "\n",
                         "</head>", "\n",
                         "<body>", "\n",
-                        "<h1>", "<center>", title,      "</center>", "</h1>", "\n",
-                        "<h3>", "<center>", Sys.time(), "</center>", "</h3>", "\n"
+                        "<h1 style='text-align: center;'>", title,      "</h1>", "\n",
+                        "<h3 style='text-align: center;'>", Sys.time(), "</h3>", "\n"
                         ),
                  html
     )
