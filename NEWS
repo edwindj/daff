@@ -1,3 +1,10 @@
+0.3.0
+- Lots of improvements thanks to @gwarnes-mdsol
+- 'render_diff' now defaults to 'pretty=TRUE'.
+- Use inline CSS instead of obsolete '<center>' tag.
+- Improve Output Formatting and Add Support for Daff Flags
+- Update daff.js to version 1.3.25.
+
 0.2.1
 - added summary for patch, thanks to @jsta, feature request #12
 

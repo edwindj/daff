@@ -98,6 +98,7 @@ diff_data(x, iris)
 
 dd <- diff_data(x, iris)
 #write_diff(dd, "diff.csv")
+summary(dd)
 }
 \seealso{
 differs_from
