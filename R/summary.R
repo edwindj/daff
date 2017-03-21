@@ -1,4 +1,4 @@
-### ' @export  #NB: Print and summary methods are not usually exported.
+#' @export
 summary.data_diff <- function(object, ...){
   patch_data <- object$get_data()
   col_names <- names(patch_data)
@@ -43,7 +43,7 @@ print.data_diff_summary <- function(x, n=6, ...){
       cat(" removed:", x$cols_removed, "\n")
   cat("\n")
 
-  cat("  First and last", n, "patch lines:\n")
+  cat("  First", n, "and last", n, "patch lines:\n")
   p <- rbind(head(x$patch_data, n=n),
              "..."=rep("...", length=ncol(x$patch_dat)),
              tail(x$patch_data, n=n)
