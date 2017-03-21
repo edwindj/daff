@@ -26,8 +26,6 @@ summary.data_diff <- function(object, ...){
   )
 }
 
-
-#' @export
 #' @importFrom utils head tail
 print.data_diff_summary <- function(x, n=6, ...){
   cat("\nData diff:\n")
