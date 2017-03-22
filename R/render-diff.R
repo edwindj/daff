@@ -89,6 +89,17 @@ render_diff <- function(  diff
   if(summary)
   {
     s <- summary(diff)
+
+    if(s$rows_before == s$rows_after)
+      rows_before_after <- s$rows_before
+    else
+      rows_before_after <- paste0(s$rows_before, " &rarr& ", s$rows_after)
+
+    if(s$cols_before == s$cols_after)
+      cols_before_after <- s$cols_before
+    else
+      cols_before_after <- paste0(s$cols_before, " &rarr& ", s$cols_after)
+
     html <- gsub("<div class='highlighter'>",
                  paste0("",
                         "<div class='highlighter' style='align:center;'>",
@@ -96,25 +107,25 @@ render_diff <- function(  diff
                         "   <thead>",
                         "       <tr class='header' style='text-align: center'>",
                         "           <th></th>",
-                        "           <th>Changed</th>",
-                        "           <th>Removed</th>",
-                        "           <th>Added</th>",
-                        "           <th>Total</th>",
+                        "           <th>#</th>",
+                        "           <th class='modify'>Modified</th>",
+                        "           <th class='remove'>Removed</th>",
+                        "           <th class='add'>Added</th>",
                         "   </thead>",
                         "   <tbody>",
                         "       <tr>",
-                        "           <td>Rows</td>",
-                        "           <td>", s$rows_changed, "</td>",
-                        "           <td>", s$rows_removed, "</td>",
-                        "           <td>", s$rows_added,   "</td>",
-                        "           <td>", s$rows_total,   "</td>",
+                        "           <td style='font-weight:bold;'>Rows</td>",
+                        "           <td>",                rows_before_after, "</td>",
+                        "           <td class='modify'>", s$rows_changed,    "</td>",
+                        "           <td class='remove'>", s$rows_removed,    "</td>",
+                        "           <td class='add'>"   , s$rows_added,      "</td>",
                         "       </tr>",
                         "       <tr>",
-                        "           <td>Columns</td>",
-                        "           <td>", s$cols_changed, "</td>",
-                        "           <td>", s$cols_removed, "</td>",
-                        "           <td>", s$cols_added,   "</td>",
-                        "           <td>", s$cols_total,   "</td>",
+                        "           <td style='font-weight:bold;'>Columns</td>",
+                        "           <td>",                cols_before_after, "</td>",
+                        "           <td class='modify'>", s$cols_changed,    "</td>",
+                        "           <td class='remove'>", s$cols_removed,    "</td>",
+                        "           <td class='add'>"   , s$cols_added,      "</td>",
                         "        </tr>",
                         "    </tbody>",
                         "</table>",

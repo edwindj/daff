@@ -131,8 +131,12 @@ diff_data <- function(data_ref,
   # store names of the compared objects for later use by render_diff
   names <- list("data_ref" = deparse(substitute(data_ref)),
                 "data"     = deparse(substitute(data    ))
-  )
+                )
+  dims <- list("data_ref"= dim(data_ref),
+               "data"    = dim(data)
+               )
   attr(tv_diff, "data_names") <- names
+  attr(tv_diff, "data_dims")  <- dims
 
   tv_diff
 }
