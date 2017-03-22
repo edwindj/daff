@@ -1,25 +1,45 @@
 #' @export
 summary.data_diff <- function(object, ...){
   patch_data <- object$get_data()
-  col_names <- names(patch_data)
 
+  col.names <- patch_data[2, ] # row 2 always contains data column names, while
+                               # names(...) may contain column change indexes..
+  
+  # The column containg flags can be either [,1] or [,2] depending on whether
+  # row change indexes are present, but can be identified by the column 
+  # containing '@@' in row 2.  NB: It would be nice if the daff object containd these indexes
+  flag_col  <- which(col.names=='@@')[1]
 
-  #print(list(patch_data = patch_data))
+  row_flags <- patch_data[,flag_col]
+  col_flags <- patch_data[1,]
+  
+  rows_changed <- sum(row_flags == "-->")
+  rows_added   <- sum(row_flags == "+++")
+  rows_removed <- sum(row_flags == "---")
+  rows_total   <- length(row_flags) - 2 
 
-  rows_changed <- sum(patch_data[[1]] == "->")
-  rows_added   <- sum(patch_data[[1]] == "+++")
-  rows_removed <- sum(patch_data[[1]] == "---")
+  cols_added   <- sum(col_flags == "+++")
+  cols_removed <- sum(col_flags == "---")
 
-  cols_added   <- sum(col_names == "+++")
-  cols_removed <- sum(col_names == "---")
+  # Finding changes columns requires looking at individual cells, so
+  # first extract only rows flagged as containing a change:
+  changed_rows <- patch_data[row_flags == "-->", -(1:flag_col)]
+  # Next, identify which columns contain "-->"
+  cols_change_flag <- sapply( patch_data, function(col_data) any(grepl("-->", col_data)) )
+  cols_changed     <- sum(cols_change_flag)
+  # Finally, count them                             
+  cols_total   <- length(cols_change_flag)
 
   structure(
     list( patch_data = patch_data
         , rows_changed  = rows_changed
         , rows_removed  = rows_removed
         , rows_added    = rows_added
+        , rows_total    = rows_total
+        , cols_changed  = cols_changed
         , cols_added    = cols_added
         , cols_removed  = cols_removed
+        , cols_total    = cols_total
         , data_names    = attr(object, "data_names")
         ),
     class = "data_diff_summary"
@@ -34,14 +54,20 @@ print.data_diff_summary <- function(x, n=6, show.patch=TRUE, ...){
 
   cat(" Comparison:", sQuote(x$data_names$data_ref), "vs.", sQuote(x$data_names$data), "\n")
 
-  cat(" Rows: changed: ", x$rows_changed, ",", sep="")
-      cat(" removed: ", x$rows_removed, ",", sep="")
-      cat(" added  : ", x$rows_added,        sep="")
-  cat("\n")
+  row.data <- c(Changed=x$rows_changed, 
+                Removed=x$rows_removed, 
+                Added  =x$rows_added,
+                Total  =x$rows_total)
 
-  cat(" Columns: added:", x$cols_added, ",")
-      cat(" removed:", x$cols_removed, "\n")
-  cat("\n")
+  col.data <- c(Changed=x$cols_changed, 
+                Removed=x$cols_removed, 
+                Added  =x$cols_added,
+                Total  =x$cols_total)  
+  
+  tab <-  rbind(Rows = row.data, 
+                Columns = col.data)
+  
+  print(tab)
 
   if(show.patch)
   {
