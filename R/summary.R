@@ -29,7 +29,7 @@ summary.data_diff <- function(object, ...){
 
 #' @export
 #' @importFrom utils head tail
-print.data_diff_summary <- function(x, n=6, ...){
+print.data_diff_summary <- function(x, n=6, show.patch=TRUE, ...){
   cat("\nData diff:\n")
 
   cat(" Comparison:", sQuote(x$data_names$data_ref), "vs.", sQuote(x$data_names$data), "\n")
@@ -43,13 +43,18 @@ print.data_diff_summary <- function(x, n=6, ...){
       cat(" removed:", x$cols_removed, "\n")
   cat("\n")
 
-  cat("  First", n, "and last", n, "patch lines:\n")
-  p <- rbind(head(x$patch_data, n=n),
-             "..."=rep("...", length=ncol(x$patch_dat)),
-             tail(x$patch_data, n=n)
-             )
-  print(p, ...)
-  cat("\n")
+  if(show.patch)
+  {
+    cat("  First", n, "and last", n, "patch lines:\n")
+    p <- rbind(head(x$patch_data, n=n),
+               "..."=rep("...", length=ncol(x$patch_dat)),
+               tail(x$patch_data, n=n)
+    )
+    print(p, ...)
+    cat("\n")
+  }
+
+  invisible(x)
 }
 
 
