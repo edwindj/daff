@@ -15,6 +15,8 @@
 #' @param title    \code{character}        title text. Defaults to the quoted
 #'                                         names of the data objects compared,
 #'                                         separated by 'vs.'
+#' @param summary  \code{logical}          Should a summary of changes be shown above
+#'                                         the HTML table?
 #' @return generated html
 #'
 #' @seealso data_diff
@@ -26,6 +28,7 @@ render_diff <- function(  diff
                         , fragment=FALSE
                         , pretty=TRUE
                         , title
+                        , summary=!fragment
 )
 {
   # construct the title string
@@ -81,6 +84,39 @@ render_diff <- function(  diff
                         ),
                  html
     )
+
+
+  if(summary)
+  {
+    s <- summary(diff)
+    html <- gsub("<div class='highlighter'>",
+                 paste0("",
+                        "<div class='highlighter' style='align:center;'>\n",
+                        "<table style='margin: 0px auto; margin-bottom: 2em'>\n",
+                        "   <thead>\n",
+                        "       <tr class='header'><th></th><th>Changed</th><th>Removed</th><th>Added</th>\n",
+                        "   </thead>\n",
+                        "   <tbody>\n",
+                        "       <tr>\n",
+                        "           <td>Rows</td>\n",
+                        "           <td>", s$rows_changed, "</td>\n",
+                        "           <td>", s$rows_removed, "</td>\n",
+                        "           <td>", s$rows_added,   "</td>\n",
+                        "       </tr>\n",
+                        "       <tr>\n",
+                        "           <td>Columns</td>\n",
+                        "           <td>",                 "</td>\n",
+                        "           <td>", s$cols_removed, "</td>\n",
+                        "           <td>", s$cols_added,   "</td>\n",
+                        "        </tr>\n",
+                        "    </tbody>\n",
+                        "</table>\n",
+                        "</div>\n",
+                        "<div class='highlighter'>\n"
+                        ),
+                 html
+                 )
+  }
 
   # Write to the specified file
   cat(html, file = file)
