@@ -93,12 +93,12 @@ render_diff <- function(  diff
     if(s$rows_before == s$rows_after)
       rows_before_after <- s$rows_before
     else
-      rows_before_after <- paste0(s$rows_before, " &rarr& ", s$rows_after)
+      rows_before_after <- paste0(s$rows_before, " &rarr; ", s$rows_after)
 
     if(s$cols_before == s$cols_after)
       cols_before_after <- s$cols_before
     else
-      cols_before_after <- paste0(s$cols_before, " &rarr& ", s$cols_after)
+      cols_before_after <- paste0(s$cols_before, " &rarr; ", s$cols_after)
 
     html <- gsub("<div class='highlighter'>",
                  paste0("",
