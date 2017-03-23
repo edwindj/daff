@@ -64,9 +64,10 @@ TableView <- function(ctx, df, var_name){
 print.TableView <- function(x, n=6, ...)
 {
   cat("  First", n, "and last", n, "patch lines:\n")
-  p <- rbind(head(x$patch_data, n=n),
-             "..."=rep("...", length=ncol(x$patch_dat)),
-             tail(x$patch_data, n=n)
+  patch_data <- x$get_data()
+  p <- rbind(head(patch_data, n=n),
+             "..."=rep("...", length=ncol(patch_data)),
+             tail(patch_data, n=n)
   )
   print(p, ...)
   cat("\n")

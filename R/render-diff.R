@@ -53,13 +53,13 @@ render_diff <- function(  diff
     # BONUS: At the start of the line, use double right arrow, allowing searches
     # to distinguish between "line contains changes" (double right) and
     # "this cell has changed" (single right)
-    modified.line.pattern <- '<tr class=\"modify\"><td class=\"modify\">\u2192</td>'
-    modified.line.replace <- paste0('<td class=\"modify\">&rArr;</td>')
+    modified.line.pattern <- '<tr class="modify">(<td class="index">[0-9:]+</td>)?<td class="modify">\u2192</td>'
+    modified.line.replace <- '<tr class="modify">\\1<td class=\"modify\">&rArr;</td>'
 
     html <- gsub(modified.line.pattern,
                  modified.line.replace,
                  html,
-                 fixed=TRUE)
+                 perl=TRUE)
 
     # Anywhere else, replace with single right arrow bounded by spaces. The spaces
     # makes the arrow easier to distinguies visually as wells as allowing browsers

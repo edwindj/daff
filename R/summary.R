@@ -2,10 +2,17 @@
 summary.data_diff <- function(object, ...){
   patch_data <- object$get_data()
 
-  # The dataframe column names *usually* contain the data's column names, but
-  # can also be held in rows 1 or 2
-  col.names <- colnames(patch_data)
-  if(col.names[1] != "@@")
+  # Find the original data column names, located in either the header,
+  # row 1 or row 2.  The column change flags (if present) will be in
+  # the previous row (or header).
+  if( "@@" %in% colnames(patch_data))
+  {
+    col.names <- colnames(patch_data)
+    colnames_row <- 0
+    col_flags <- rep("", ncol(patch_data))
+      col_flags <- patch_data[1,]
+  }
+  else
   {
     first.rows <- min(3, nrow(patch_data))
     first.cols <- min(3, ncol(patch_data))
@@ -13,32 +20,35 @@ summary.data_diff <- function(object, ...){
     colnames_row <- which(topleft=="@@", arr.ind = TRUE)[,"row"][1]
     if(length(colnames_row)==0) stop("Unable to determine column names.")
     col.names <- unlist(patch_data[colnames_row,])
+    if(colnames_row==1)
+      col_flags <- colnames(patch_data)
+    else
+      col_flags <- unlist(patch_data[colnames_row-1,])
   }
 
-  # The column containg flags can be either [,1] or [,2] depending on whether
-  # row change indexes are present, but can be identified by the column
-  # containing '@@' in row 2.  NB: It would be nice if the daff object containd these indexes
+  # The row flags can be either [,1] or [,2] depending on whether row change
+  # indexes are present, but can be identified by the column containing '@@' in
+  # row 2.
+  # NB: It would be nice if the daff object itself containd/provided these indexes
   flag_col  <- which(col.names=='@@')[1]
 
   row_flags <- patch_data[,flag_col]
-  col_flags <- patch_data[1,]
-  if(any(grepl("[A-Za-z0-9]", col_flags)) ) # Flag row shouldn't have any text in it
-    col_flags <- rep("", ncol(patch_data))
+
 
   dims <- attr(object, "data_dims")
 
   # count row modifications
   rows_before <-  dims$"data_ref"[1]
   rows_after   <- dims$"data"   [1]
-  rows_changed <- sum(row_flags %in% c("->", "-->"))
-  rows_added   <- sum(row_flags == "+++")
-  rows_removed <- sum(row_flags == "---")
+  rows_changed <- sum(row_flags %in% c("->", "-->"), na.rm=TRUE)
+  rows_added   <- sum(row_flags == "+++",            na.rm=TRUE)
+  rows_removed <- sum(row_flags == "---",            na.rm=TRUE)
 
   # count column modifications
   cols_before <-  dims$"data_ref"[2]
   cols_after   <- dims$"data"    [2]
-  cols_added   <- sum(col_flags == "+++")
-  cols_removed <- sum(col_flags == "---")
+  cols_added   <- sum(col_flags == "+++", na.rm=TRUE)
+  cols_removed <- sum(col_flags == "---", na.rm=TRUE)
 
   # Finding changes columns requires looking at individual cells:
   # 1) Extract only rows flagged as containing a change:
