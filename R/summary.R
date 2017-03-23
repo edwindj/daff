@@ -73,19 +73,33 @@ summary.data_diff <- function(object, ...){
 #' @export
 #' @importFrom utils head tail
 print.data_diff_summary <- function(x, n=6, show.patch=TRUE, ...){
-  cat("\nData diff:\n")
+
+  if(x$rows_before == x$rows_after)
+    rows_before_after <- x$rows_before
+  else
+    rows_before_after <- paste0(x$rows_before, " --> ", x$rows_after)
+
+  if(x$cols_before == x$cols_after)
+    cols_before_after <- x$cols_before
+  else
+    cols_before_after <- paste0(x$cols_before, " --> ", x$cols_after)
+
+
+    cat("\nData diff:\n")
 
   cat(" Comparison:", sQuote(x$data_names$data_ref), "vs.", sQuote(x$data_names$data), "\n")
 
-  row.data <- c(Changed=x$rows_changed,
-                Removed=x$rows_removed,
-                Added  =x$rows_added,
-                Total  =x$rows_total)
+  row.data <- c("#"    = rows_before_after,
+                Changed= x$rows_changed,
+                Removed= x$rows_removed,
+                Added  = x$rows_added
+                )
 
-  col.data <- c(Changed=x$cols_changed,
+  col.data <- c("#"    = cols_before_after,
+                Changed=x$cols_changed,
                 Removed=x$cols_removed,
-                Added  =x$cols_added,
-                Total  =x$cols_total)
+                Added  =x$cols_added
+                )
 
   tab <-  rbind(Rows = row.data,
                 Columns = col.data)
