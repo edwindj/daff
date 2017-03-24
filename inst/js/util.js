@@ -18,10 +18,11 @@ function to_array(table){
   return view;
 }
 
+/* x: TableView.data */
 function to_objects(x){
-  var keys = x[0];
+  var keys = _.keys(x);
   var result = [];
-  for (var i=1; i < x.length; i++){
+  for (var i=0; i < x.length; i++){
     result.push(_.object(keys, x[i]));
   }
   return result;
