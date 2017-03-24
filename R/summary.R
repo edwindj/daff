@@ -114,7 +114,7 @@ print.data_diff_summary <- function(x, n=6, show.patch=TRUE, ...){
   tab <-  rbind(Rows = row.data,
                 Columns = col.data)
 
-  print(tab)
+  print(tab, quote=FALSE)
 
   invisible(x)
 }
