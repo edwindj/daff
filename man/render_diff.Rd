@@ -5,7 +5,7 @@
 \title{Render a data_diff to html}
 \usage{
 render_diff(diff, file = tempfile(fileext = ".html"), view = interactive(),
-  fragment = FALSE, pretty = TRUE, title)
+  fragment = FALSE, pretty = TRUE, title, summary = !fragment)
 }
 \arguments{
 \item{diff}{\code{diff_data object} generated with \code{\link{diff_data}}}
@@ -24,6 +24,9 @@ generate a valid HTML document.}
 \item{title}{\code{character}        title text. Defaults to the quoted
 names of the data objects compared,
 separated by 'vs.'}
+
+\item{summary}{\code{logical}          Should a summary of changes be shown above
+the HTML table?}
 }
 \value{
 generated html
@@ -50,3 +53,4 @@ y_patched <- patch_data(y, patch)
 \seealso{
 data_diff
 }
+

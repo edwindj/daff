@@ -18,6 +18,7 @@ function to_array(table){
   return view;
 }
 
+/* x: TableView.data */
 function to_objects(x){
   var keys = x[0];
   var result = [];
@@ -28,11 +29,12 @@ function to_objects(x){
 }
 
 function diff(src, target, flags){
-  var alignment = daff.compareTables(src,target).align();
-  var highlighter = new daff.TableDiff(alignment,flags);
+  var alignment = daff.compareTables(src, target).align();
+  var highlighter = new daff.TableDiff(alignment, flags);
   var data_diff = [];
   var table_diff = new daff.TableView(data_diff);
   highlighter.hilite(table_diff);
+  table_diff.summary = highlighter.getSummary()
   return table_diff;
 }
 
