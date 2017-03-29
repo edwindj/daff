@@ -31,11 +31,14 @@ render_diff <- function(  diff
                         , summary=!fragment
 )
 {
+  # get summary information
+  s <- summary(diff)
+
   # construct the title string
   if(missing(title))
   {
     data_names <- attr(diff, "data_names")
-    title <- paste(sQuote(data_names$data_ref), "vs.", sQuote(data_names$data))
+    title <- paste(sQuote(s$source_name), "vs.", sQuote(s$target_name))
   }
 
   # render to HTML
@@ -88,17 +91,14 @@ render_diff <- function(  diff
 
   if(summary)
   {
-    s <- summary(diff)
+    row_count_change_text <- s$row_count_change_text
+    col_count_change_text <- s$col_count_change_text
 
-    if(s$rows_before == s$rows_after)
-      rows_before_after <- s$rows_before
-    else
-      rows_before_after <- paste0(s$rows_before, " &rarr; ", s$rows_after)
-
-    if(s$cols_before == s$cols_after)
-      cols_before_after <- s$cols_before
-    else
-      cols_before_after <- paste0(s$cols_before, " &rarr; ", s$cols_after)
+    if(pretty)
+    {
+      row_count_change_text <- gsub("-->", "&rarr;", row_count_change_text)
+      col_count_change_text <- gsub("-->", "&rarr;", col_count_change_text)
+    }
 
     html <- gsub("<div class='highlighter'>",
                  paste0("",
@@ -109,23 +109,26 @@ render_diff <- function(  diff
                         "           <th></th>",
                         "           <th>#</th>",
                         "           <th class='modify'>Modified</th>",
-                        "           <th class='remove'>Removed</th>",
+                        "           <th               >Reordered</th>",
+                        "           <th class='remove'>Deleted</th>",
                         "           <th class='add'>Added</th>",
                         "   </thead>",
                         "   <tbody>",
                         "       <tr>",
                         "           <td style='font-weight:bold;'>Rows</td>",
-                        "           <td>",                rows_before_after, "</td>",
-                        "           <td class='modify'>", s$rows_changed,    "</td>",
-                        "           <td class='remove'>", s$rows_removed,    "</td>",
-                        "           <td class='add'>"   , s$rows_added,      "</td>",
+                        "           <td>",                s$row_count_change_text, "</td>",
+                        "           <td class='modify'>", s$row_updates,           "</td>",
+                        "           <td               >", s$row_reorders,          "</td>",
+                        "           <td class='remove'>", s$row_deletes,           "</td>",
+                        "           <td class='add'>"   , s$row_inserts,           "</td>",
                         "       </tr>",
                         "       <tr>",
                         "           <td style='font-weight:bold;'>Columns</td>",
-                        "           <td>",                cols_before_after, "</td>",
-                        "           <td class='modify'>", s$cols_changed,    "</td>",
-                        "           <td class='remove'>", s$cols_removed,    "</td>",
-                        "           <td class='add'>"   , s$cols_added,      "</td>",
+                        "           <td>",                s$col_count_change_text, "</td>",
+                        "           <td class='modify'>", s$col_updates,           "</td>",
+                        "           <td               >", s$col_reorders,          "</td>",
+                        "           <td class='remove'>", s$col_deletes,           "</td>",
+                        "           <td class='add'>"   , s$col_inserts,           "</td>",
                         "        </tr>",
                         "    </tbody>",
                         "</table>",

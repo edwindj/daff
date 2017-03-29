@@ -20,20 +20,21 @@ function to_array(table){
 
 /* x: TableView.data */
 function to_objects(x){
-  var keys = _.keys(x);
+  var keys = x[0];
   var result = [];
-  for (var i=0; i < x.length; i++){
+  for (var i=1; i < x.length; i++){
     result.push(_.object(keys, x[i]));
   }
   return result;
 }
 
 function diff(src, target, flags){
-  var alignment = daff.compareTables(src,target).align();
-  var highlighter = new daff.TableDiff(alignment,flags);
+  var alignment = daff.compareTables(src, target).align();
+  var highlighter = new daff.TableDiff(alignment, flags);
   var data_diff = [];
   var table_diff = new daff.TableView(data_diff);
   highlighter.hilite(table_diff);
+  table_diff.summary = highlighter.getSummary()
   return table_diff;
 }
 

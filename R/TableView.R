@@ -77,7 +77,7 @@ print.TableView <- function(x, n=6, ...)
 #' @export
 print.data_diff <- function(x, ...)
 {
-  data_names <- attr(x, "data_names")
-  cat("Daff Comparison:", sQuote(data_names$data_ref), "vs.", sQuote(data_names$data), "\n")
+  df.s <- attr(x, "summary")
+  cat("Daff Comparison:", sQuote(df.s$source_name), "vs.", sQuote(df.s$target_name), "\n")
   NextMethod()
 }

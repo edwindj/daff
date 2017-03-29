@@ -1,114 +1,34 @@
 #' @export
-summary.data_diff <- function(object, ...){
-  patch_data <- object$get_data()
+summary.data_diff <- function(object, ...)
+{
+  retval <- attr(object, "summary") # everything is pre-computedd
+  retval$data <- object$get_matrix()
+  class(retval) <- "data_diff_summary"
 
-  # Find the original data column names, located in either the header,
-  # row 1 or row 2.  The column change flags (if present) will be in
-  # the previous row (or header).
-  if( "@@" %in% colnames(patch_data))
-  {
-    col.names <- colnames(patch_data)
-    colnames_row <- 0
-    col_flags <- rep("", ncol(patch_data))
-      col_flags <- patch_data[1,]
-  }
-  else
-  {
-    first.rows <- min(3, nrow(patch_data))
-    first.cols <- min(3, ncol(patch_data))
-    topleft <- patch_data[1:first.rows, 1:first.cols]
-    colnames_row <- which(topleft=="@@", arr.ind = TRUE)[,"row"][1]
-    if(length(colnames_row)==0) stop("Unable to determine column names.")
-    col.names <- unlist(patch_data[colnames_row,])
-    if(colnames_row==1)
-      col_flags <- colnames(patch_data)
-    else
-      col_flags <- unlist(patch_data[colnames_row-1,])
-  }
-
-  # The row flags can be either [,1] or [,2] depending on whether row change
-  # indexes are present, but can be identified by the column containing '@@' in
-  # row 2.
-  # NB: It would be nice if the daff object itself containd/provided these indexes
-  flag_col  <- which(col.names=='@@')[1]
-
-  row_flags <- patch_data[,flag_col]
-
-
-  dims <- attr(object, "data_dims")
-
-  # count row modifications
-  rows_before <-  dims$"data_ref"[1]
-  rows_after   <- dims$"data"   [1]
-  rows_changed <- sum(row_flags %in% c("->", "-->"), na.rm=TRUE)
-  rows_added   <- sum(row_flags == "+++",            na.rm=TRUE)
-  rows_removed <- sum(row_flags == "---",            na.rm=TRUE)
-
-  # count column modifications
-  cols_before <-  dims$"data_ref"[2]
-  cols_after   <- dims$"data"    [2]
-  cols_added   <- sum(col_flags == "+++", na.rm=TRUE)
-  cols_removed <- sum(col_flags == "---", na.rm=TRUE)
-
-  # Finding changes columns requires looking at individual cells:
-  # 1) Extract only rows flagged as containing a change:
-  changed_rows <- patch_data[row_flags %in% c("->", "-->"), -(1:flag_col)]
-  # 2) Identify which columns contain "-->"
-  cols_change_flag <- sapply( changed_rows, function(col_data) any(grepl("->", col_data, fixed=TRUE ) ) )
-  # 3) Count the columns
-  cols_changed     <- sum(cols_change_flag)
-
-  structure(
-    list( patch_data = patch_data
-        , rows_before   = rows_before
-        , rows_after    = rows_after
-        , rows_changed  = rows_changed
-        , rows_removed  = rows_removed
-        , rows_added    = rows_added
-
-        , cols_before   = cols_before
-        , cols_after    = cols_after
-        , cols_changed  = cols_changed
-        , cols_added    = cols_added
-        , cols_removed  = cols_removed
-
-        , data_names    = attr(object, "data_names")
-        , data_dims     = attr(object, "data_dims" )
-        ),
-    class = "data_diff_summary"
-  )
+  retval
 }
 
 
 #' @export
 #' @importFrom utils head tail
-print.data_diff_summary <- function(x, n=6, show.patch=TRUE, ...){
+print.data_diff_summary <- function(x, n=6, show.patch=TRUE, ...)
+{
+  cat("\nData diff:\n")
 
-  if(x$rows_before == x$rows_after)
-    rows_before_after <- x$rows_before
-  else
-    rows_before_after <- paste0(x$rows_before, " --> ", x$rows_after)
+  cat(" Comparison:", sQuote(x$source_name), "vs.", sQuote(x$dest_name), "\n")
 
-  if(x$cols_before == x$cols_after)
-    cols_before_after <- x$cols_before
-  else
-    cols_before_after <- paste0(x$cols_before, " --> ", x$cols_after)
-
-
-    cat("\nData diff:\n")
-
-  cat(" Comparison:", sQuote(x$data_names$data_ref), "vs.", sQuote(x$data_names$data), "\n")
-
-  row.data <- c("#"    = rows_before_after,
-                Changed= x$rows_changed,
-                Removed= x$rows_removed,
-                Added  = x$rows_added
+  row.data <- c("#"      = x$row_count_change_text,
+                Modified = x$row_updates,
+                Reorderd = x$row_reorders,
+                Deleted  = x$row_deletes,
+                Added    = x$row_inserts
                 )
 
-  col.data <- c("#"    = cols_before_after,
-                Changed=x$cols_changed,
-                Removed=x$cols_removed,
-                Added  =x$cols_added
+  col.data <- c("#"      = x$cols_before_after,
+                Modified = NA, #x$col_updates,
+                Reorderd = x$col_reorders,
+                Deleted  = x$col_deletes,
+                Added    = x$col_inserts
                 )
 
   tab <-  rbind(Rows = row.data,

@@ -10,9 +10,9 @@
 #'     Should we always give a table header in diffs? This defaults
 #'     to TRUE, and - frankly - you should leave it at TRUE for now.
 #' @param always_show_order  \code{logical}
-#'     Diffs for tables where row/column order has been permuted may include
-#'     an extra row/column specifying the changes in row numbers.
-#'     If you'd like that extra row/column to always be included,
+#'     Diffs for tables where col/column order has been permuted may include
+#'     an extra col/column specifying the changes in col numbers.
+#'     If you'd like that extra col/column to always be included,
 #'     turn on this flag, and turn off never_show_order.
 #' @param columns_to_ignore \code{character}
 #'     List of columns to ignore in all calculations.  Changes
@@ -25,28 +25,28 @@
 #' @param ignore_whitespace \code{logical}
 #'     Should whitespace be omitted from comparisons.  Defaults to FALSE.
 #' @param never_show_order \code{logical}
-#'     Diffs for tables where row/column order has been permuted may include
-#'     an extra row/column specifying the changes in row numbers.
-#'     If you'd like to be sure that that row/column is *never
+#'     Diffs for tables where col/column order has been permuted may include
+#'     an extra col/column specifying the changes in col numbers.
+#'     If you'd like to be sure that that col/column is *never
 #'     included, turn on this flag, and turn off always_show_order.
 #' @param ordered \code{logical}
-#'     Is the order of rows and columns meaningful? Defaults to `TRUE`.
+#'     Is the order of cols and columns meaningful? Defaults to `TRUE`.
 #' @param padding_strategy \code{logical}
 #'     Strategy to use when padding columns.  Valid values are "auto",
 #'     "smart", "dense", and "sparse".  Leave null for a sensible default.
 #' @param show_meta \code{logical}
 #'     Show changes in column properties, not just data, if available. Defaults to TRUE.
 #' @param show_unchanged \code{logical}
-#'     Should we show all rows in diffs?  We default to showing
-#'     just rows that have changes (and some context rows around
-#'     them, if row order is meaningful), but you can override
+#'     Should we show all cols in diffs?  We default to showing
+#'     just cols that have changes (and some context cols around
+#'     them, if col order is meaningful), but you can override
 #'     this here.
 #' @param show_unchanged_columns \code{logical}
 #'     Should we show all columns in diffs?  We default to showing
 #'     just columns that have changes (and some context columns around
 #'     them, if column order is meaningful), but you can override
 #'     this here.  Irrespective of this flag, you can rely
-#'     on index/key columns needed to identify rows to be included
+#'     on index/key columns needed to identify cols to be included
 #'     in the diff.
 #' @param show_unchanged_meta \code{logical}
 #'     Show all column properties, if available, even if unchanged.
@@ -55,8 +55,8 @@
 #'     When showing context columns around a changed column, what
 #'     is the minimum number of such columns we should show?
 #' @param unchanged_context \code{integer}
-#'     When showing context rows around a changed row, what
-#'     is the minimum number of such rows we should show?
+#'     When showing context cols around a changed col, what
+#'     is the minimum number of such cols we should show?
 #'
 #' @return difference object
 #' @export
@@ -66,7 +66,7 @@ diff_data <- function(data_ref,
                       always_show_header       = TRUE,
                       always_show_order        = FALSE,
                       columns_to_ignore        = c(),
-                      count_like_a_spreadsheet = FALSE,
+                      count_like_a_spreadsheet = TRUE,
                       ids                      = c(),
                       ignore_whitespace        = FALSE,
                       never_show_order         = FALSE,
@@ -125,18 +125,29 @@ diff_data <- function(data_ref,
   # run the diff
   diff <- paste0("diff(",tv_ref$var_name,",",tv$var_name,", cf)")
   ctx$assign(tv_diff$var_name, JS(diff))
-
   class(tv_diff) <- c("data_diff", class(tv_diff))
 
-  # store names of the compared objects for later use by render_diff
-  names <- list("data_ref" = deparse(substitute(data_ref)),
-                "data"     = deparse(substitute(data    ))
-                )
-  dims <- list("data_ref"= dim(data_ref),
-               "data"    = dim(data)
-               )
-  attr(tv_diff, "data_names") <- names
-  attr(tv_diff, "data_dims")  <- dims
+  # Store summary and flag information for later
+  summary <- ctx$get(JS(paste0(tv_diff$var_name, ".summary")))
+  flags   <- ctx$get("cf")
+
+  # names of the compared objects
+  summary$source_name = deparse(substitute(data_ref))
+  summary$target_name = deparse(substitute(data))
+
+  # Textual description of changes to col and column counts
+  if(summary$row_count_initial == summary$row_count_final)
+    summary$row_count_change_text <- summary$row_count_initial
+  else
+    summary$row_count_change_text <- paste0(summary$row_count_initial, " --> ", summary$row_count_final)
+
+  if(summary$col_count_initial == summary$col_count_final)
+    summary$col_count_change_text <- summary$col_count_initial
+  else
+    summary$col_count_change_text <- paste0(summary$col_count_initial, " --> ", summary$col_count_final)
+
+
+  attr(tv_diff, "summary") <- summary
 
   tv_diff
 }
@@ -154,4 +165,5 @@ diff_data <- function(data_ref,
 #' @seealso diff_data
 differs_from <- function(data, data_ref, ...){
   diff_data(data_ref=data_ref, data=data, ...)
+
 }
