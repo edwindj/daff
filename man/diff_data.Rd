@@ -22,9 +22,9 @@ Should we always give a table header in diffs? This defaults
 to TRUE, and - frankly - you should leave it at TRUE for now.}
 
 \item{always_show_order}{\code{logical}
-Diffs for tables where col/column order has been permuted may include
-an extra col/column specifying the changes in col numbers.
-If you'd like that extra col/column to always be included,
+Diffs for tables where row/column order has been permuted may include
+an extra row/column specifying the changes in row/column numbers.
+If you'd like that extra row/column to always be included,
 turn on this flag, and turn off never_show_order.}
 
 \item{columns_to_ignore}{\code{character}
@@ -42,13 +42,13 @@ List of columns that make up a primary key, if known. Otherwise heuristics are u
 Should whitespace be omitted from comparisons.  Defaults to FALSE.}
 
 \item{never_show_order}{\code{logical}
-Diffs for tables where col/column order has been permuted may include
-an extra col/column specifying the changes in col numbers.
-If you'd like to be sure that that col/column is *never
+Diffs for tables where row/column order has been permuted may include
+an extra row/column specifying the changes in row/column numbers.
+If you'd like to be sure that that row/column is *never
 included, turn on this flag, and turn off always_show_order.}
 
 \item{ordered}{\code{logical}
-Is the order of cols and columns meaningful? Defaults to `TRUE`.}
+Is the order of rows and columns meaningful? Defaults to `TRUE`.}
 
 \item{padding_strategy}{\code{logical}
 Strategy to use when padding columns.  Valid values are "auto",
@@ -58,9 +58,9 @@ Strategy to use when padding columns.  Valid values are "auto",
 Show changes in column properties, not just data, if available. Defaults to TRUE.}
 
 \item{show_unchanged}{\code{logical}
-Should we show all cols in diffs?  We default to showing
-just cols that have changes (and some context cols around
-them, if col order is meaningful), but you can override
+Should we show all rows in diffs?  We default to showing
+just rows that have changes (and some context rows around
+them, if row order is meaningful), but you can override
 this here.}
 
 \item{show_unchanged_columns}{\code{logical}
@@ -68,7 +68,7 @@ Should we show all columns in diffs?  We default to showing
 just columns that have changes (and some context columns around
 them, if column order is meaningful), but you can override
 this here.  Irrespective of this flag, you can rely
-on index/key columns needed to identify cols to be included
+on index/key columns needed to identify rows to be included
 in the diff.}
 
 \item{show_unchanged_meta}{\code{logical}
@@ -80,8 +80,8 @@ When showing context columns around a changed column, what
 is the minimum number of such columns we should show?}
 
 \item{unchanged_context}{\code{integer}
-When showing context cols around a changed col, what
-is the minimum number of such cols we should show?}
+When showing context rows around a changed row, what
+is the minimum number of such rows we should show?}
 }
 \value{
 difference object

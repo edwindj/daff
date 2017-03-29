@@ -46,7 +46,7 @@
 #'     just columns that have changes (and some context columns around
 #'     them, if column order is meaningful), but you can override
 #'     this here.  Irrespective of this flag, you can rely
-#'     on index/key columns needed to identify cols to be included
+#'     on index/key columns needed to identify rows to be included
 #'     in the diff.
 #' @param show_unchanged_meta \code{logical}
 #'     Show all column properties, if available, even if unchanged.
