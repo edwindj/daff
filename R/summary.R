@@ -8,8 +8,6 @@ summary.data_diff <- function(object, ...)
   retval
 }
 
-
-#' @export
 #' @importFrom utils head tail
 print.data_diff_summary <- function(x, n=6, show.patch=TRUE, ...)
 {
