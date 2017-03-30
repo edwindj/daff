@@ -15,6 +15,8 @@
 #' @param title    \code{character}        title text. Defaults to the quoted
 #'                                         names of the data objects compared,
 #'                                         separated by 'vs.'
+#' @param summary  \code{logical}          Should a summary of changes be shown above
+#'                                         the HTML table?
 #' @return generated html
 #'
 #' @seealso data_diff
@@ -26,13 +28,17 @@ render_diff <- function(  diff
                         , fragment=FALSE
                         , pretty=TRUE
                         , title
+                        , summary=!fragment
 )
 {
+  # get summary information
+  s <- summary(diff)
+
   # construct the title string
   if(missing(title))
   {
     data_names <- attr(diff, "data_names")
-    title <- paste(sQuote(data_names$data_ref), "vs.", sQuote(data_names$data))
+    title <- paste(sQuote(s$source_name), "vs.", sQuote(s$target_name))
   }
 
   # render to HTML
@@ -50,13 +56,13 @@ render_diff <- function(  diff
     # BONUS: At the start of the line, use double right arrow, allowing searches
     # to distinguish between "line contains changes" (double right) and
     # "this cell has changed" (single right)
-    modified.line.pattern <- '<tr class=\"modify\"><td class=\"modify\">\u2192</td>'
-    modified.line.replace <- paste0('<td class=\"modify\">&rArr;</td>')
+    modified.line.pattern <- '<tr class="modify">(<td class="index">[0-9:]+</td>)?<td class="modify">\u2192</td>'
+    modified.line.replace <- '<tr class="modify">\\1<td class=\"modify\">&rArr;</td>'
 
     html <- gsub(modified.line.pattern,
                  modified.line.replace,
                  html,
-                 fixed=TRUE)
+                 perl=TRUE)
 
     # Anywhere else, replace with single right arrow bounded by spaces. The spaces
     # makes the arrow easier to distinguies visually as wells as allowing browsers
@@ -81,6 +87,57 @@ render_diff <- function(  diff
                         ),
                  html
     )
+
+
+  if(summary)
+  {
+    row_count_change_text <- s$row_count_change_text
+    col_count_change_text <- s$col_count_change_text
+
+    if(pretty)
+    {
+      row_count_change_text <- gsub("-->", "&rarr;", row_count_change_text)
+      col_count_change_text <- gsub("-->", "&rarr;", col_count_change_text)
+    }
+
+    html <- gsub("<div class='highlighter'>",
+                 paste0("",
+                        "<div class='highlighter' style='align:center;'>",
+                        "<table style='margin: 0px auto; margin-bottom: 2em; text-align: right'>",
+                        "   <thead>",
+                        "       <tr class='header' style='text-align: center'>",
+                        "           <th></th>",
+                        "           <th>#</th>",
+                        "           <th class='modify'>Modified</th>",
+                        "           <th               >Reordered</th>",
+                        "           <th class='remove'>Deleted</th>",
+                        "           <th class='add'>Added</th>",
+                        "   </thead>",
+                        "   <tbody>",
+                        "       <tr>",
+                        "           <td style='font-weight:bold;'>Rows</td>",
+                        "           <td>",                s$row_count_change_text, "</td>",
+                        "           <td class='modify'>", s$row_updates,           "</td>",
+                        "           <td               >", s$row_reorders,          "</td>",
+                        "           <td class='remove'>", s$row_deletes,           "</td>",
+                        "           <td class='add'>"   , s$row_inserts,           "</td>",
+                        "       </tr>",
+                        "       <tr>",
+                        "           <td style='font-weight:bold;'>Columns</td>",
+                        "           <td>",                s$col_count_change_text, "</td>",
+                        "           <td class='modify'>", s$col_updates,           "</td>",
+                        "           <td               >", s$col_reorders,          "</td>",
+                        "           <td class='remove'>", s$col_deletes,           "</td>",
+                        "           <td class='add'>"   , s$col_inserts,           "</td>",
+                        "        </tr>",
+                        "    </tbody>",
+                        "</table>",
+                        "</div>",
+                        "<div class='highlighter'>"
+                        ),
+                 html
+                 )
+  }
 
   # Write to the specified file
   cat(html, file = file)

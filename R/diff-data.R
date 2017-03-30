@@ -11,7 +11,7 @@
 #'     to TRUE, and - frankly - you should leave it at TRUE for now.
 #' @param always_show_order  \code{logical}
 #'     Diffs for tables where row/column order has been permuted may include
-#'     an extra row/column specifying the changes in row numbers.
+#'     an extra row/column specifying the changes in row/column numbers.
 #'     If you'd like that extra row/column to always be included,
 #'     turn on this flag, and turn off never_show_order.
 #' @param columns_to_ignore \code{character}
@@ -26,7 +26,7 @@
 #'     Should whitespace be omitted from comparisons.  Defaults to FALSE.
 #' @param never_show_order \code{logical}
 #'     Diffs for tables where row/column order has been permuted may include
-#'     an extra row/column specifying the changes in row numbers.
+#'     an extra row/column specifying the changes in row/column numbers.
 #'     If you'd like to be sure that that row/column is *never
 #'     included, turn on this flag, and turn off always_show_order.
 #' @param ordered \code{logical}
@@ -66,7 +66,7 @@ diff_data <- function(data_ref,
                       always_show_header       = TRUE,
                       always_show_order        = FALSE,
                       columns_to_ignore        = c(),
-                      count_like_a_spreadsheet = FALSE,
+                      count_like_a_spreadsheet = TRUE,
                       ids                      = c(),
                       ignore_whitespace        = FALSE,
                       never_show_order         = FALSE,
@@ -125,14 +125,29 @@ diff_data <- function(data_ref,
   # run the diff
   diff <- paste0("diff(",tv_ref$var_name,",",tv$var_name,", cf)")
   ctx$assign(tv_diff$var_name, JS(diff))
-
   class(tv_diff) <- c("data_diff", class(tv_diff))
 
-  # store names of the compared objects for later use by render_diff
-  names <- list("data_ref" = deparse(substitute(data_ref)),
-                "data"     = deparse(substitute(data    ))
-  )
-  attr(tv_diff, "data_names") <- names
+  # Store summary and flag information for later
+  summary <- ctx$get(JS(paste0(tv_diff$var_name, ".summary")))
+  flags   <- ctx$get("cf")
+
+  # names of the compared objects
+  summary$source_name = deparse(substitute(data_ref))
+  summary$target_name = deparse(substitute(data))
+
+  # Textual description of changes to row and column counts
+  if(summary$row_count_initial == summary$row_count_final)
+    summary$row_count_change_text <- summary$row_count_initial
+  else
+    summary$row_count_change_text <- paste0(summary$row_count_initial, " --> ", summary$row_count_final)
+
+  if(summary$col_count_initial == summary$col_count_final)
+    summary$col_count_change_text <- summary$col_count_initial
+  else
+    summary$col_count_change_text <- paste0(summary$col_count_initial, " --> ", summary$col_count_final)
+
+
+  attr(tv_diff, "summary") <- summary
 
   tv_diff
 }
@@ -150,4 +165,5 @@ diff_data <- function(data_ref,
 #' @seealso diff_data
 differs_from <- function(data, data_ref, ...){
   diff_data(data_ref=data_ref, data=data, ...)
+
 }

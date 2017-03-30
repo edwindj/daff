@@ -40,48 +40,51 @@ df$lL[16:20] <- paste0(       df.ref$lL[16:20], " ")
 df$lL[21:26] <- paste0(" ",   df.ref$lL[21:26], " ")
 df.changed <- df
 
-# test
-df <- df.changed
-render_diff(diff_data(df.ref, df))
 
-# permute rows!
-df <- df.orig[sample(nrow(df)),]
-render_diff(diff_data(df.ref, df))
-
-# permute cols!
-df <- df.orig[, sample(ncol(df))]
-render_diff(diff_data(df.ref, df))
-
-# add a row
-df <- rbind(df.orig, df.orig[14,])
-df[nrow(df), "ints"] <- 75
-render_diff(diff_data(df.ref, df))
-
-# remove a row
-df <- df.orig[-21, ]
-render_diff(diff_data(df.ref, df))
-
-# add a column
-df <- cbind(df.orig, addded=1:nrow(df.orig))
-render_diff(diff_data(df.ref, df))
-
-# remove a column
-df <- df.orig[, -3]
-render_diff(diff_data(df.ref, df))
-
-df <- df.changed
-# cute use of binary operator!
-"%~%" <- function(...) { render_diff(diff_data(...))}
-df.ref %~% df.changed
+### test
 
 # test some diff flags
-do <- function(x=df.ref, y=df, ..., print=TRUE, render=TRUE)
-  {
+do <- function(x=df.ref, y=df, ..., print=!interactive(), render=interactive())
+{
   diff <- diff_data(df.ref, df, ...)
   if(print )  print(diff)
   if(render)  render_diff(diff)
   invisible(diff)
 }
+
+# data changes
+df <- df.changed
+do(df.ref, df)
+
+# permute rows!
+df <- df.orig[sample(nrow(df)),]
+do(df.ref, df)
+
+# permute cols!
+df <- df.orig[, sample(ncol(df))]
+do(df.ref, df)
+
+# add a row
+df <- rbind(df.orig, df.orig[14,])
+df[nrow(df), "ints"] <- 75
+do(df.ref, df)
+
+# remove a row
+df <- df.orig[-21, ]
+do(df.ref, df)
+
+# add a column
+df <- cbind(df.orig, addded=1:nrow(df.orig))
+do(df.ref, df)
+
+# remove a column
+df <- df.orig[, -3]
+do(df.ref, df)
+
+df <- df.changed
+# cute use of binary operator!
+"%~%" <- function(...) { render_diff(diff_data(...))}
+df.ref %~% df.changed
 
 df.ref <- df.orig
 df     <- df.changed
@@ -157,7 +160,6 @@ do(show_unchanged_columns=TRUE)
 do(show_unchanged_columns=FALSE)
 
 # Test 'meta' changes in column type
-df.ref <- cbind(df.orig,    df.orig)
 df     <- cbind(df.changed, df.orig)
 df$letters  <- factor(df$letters)
 df$letters

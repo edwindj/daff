@@ -61,16 +61,23 @@ TableView <- function(ctx, df, var_name){
 }
 
 #' @export
-print.TableView <- function(x, ...)
+print.TableView <- function(x, n=6, ...)
 {
-  print(x$get_data())
+  cat("  First", n, "and last", n, "patch lines:\n")
+  patch_data <- x$get_data()
+  p <- rbind(head(patch_data, n=n),
+             "..."=rep("...", length=ncol(patch_data)),
+             tail(patch_data, n=n)
+  )
+  print(p, ...)
+  cat("\n")
   invisible(x)
 }
 
 #' @export
 print.data_diff <- function(x, ...)
 {
-  data_names <- attr(x, "data_names")
-  cat("Daff Comparison:", sQuote(data_names$data_ref), "vs.", sQuote(data_names$data), "\n")
+  df.s <- attr(x, "summary")
+  cat("Daff Comparison:", sQuote(df.s$source_name), "vs.", sQuote(df.s$target_name), "\n")
   NextMethod()
 }
