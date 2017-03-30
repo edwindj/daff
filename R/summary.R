@@ -1,7 +1,18 @@
 #' @export
 summary.data_diff <- function(object, ...)
 {
-  retval <- attr(object, "summary") # everything is pre-computedd
+  retval <- attr(object, "summary") # everything is pre-computed
+
+  if(is.null(retval$col_updates))  # Until col_updates is supported, calculate locally
+  {
+    flags <- apply(object$get_matrix(), 2, function(X) any(grepl("-->", X)) )
+
+    retval$col_updates <- sum(flags, na.rm=TRUE)
+    #NB: if row_updates > 0, there may be row update markers in one column,
+    #    so check and decrement if true.
+    if(retval$row_updates > 0) retval$col_updates <- retval$col_updates - 1
+  }
+
   retval$data <- object$get_matrix()
   class(retval) <- "data_diff_summary"
 
@@ -13,20 +24,20 @@ print.data_diff_summary <- function(x, n=6, show.patch=TRUE, ...)
 {
   cat("\nData diff:\n")
 
-  cat(" Comparison:", sQuote(x$source_name), "vs.", sQuote(x$dest_name), "\n")
+  cat(" Comparison:", sQuote(x$source_name), "vs.", sQuote(x$target_name), "\n")
 
-  row.data <- c("#"      = x$row_count_change_text,
-                Modified = x$row_updates,
-                Reorderd = x$row_reorders,
-                Deleted  = x$row_deletes,
-                Added    = x$row_inserts
+  row.data <- c("#"       = x$row_count_change_text,
+                Modified  = x$row_updates,
+                Reordered = x$row_reorders,
+                Deleted   = x$row_deletes,
+                Added     = x$row_inserts
                 )
 
-  col.data <- c("#"      = x$cols_before_after,
-                Modified = NA, #x$col_updates,
-                Reorderd = x$col_reorders,
-                Deleted  = x$col_deletes,
-                Added    = x$col_inserts
+  col.data <- c("#"       = x$col_count_change_text,
+                Modified  = x$col_updates,
+                Reordered = x$col_reorders,
+                Deleted   = x$col_deletes,
+                Added     = x$col_inserts
                 )
 
   tab <-  rbind(Rows = row.data,
