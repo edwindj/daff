@@ -10,7 +10,7 @@ summary.data_diff <- function(object, ...)
     retval$col_updates <- sum(flags, na.rm=TRUE)
     #NB: if row_updates > 0, there may be row update markers in one column,
     #    so check and decrement if true.
-    if(retval$row_updates > 0) retval$col_updates <- retval$col_updates - 1
+    if(retval$row_updates > 0 && retval$col_updates > 0) retval$col_updates <- retval$col_updates - 1
   }
 
   retval$data <- object$get_matrix()
