@@ -17,6 +17,16 @@
 #'                                         separated by 'vs.'
 #' @param summary  \code{logical}          Should a summary of changes be shown above
 #'                                         the HTML table?
+#' @param use.DataTables \code{logical}    Include jQuery DataTables plugin and enable:
+#'                                         - pagination (10,25,50,100,All)
+#'                                         - searching
+#'                                         - filtering
+#'                                         - column visibility (individually enable/disable)
+#'                                         - copy/csv/excel/pdf export buttons
+#'                                         - column reorder (drag and drop)
+#'                                         - row reorder (drag and drop)
+#'                                         - row/multirow select
+#'
 #' @return generated html
 #'
 #' @seealso data_diff
@@ -29,6 +39,7 @@ render_diff <- function(  diff
                         , pretty=TRUE
                         , title
                         , summary=!fragment
+                        , use.DataTables=!fragment
 )
 {
   # get summary information
@@ -44,6 +55,12 @@ render_diff <- function(  diff
   # render to HTML
   ctx <- diff$ctx
   html <- ctx$call("render_diff", JS(diff$var_name), fragment, pretty)
+
+  # add id to main table so we can target it in JavaScript
+  html <- gsub("<table>",
+               "<table id='main' class='dataTable'>",
+               html
+               )
 
   if(pretty)
   {
@@ -101,43 +118,131 @@ render_diff <- function(  diff
     }
 
     html <- gsub("<div class='highlighter'>",
-                 paste0("",
-                        "<div class='highlighter' style='align:center;'>",
-                        "<table style='margin: 0px auto; margin-bottom: 2em; text-align: right'>",
-                        "   <thead>",
-                        "       <tr class='header' style='text-align: center'>",
-                        "           <th></th>",
-                        "           <th>#</th>",
-                        "           <th class='modify'>Modified</th>",
-                        "           <th               >Reordered</th>",
-                        "           <th class='remove'>Deleted</th>",
-                        "           <th class='add'>Added</th>",
-                        "   </thead>",
-                        "   <tbody>",
-                        "       <tr>",
-                        "           <td style='font-weight:bold;'>Rows</td>",
-                        "           <td>",                row_count_change_text,   "</td>",
-                        "           <td class='modify'>", s$row_updates,           "</td>",
-                        "           <td               >", s$row_reorders,          "</td>",
-                        "           <td class='remove'>", s$row_deletes,           "</td>",
-                        "           <td class='add'>"   , s$row_inserts,           "</td>",
-                        "       </tr>",
-                        "       <tr>",
-                        "           <td style='font-weight:bold;'>Columns</td>",
-                        "           <td>",                col_count_change_text, "</td>",
-                        "           <td class='modify'>", s$col_updates,           "</td>",
-                        "           <td               >", s$col_reorders,          "</td>",
-                        "           <td class='remove'>", s$col_deletes,           "</td>",
-                        "           <td class='add'>"   , s$col_inserts,           "</td>",
-                        "        </tr>",
-                        "    </tbody>",
-                        "</table>",
-                        "</div>",
-                        "<div class='highlighter'>"
-                        ),
+                 paste("",
+                       "<div class='highlighter' style='align:center;'>",
+                       "<table style='margin: 0px auto; margin-bottom: 2em; text-align: right'>",
+                       "   <thead>",
+                       "       <tr class='header' style='text-align: center'>",
+                       "           <th></th>",
+                       "           <th>#</th>",
+                       "           <th class='modify'>Modified</th>",
+                       "           <th               >Reordered</th>",
+                       "           <th class='remove'>Deleted</th>",
+                       "           <th class='add'>Added</th>",
+                       "   </thead>",
+                       "   <tbody>",
+                       "       <tr>",
+                       "           <td style='font-weight:bold;'>Rows</td>",
+                       "           <td>",                row_count_change_text,   "</td>",
+                       "           <td class='modify'>", s$row_updates,           "</td>",
+                       "           <td               >", s$row_reorders,          "</td>",
+                       "           <td class='remove'>", s$row_deletes,           "</td>",
+                       "           <td class='add'>"   , s$row_inserts,           "</td>",
+                       "       </tr>",
+                       "       <tr>",
+                       "           <td style='font-weight:bold;'>Columns</td>",
+                       "           <td>",                col_count_change_text, "</td>",
+                       "           <td class='modify'>", s$col_updates,           "</td>",
+                       "           <td               >", s$col_reorders,          "</td>",
+                       "           <td class='remove'>", s$col_deletes,           "</td>",
+                       "           <td class='add'>"   , s$col_inserts,           "</td>",
+                       "        </tr>",
+                       "    </tbody>",
+                       "</table>",
+                       "</div>",
+                       "<div class='highlighter'>",
+                       sep="\n"
+                       ),
                  html
                  )
   }
+
+  if(use.DataTables && !fragment)
+  {
+    html <- gsub("</style>",
+                 paste(
+                   '',
+                   'table.dataTable, table.dataTable th, table.dataTable td { ',
+                   '    -webkit-box-sizing: content-box;                      ',
+                   '    -moz-box-sizing: content-box;                         ',
+                   '    box-sizing: content-box;                              ',
+                   '}',
+                   '</style>',
+                   '',
+                   '<script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-3.2.1.min.js"></script>',
+                   '',
+                   '<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">',
+                   '<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>',
+                   '',
+                   '<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css">',
+                   '<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>',
+                   '<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.2.4/js/buttons.flash.min.js"></script>',
+                   '<script type="text/javascript" charset="utf8" src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>',
+                   '<script type="text/javascript" charset="utf8" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.24/build/pdfmake.min.js"></script>',
+                   '<script type="text/javascript" charset="utf8" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.24/build/vfs_fonts.js"></script>',
+                   '<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>',
+                   '<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>',
+                   '<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.colVis.min.js"></script>',
+                   '',
+                   '<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/colreorder/1.3.2/css/colReorder.dataTables.min.css">',
+                   '<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/colreorder/1.3.2/js/dataTables.colReorder.min.js"></script>',
+                   '',
+                   '<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.2.2/css/fixedColumns.dataTables.min.css">',
+                   '<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedcolumns/3.2.2/js/dataTables.fixedColumns.min.js"></script>',
+                   '',
+                   '<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css">',
+                   '<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedcolumns/3.2.2/js/dataTables.fixedColumns.min.js"></script>',
+                   '',
+                   '<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.1/css/select.dataTables.min.css">',
+                   '<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js"></script>',
+
+                   '<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.0/css/rowReorder.dataTables.min.css">',
+                   '<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/rowreorder/1.2.0/js/dataTables.rowReorder.min.js"></script>',
+                   '',
+                   '<script type="text/javascript">',
+                   '$(document).ready( function() {',
+                   '    $("#main").DataTable( {          ',
+                   '         buttons: [                  ',
+                   '                       "colvis",     ',
+                   '                       "copy",       ',
+                   '                       "csv",        ',
+                   '                       "excel",      ',
+                   '                       "excelHtml5", ',
+                   '                       "pdf",        ',
+                   '                  ],                 ',
+                   '         colReorder:   true,         ',
+                   '         dom:          "Blfrtip",    ',
+                   '         fixedHeader:  true,         ',
+                   '         keys:         true,         ',
+                   '         lengthMenu:   [              ',
+                   '                        [  ',
+                   '                           10,         ',
+                   '                           25,         ',
+                   '                           50,         ',
+                   '                           100,        ',
+                   '                           -1          ',
+                   ',                       ],             ',
+                   '                        [  ',
+                   '                           10,         ',
+                   '                           25,         ',
+                   '                           50,         ',
+                   '                           100,        ',
+                   '                           "All"       ',
+                   '                        ]              ',
+                   '                      ],               ',
+                   '         pageLength:   -1,           ',
+                   '         paging:       true,         ',
+                   '         rowReorder:   true,         ',
+                   '         select:       true,         ',
+                   '    } );                             ',
+                   '});',
+                   '</script>',
+                   sep="\n"
+                 ),
+                 html
+                 )
+  }
+
 
   # Write to the specified file
   cat(html, file = file)
