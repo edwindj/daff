@@ -6,7 +6,7 @@
 \usage{
 diff_data(data_ref, data, always_show_header = TRUE,
   always_show_order = FALSE, columns_to_ignore = c(),
-  count_like_a_spreadsheet = FALSE, ids = c(), ignore_whitespace = FALSE,
+  count_like_a_spreadsheet = TRUE, ids = c(), ignore_whitespace = FALSE,
   never_show_order = FALSE, ordered = TRUE, padding_strategy = c("auto",
   "smart", "dense", "sparse"), show_meta = TRUE, show_unchanged = FALSE,
   show_unchanged_columns = FALSE, show_unchanged_meta = FALSE,
@@ -23,7 +23,7 @@ to TRUE, and - frankly - you should leave it at TRUE for now.}
 
 \item{always_show_order}{\code{logical}
 Diffs for tables where row/column order has been permuted may include
-an extra row/column specifying the changes in row numbers.
+an extra row/column specifying the changes in row/column numbers.
 If you'd like that extra row/column to always be included,
 turn on this flag, and turn off never_show_order.}
 
@@ -43,7 +43,7 @@ Should whitespace be omitted from comparisons.  Defaults to FALSE.}
 
 \item{never_show_order}{\code{logical}
 Diffs for tables where row/column order has been permuted may include
-an extra row/column specifying the changes in row numbers.
+an extra row/column specifying the changes in row/column numbers.
 If you'd like to be sure that that row/column is *never
 included, turn on this flag, and turn off always_show_order.}
 
@@ -103,3 +103,4 @@ summary(dd)
 \seealso{
 differs_from
 }
+
