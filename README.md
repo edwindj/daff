@@ -28,7 +28,7 @@ TODO:
 # Install
 
 Install from CRAN
-```S
+```R
 install.packages('daff')
 ```
 
@@ -42,7 +42,7 @@ devtools::install_github("edwindj/daff")
 ## diff_data
 
 Calculate the difference between a reference and a changed `data.frame`
-```S
+```R
 library(daff)
 y <- iris[1:3,]
 x <- y
@@ -60,13 +60,13 @@ write_diff(patch, "patch.csv")
 
 `render_diff(patch)` will generate the following HTML page:
 
-![render_diff](examples/render_diff.png "render_diff")
+![render_diff](tools/render_diff.png "render_diff")
 
 
 ## patch_data
 
 Patch a `data.frame` using a diff generated with `diff_data`.
-```S
+```R
 # read a diff from disk
 patch <- read_diff("patch.csv")
 
@@ -77,7 +77,7 @@ y_patched <- patch_data(y, patch)
 ## merge_data
 
 Merge two `data.frame`s that have diverged from a common parent `data.frame`.
-```S
+```R
 parent <- a <- b <- iris[1:3,]
 a[1,1] <- 10
 b[2,1] <- 11
