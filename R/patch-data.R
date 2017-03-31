@@ -18,17 +18,26 @@ patch_data <- function(data, patch){
   tv <- TableView(ctx, data)
   ctx$call("patch_data", JS(tv$var_name), JS(patch$var_name))
 
-  data <- tv$get_data()
+  new_data <- tv$get_matrix()
+
+  patch_matrix <- patch$get_matrix()
+  if(is.null(colnames(patch_matrix)) || colnames(patch_matrix)[1] != "@@")
+  {
+    colnames(new_data) <- unlist(new_data[1,])
+    new_data           <- as.data.frame(new_data[-1, ,drop=FALSE], stringsAsFactors = FALSE)
+  }
+
   for (n in names(mode)){
     if (is_factor[n]){
       if (is.null(levs <- levels[[n]])){
-        data[[n]] <- factor(data[[n]])
+        new_data[[n]] <- factor(new_data[[n]])
       } else {
-        data[[n]] <- factor(data[[n]], levels=levs)
+        new_data[[n]] <- factor(new_data[[n]], levels=levs)
       }
     } else {
-      storage.mode(data[[n]]) <- mode[n]
+      storage.mode(new_data[[n]]) <- mode[n]
     }
   }
-  data
+  new_data
 }
+

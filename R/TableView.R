@@ -43,6 +43,9 @@ TableView <- function(ctx, df, var_name){
   if (!missing(df)){
     set_data(df)
   }
+  else{
+    set_data(data.frame(x=NA))
+  }
 
   structure( list( set_data=set_data
                  , get_data=get_data
@@ -58,6 +61,23 @@ TableView <- function(ctx, df, var_name){
 }
 
 #' @export
-print.TableView <- function(x, ...){
-  cat(x$to_csv())
+print.TableView <- function(x, n=6, ...)
+{
+  cat("  First", n, "and last", n, "patch lines:\n")
+  patch_data <- x$get_data()
+  p <- rbind(head(patch_data, n=n),
+             "..."=rep("...", length=ncol(patch_data)),
+             tail(patch_data, n=n)
+  )
+  print(p, ...)
+  cat("\n")
+  invisible(x)
+}
+
+#' @export
+print.data_diff <- function(x, ...)
+{
+  df.s <- attr(x, "summary")
+  cat("Daff Comparison:", sQuote(df.s$source_name), "vs.", sQuote(df.s$target_name), "\n")
+  NextMethod()
 }

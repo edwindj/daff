@@ -2,29 +2,38 @@
 % Please edit documentation in R/render-diff.R
 \name{render_diff}
 \alias{render_diff}
-\title{Render a data diff  to html}
+\title{Render a data_diff to html}
 \usage{
 render_diff(diff, file = tempfile(fileext = ".html"), view = interactive(),
-  fragment = FALSE, pretty = FALSE)
+  fragment = FALSE, pretty = TRUE, title, summary = !fragment)
 }
 \arguments{
-\item{diff}{object generated with \code{\link{diff_data}}}
+\item{diff}{\code{diff_data object} generated with \code{\link{diff_data}}}
 
-\item{file}{to write to}
+\item{file}{\code{character}        target file (optional)}
 
-\item{view}{\code{TRUE} or \code{FALSE}, if \code{TRUE} render_diff will show the diff
-in the browser (only if R is used interactively)}
+\item{view}{\code{logical}          Open the generated HTML in a browser
+if R is being used interactively}
 
-\item{fragment}{if \code{FALSE} the generated HTML will be a valid HTML document, otherwise it is a HTML fragment}
+\item{fragment}{\code{logical}          If \code{TRUE} generate (just) an
+HTML table, otherwise
+generate a valid HTML document.}
 
-\item{pretty}{if \code{TRUE} use fancy utf8 characters to make arrows prettier.}
+\item{pretty}{\code{logical}          Use HTML arrow characters instead of '-->'.}
+
+\item{title}{\code{character}        title text. Defaults to the quoted
+names of the data objects compared,
+separated by 'vs.'}
+
+\item{summary}{\code{logical}          Should a summary of changes be shown above
+the HTML table?}
 }
 \value{
 generated html
 }
 \description{
-\code{render_diff} will show a diff in html. When \code{view} is \code{TRUE} \code{render_diff} will show
-the result in a browser.
+Converts a diff_data object to HTML code, and opens the resulting HTML code
+in a browser window if \code{view==TRUE} and R is running interactively.
 }
 \examples{
 y <- iris[1:3,]
@@ -36,8 +45,12 @@ x$hello <- "world"  # add a column
 x$Species <- NULL # remove a column
 
 patch <- diff_data(y, x)
-render_diff(patch)
+render_diff(patch, title="compare x and y", pretty = TRUE)
 
 #apply patch
 y_patched <- patch_data(y, patch)
 }
+\seealso{
+data_diff
+}
+

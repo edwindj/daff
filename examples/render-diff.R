@@ -7,7 +7,7 @@ x$hello <- "world"  # add a column
 x$Species <- NULL # remove a column
 
 patch <- diff_data(y, x)
-render_diff(patch)
+render_diff(patch, title="compare x and y", pretty = TRUE)
 
 #apply patch
 y_patched <- patch_data(y, patch)

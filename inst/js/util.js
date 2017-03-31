@@ -18,6 +18,7 @@ function to_array(table){
   return view;
 }
 
+/* x: TableView.data */
 function to_objects(x){
   var keys = x[0];
   var result = [];
@@ -27,17 +28,13 @@ function to_objects(x){
   return result;
 }
 
-function diff(src, target, ids, ignore, context, show_all){
-  var alignment = daff.compareTables(src,target).align();
-  var flags = new daff.CompareFlags();
-  flags.ids = ids;
-  flags.column_to_ignore = ignore;
-  flags.unchanged_context = context;
-  flags.show_unchanged = show_all;
-  var highlighter = new daff.TableDiff(alignment,flags);
+function diff(src, target, flags){
+  var alignment = daff.compareTables(src, target).align();
+  var highlighter = new daff.TableDiff(alignment, flags);
   var data_diff = [];
   var table_diff = new daff.TableView(data_diff);
   highlighter.hilite(table_diff);
+  table_diff.summary = highlighter.getSummary()
   return table_diff;
 }
 

@@ -4,21 +4,84 @@
 \alias{diff_data}
 \title{Do a data diff}
 \usage{
-diff_data(data_ref, data, ids = NULL, ignore = NULL, context = 1L,
-  show_all = FALSE)
+diff_data(data_ref, data, always_show_header = TRUE,
+  always_show_order = FALSE, columns_to_ignore = c(),
+  count_like_a_spreadsheet = TRUE, ids = c(), ignore_whitespace = FALSE,
+  never_show_order = FALSE, ordered = TRUE, padding_strategy = c("auto",
+  "smart", "dense", "sparse"), show_meta = TRUE, show_unchanged = FALSE,
+  show_unchanged_columns = FALSE, show_unchanged_meta = FALSE,
+  unchanged_column_context = 1L, unchanged_context = 1L)
 }
 \arguments{
 \item{data_ref}{\code{data.frame} reference data frame}
 
 \item{data}{\code{data.frame} to check for changes}
 
-\item{ids}{\code{character} identification columns (not yet working)}
+\item{always_show_header}{\code{logical}
+Should we always give a table header in diffs? This defaults
+to TRUE, and - frankly - you should leave it at TRUE for now.}
 
-\item{ignore}{\code{character} columns to ignore (not yet working)}
+\item{always_show_order}{\code{logical}
+Diffs for tables where row/column order has been permuted may include
+an extra row/column specifying the changes in row/column numbers.
+If you'd like that extra row/column to always be included,
+turn on this flag, and turn off never_show_order.}
 
-\item{context}{\code{integer} number of context rows (not yet working)}
+\item{columns_to_ignore}{\code{character}
+List of columns to ignore in all calculations.  Changes
+related to these columns should be discounted.}
 
-\item{show_all}{\code{logical} show all rows or only changed rows?  (not yet working)}
+\item{count_like_a_spreadsheet}{\code{logical}
+Should column numbers, if present, be rendered spreadsheet-style
+as A,B,C,...,AA,BB,CC?  Defaults to TRUE.}
+
+\item{ids}{\code{charcter}
+List of columns that make up a primary key, if known. Otherwise heuristics are used to find a decent key (or a set of decent keys). Please set via (multiple calls of) addPrimaryKey(). This variable will be made private soon.}
+
+\item{ignore_whitespace}{\code{logical}
+Should whitespace be omitted from comparisons.  Defaults to FALSE.}
+
+\item{never_show_order}{\code{logical}
+Diffs for tables where row/column order has been permuted may include
+an extra row/column specifying the changes in row/column numbers.
+If you'd like to be sure that that row/column is *never
+included, turn on this flag, and turn off always_show_order.}
+
+\item{ordered}{\code{logical}
+Is the order of rows and columns meaningful? Defaults to `TRUE`.}
+
+\item{padding_strategy}{\code{logical}
+Strategy to use when padding columns.  Valid values are "auto",
+"smart", "dense", and "sparse".  Leave null for a sensible default.}
+
+\item{show_meta}{\code{logical}
+Show changes in column properties, not just data, if available. Defaults to TRUE.}
+
+\item{show_unchanged}{\code{logical}
+Should we show all rows in diffs?  We default to showing
+just rows that have changes (and some context rows around
+them, if row order is meaningful), but you can override
+this here.}
+
+\item{show_unchanged_columns}{\code{logical}
+Should we show all columns in diffs?  We default to showing
+just columns that have changes (and some context columns around
+them, if column order is meaningful), but you can override
+this here.  Irrespective of this flag, you can rely
+on index/key columns needed to identify rows to be included
+in the diff.}
+
+\item{show_unchanged_meta}{\code{logical}
+Show all column properties, if available, even if unchanged.
+Defaults to FALSE.}
+
+\item{unchanged_column_context}{\code{integer}
+When showing context columns around a changed column, what
+is the minimum number of such columns we should show?}
+
+\item{unchanged_context}{\code{integer}
+When showing context rows around a changed row, what
+is the minimum number of such rows we should show?}
 }
 \value{
 difference object
@@ -35,7 +98,9 @@ diff_data(x, iris)
 
 dd <- diff_data(x, iris)
 #write_diff(dd, "diff.csv")
+summary(dd)
 }
 \seealso{
 differs_from
 }
+
