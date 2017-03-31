@@ -4,7 +4,9 @@
 #'@example ./examples/patchdata.R
 #'@param data \code{data.frame} that should be patched
 #'@param patch generated with diff_data
+#'
 #'@return \code{data.frame} that has been patched.
+#'
 #'@export
 patch_data <- function(data, patch){
   stopifnot(inherits(patch, "TableView"))

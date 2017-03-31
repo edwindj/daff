@@ -59,8 +59,10 @@
 #'     is the minimum number of such rows we should show?
 #'
 #' @return difference object
-#' @export
+#'
 #' @seealso differs_from
+#'
+#' @export
 diff_data <- function(data_ref,
                       data,
                       always_show_header       = TRUE,
@@ -160,9 +162,12 @@ diff_data <- function(data_ref,
 #' @param data \code{data.frame} to check for changes
 #' @param data_ref \code{data.frame} reference data frame
 #' @param ... not further specified
+#'
 #' @return difference object
-#' @export
+#'
 #' @seealso diff_data
+#'
+#' @export
 differs_from <- function(data, data_ref, ...){
   diff_data(data_ref=data_ref, data=data, ...)
 
