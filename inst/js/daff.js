@@ -5306,10 +5306,10 @@ coopy_Mover.moveWithoutExtras = function(src,dest) {
 	}
 	blks.sort(function(a,b) {
 		var diff = blk_len.h[b] - blk_len.h[a];
-		if(diff != 0) {
-			return diff;
+		if(diff == 0) {
+			diff = a - b;
 		}
-		return a - b;
+		return diff;
 	});
 	var moved = [];
 	while(blks.length > 0) {
@@ -8105,8 +8105,10 @@ coopy_TableDiff.prototype = {
 				if(this.active_column != null) {
 					if(this.allow_update) {
 						this.active_column[j] = 1;
-						this.col_inserts++;
 					}
+				}
+				if(this.allow_update) {
+					this.col_inserts++;
 				}
 			}
 			if(cunit.r < 0 && cunit.lp() >= 0) {
@@ -8115,8 +8117,10 @@ coopy_TableDiff.prototype = {
 				if(this.active_column != null) {
 					if(this.allow_update) {
 						this.active_column[j] = 1;
-						this.col_deletes++;
 					}
+				}
+				if(this.allow_update) {
+					this.col_deletes++;
 				}
 			}
 			if(cunit.r >= 0 && cunit.lp() >= 0) {
