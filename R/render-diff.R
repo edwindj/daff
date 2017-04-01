@@ -231,6 +231,7 @@ render_diff <- function(  diff
                    '                      ],               ',
                    '         pageLength:   -1,           ',
                    '         paging:       true,         ',
+                   '         processing:   true,         ',
                    '         rowReorder:   true,         ',
                    '         select:       true,         ',
                    '    } );                             ',
