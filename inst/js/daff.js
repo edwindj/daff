@@ -7919,8 +7919,10 @@ coopy_TableDiff.prototype = {
 		this.row_reorders = 0;
 		this.col_deletes = 0;
 		this.col_inserts = 0;
+		this.col_updates = 0;
 		this.col_renames = 0;
 		this.col_reorders = 0;
+		this.column_units_updated = new haxe_ds_IntMap();
 	}
 	,setupTables: function() {
 		this.order = this.align.toOrder();
@@ -8645,6 +8647,10 @@ coopy_TableDiff.prototype = {
 					cell = this.builder.conflict(dd,dd_to_alt,dd_to);
 					this.act = this.conflict_sep;
 				}
+				if(!this.column_units_updated.h.hasOwnProperty(j)) {
+					this.column_units_updated.h[j] = true;
+					this.col_updates++;
+				}
 			}
 			if(this.act == "" && this.have_addition) {
 				this.act = "+";
@@ -8887,6 +8893,7 @@ coopy_TableDiff.prototype = {
 		ds.row_reorders = this.row_reorders;
 		ds.col_deletes = this.col_deletes;
 		ds.col_inserts = this.col_inserts;
+		ds.col_updates = this.col_updates;
 		ds.col_renames = this.col_renames;
 		ds.col_reorders = this.col_reorders;
 		ds.row_count_initial_with_header = this.align.getSource().get_height();
