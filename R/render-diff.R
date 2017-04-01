@@ -207,7 +207,6 @@ render_diff <- function(  diff
                    '                       "copy",       ',
                    '                       "csv",        ',
                    '                       "excel",      ',
-                   '                       "excelHtml5", ',
                    '                       "pdf",        ',
                    '                  ],                 ',
                    '         colReorder:   true,         ',
