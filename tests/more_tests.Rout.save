@@ -1000,6 +1000,28 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 
 > 
 > 
+> # add and reorder column
+> df <- df.orig[, c(1:2, 4, 3, 5:7)]
+> df <- cbind(df, added1=1:nrow(df.orig), added2=1:nrow(df.orig))
+> do(df.ref, df)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+  First 6 and last 6 patch lines:
+      @:@         A:A  B:B     D:C     C:D     E:E F:F       G:G    -:H    -:I
+1           !                            :                          +++    +++
+2          @@ letters ints factors doubles LETTERS  lL unchanged added1 added2
+3     1:1   +       a    1       A     1.5       A a A        aA      1      1
+4     2:2   +       b    2       B     2.5       B b B        bB      2      2
+5     3:3   +       c    3       C     3.5       C c C        cC      3      3
+6     4:4   +       d    4       D     4.5       D d D        dD      4      4
+...   ... ...     ...  ...     ...     ...     ... ...       ...    ...    ...
+23  21:21   +       u   21       U    21.5       U u U        uU     21     21
+24  22:22   +       v   22       V    22.5       V v V        vV     22     22
+25  23:23   +       w   23       W    23.5       W w W        wW     23     23
+26  24:24   +       x   24       X    24.5       X x X        xX     24     24
+27  25:25   +       y   25       Y    25.5       Y y Y        yY     25     25
+28  26:26   +       z   26       Z    26.5       Z z Z        zZ     26     26
+
+> 
 > proc.time()
    user  system elapsed 
   2.705   0.106   2.816 
