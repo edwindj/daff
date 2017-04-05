@@ -64,12 +64,12 @@ TableView <- function(ctx, df, var_name){
 print.TableView <- function(x, n=6, ...)
 {
   cat("  First", n, "and last", n, "patch lines:\n")
-  patch_data <- x$get_data()
+  patch_data <- x$get_matrix()
   p <- rbind(head(patch_data, n=n),
              "..."=rep("...", length=ncol(patch_data)),
              tail(patch_data, n=n)
   )
-  print(p, ...)
+  print(p, ..., quote=FALSE)
   cat("\n")
   invisible(x)
 }
