@@ -69,19 +69,19 @@ print.TableView <- function(x, n=6, ...)
   p <- patch_data
   if(is.null(colnames(p)))
   {
-    colnames(p) <- p[ 1, ]
-    p           <- p[-1, ]
+    colnames(p) <- p[ 1, , drop=FALSE]
+    p           <- p[-1, , drop=FALSE]
   }
 
   if(is.null(rownames(p)))
   {
-    rownames(p) <- p[ , 1]
-    p           <- p[ ,-1]
+    rownames(p) <- p[ , 1, drop=FALSE]
+    p           <- p[ ,-1, drop=FALSE]
   }
 
 
   p <- rbind(head(p, n=n),
-             "..."=rep("...", length=ncol(p)),
+             "..." = rep("...", length=ncol(p)),
              tail(p, n=n)
   )
 
