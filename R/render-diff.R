@@ -159,7 +159,7 @@ render_diff <- function(  diff
 
   if(use.DataTables && !fragment)
   {
-    templateFile <- system.file("html", "DataTables.html", package="daff", mustWork=TRUE)
+    templateFile <- system.file("html_templates", "render_diff.html", package="daff", mustWork=TRUE)
     template     <- readLines(templateFile)
     template     <- paste(template, sep="\n", collapse="\n")
 
