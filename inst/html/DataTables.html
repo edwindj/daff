@@ -1,10 +1,32 @@
-# HTML snippet for DataTables support
+</style>
 
+<!-- CSS for DataTables -->
+<style>
 table.dataTable, table.dataTable th, table.dataTable td {
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
 }
+</style>
+
+<!-- CSS for colResizable -->
+<style>
+.grip {
+	width:20px;
+	height:30px;
+	margin-top:-3px;
+	// Uncomment to show slider 'grip'
+	// background-image:url(http://bacubacu.com/colresizable/img/grip.png);
+	margin-left:-5px;
+	position:relative;
+	z-index:88;
+	cursor:e-resize}
+
+.grip:hover {
+	background-position-x:-20px}
+
+.dragging .grip {
+	background-position-x:-40px}
 </style>
 
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -38,26 +60,10 @@ table.dataTable, table.dataTable th, table.dataTable td {
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/rowreorder/1.2.0/js/dataTables.rowReorder.min.js"></script>
 
 <script type="text/javascript" charset="utf8" src="https://cdn.rawgit.com/alvaro-prieto/colResizable/master/colResizable-1.6.min.js"></script>
-<style> <!-- for colResizable -->
-.grip {
-	width:20px;
-	height:30px;
-	margin-top:-3px;
-	background-image:url(http://bacubacu.com/colresizable/img/grip.png);
-	margin-left:-5px;
-	position:relative;
-	z-index:88;
-	cursor:e-resize}
 
-.grip:hover {
-	background-position-x:-20px}
 
-.dragging .grip {
-	background-position-x:-40px}
-</style>
 
 <script type="text/javascript">
-
 $(document).ready( function() {
     var table = $("#main").DataTable(
       {
@@ -72,22 +78,25 @@ $(document).ready( function() {
          dom:          "Blfrtip",
          fixedHeader:  true,
          keys:         true,
+         language:     {
+                         search: "Filter:"
+                       },
          lengthMenu:   [
-                        [
+                         [
                            10,
                            25,
                            50,
                            100,
                            -1,
-                        ],
-                        [
+                         ],
+                         [
                            10,
                            25,
                            50,
                            100,
                            "All"
-                        ]
-                      ],
+                         ]
+                       ],
          pageLength:   -1,
          paging:       true,
          "processing": true,
