@@ -36,7 +36,8 @@ Should column numbers, if present, be rendered spreadsheet-style
 as A,B,C,...,AA,BB,CC?  Defaults to TRUE.}
 
 \item{ids}{\code{charcter}
-List of columns that make up a primary key, if known. Otherwise heuristics are used to find a decent key (or a set of decent keys). Please set via (multiple calls of) addPrimaryKey(). This variable will be made private soon.}
+List of columns that make up a primary key, if known. Otherwise
+heuristics are used to find a decent key (or a set of decent keys).}
 
 \item{ignore_whitespace}{\code{logical}
 Should whitespace be omitted from comparisons.  Defaults to FALSE.}

@@ -21,7 +21,8 @@
 #'     Should column numbers, if present, be rendered spreadsheet-style
 #'     as A,B,C,...,AA,BB,CC?  Defaults to TRUE.
 #' @param ids \code{charcter}
-#'     List of columns that make up a primary key, if known. Otherwise heuristics are used to find a decent key (or a set of decent keys). Please set via (multiple calls of) addPrimaryKey(). This variable will be made private soon.
+#'     List of columns that make up a primary key, if known. Otherwise
+#'     heuristics are used to find a decent key (or a set of decent keys).
 #' @param ignore_whitespace \code{logical}
 #'     Should whitespace be omitted from comparisons.  Defaults to FALSE.
 #' @param never_show_order \code{logical}
@@ -82,8 +83,32 @@ diff_data <- function(data_ref,
                       unchanged_context        = 1L     # rows
                       )
 {
+  # force padding_strategy to a valid value
   padding_strategy <- match.arg(padding_strategy)
   if(padding_strategy=='auto') padding_strategy=NULL
+
+  # stash object names
+  source_name <- deparse(substitute(data_ref))
+  target_name <- deparse(substitute(data    ))
+
+  # remove specified columns not present in the actual data
+  cols.either <- union(colnames(data_ref), colnames(data))
+  ids                 <- intersect(ids,                 cols.either)
+  columns_to_ignore   <- intersect(columns_to_ignore,   cols.either)
+
+  # check for and correct duplicate column names
+  if(any(duplicated(colnames(data_ref))))
+  {
+    colnames(data_ref) <- make.unique(colnames(data_ref))
+    warning("Column names have been made unique in ", sQuote(source_name), ".")
+  }
+
+  if(any(duplicated(colnames(data))))
+  {
+    colnames(data)    <- make.unique(colnames(data))
+    warning("Column names have been made unique in ", sQuote(target_name), ".")
+  }
+
 
   ctx     <- get_context()
   tv      <- TableView(ctx, data)
@@ -134,8 +159,8 @@ diff_data <- function(data_ref,
   flags   <- ctx$get("cf")
 
   # names of the compared objects
-  summary$source_name = deparse(substitute(data_ref))
-  summary$target_name = deparse(substitute(data))
+  summary$source_name = source_name
+  summary$target_name = target_name
 
   # Textual description of changes to row and column counts
   if(summary$row_count_initial == summary$row_count_final)
@@ -150,6 +175,7 @@ diff_data <- function(data_ref,
 
 
   attr(tv_diff, "summary") <- summary
+  attr(tv_diff, "flags"  ) <- flags
 
   tv_diff
 }
