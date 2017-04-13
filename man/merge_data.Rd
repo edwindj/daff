@@ -49,4 +49,3 @@ which_conflicts(merged)
 \seealso{
 \code{\link{which_conflicts}}
 }
-

@@ -185,3 +185,19 @@ do(unchanged_column_context=5)
 do(unchanged_context=0)
 do(unchanged_context=5)
 
+
+# add and reorder column
+df <- df.orig[, c(1:2, 4, 3, 5:7)]
+df <- cbind(df, added1=1:nrow(df.orig), added2=1:nrow(df.orig))
+do(df.ref, df)
+
+
+# test columns with duplicate names
+df.ref <- cbind(df.orig)
+df     <- cbind(df, df.orig)
+do()
+
+# test columns with duplicate names v2
+df.ref <- cbind(df.orig, df.orig)
+df     <- cbind(df,      df.orig)
+do()

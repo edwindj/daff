@@ -12,16 +12,20 @@
 #'
 #' @param diff generated with diff_data
 #' @param file filename or connection
-#' @export
+#'
 #' @rdname readwrite
+#'
+#' @export
 write_diff <- function(diff, file="diff.csv"){
   stopifnot(inherits(diff, "TableView"))
   cat(diff$to_csv(), file=file)
 }
 
 #' @return diff object that can be used in \code{\link{patch_data}}
-#' @export
+#'
 #' @rdname readwrite
+#'
+#' @export
 read_diff <- function(file){
   ctx <- get_context()
   diff <- TableView(ctx)

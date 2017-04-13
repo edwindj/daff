@@ -76,20 +76,20 @@ Type 'q()' to quit R.
 > do(df.ref, df)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             b    2     2.5       B       B        b B        bB
-4    -> c->NULL    3     3.5       C       C        c C        cC
-5    ->     d->    4     4.5       D       D        d D        dD
-6    ->    e->E    5     5.5       E       E        e E        eE
-... ...     ...  ...     ...     ...     ...        ...       ...
-21   ->       u   21    21.5     U->       U u U-> u U         uU
-22   ->       v   22    22.5       V       V v V-> v V         vV
-23   ->       w   23    23.5       W       W w W-> w W         wW
-24   ->       x   24    24.5       X       X x X-> x X         xX
-25   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-26   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    b       2    2.5     B       B       b B        bB       
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > 
 > # permute rows!
@@ -97,20 +97,20 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do(df.ref, df)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-        0   1       2    3   4
-1     @:@         0:0  1:1 ...
-2          @@ letters ints ...
-3    24:1   :       x   24 ...
-4    26:2   :       z   26 ...
-5     7:3           g    7 ...
-6    20:4   :       t   20 ...
-...   ... ...     ...  ... ...
-23  17:21           q   17 ...
-24   1:22   :       a    1 ...
-25  25:23           y   25 ...
-26  19:24   :       s   19 ...
-27   5:25   :       e    5 ...
-28   9:26   :       i    9 ...
+          A:A     B:B  ...
+      @@  letters ints ...
+24:1  :   x       24   ...
+26:2  :   z       26   ...
+7:3       g       7    ...
+20:4  :   t       20   ...
+15:5      o       15   ...
+...   ... ...     ...  ...
+17:21     q       17   ...
+1:22  :   a       1    ...
+25:23     y       25   ...
+19:24 :   s       19   ...
+5:25  :   e       5    ...
+9:26  :   i       9    ...
 
 > 
 > # permute cols!
@@ -118,14 +118,12 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do(df.ref, df)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0   1       2
-1   @:@         2:0
-2         !        
-3        @@ doubles
-... ... ...     ...
-11  @:@         2:0
-21        !        
-31       @@ doubles
+        C:A     F:B G:C       D:D     E:E     B:F  A:G    
+    !                         :       :       :    :      
+    @@  doubles lL  unchanged factors LETTERS ints letters
+... ... ...     ... ...       ...     ...     ...  ...    
+    !                         :       :       :    :      
+    @@  doubles lL  unchanged factors LETTERS ints letters
 
 > 
 > # add a row
@@ -134,16 +132,14 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do(df.ref, df)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3
-1    @@ letters ints doubles
-2   ...     ...  ...     ...
-3             z   26    26.5
-4   +++       n   75    14.5
-... ...     ...  ...     ...
-11   @@ letters ints doubles
-21  ...     ...  ...     ...
-31            z   26    26.5
-41  +++       n   75    14.5
+    letters ints doubles factors LETTERS lL  unchanged
+... ...     ...  ...     ...     ...     ... ...      
+    z       26   26.5    Z       Z       z Z zZ       
++++ n       75   14.5    N       N       n N nN       
+... ...     ...  ...     ...     ...     ... ...      
+... ...     ...  ...     ...     ...     ... ...      
+    z       26   26.5    Z       Z       z Z zZ       
++++ n       75   14.5    N       N       n N nN       
 
 > 
 > # remove a row
@@ -151,20 +147,18 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do(df.ref, df)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5
-1    @@ letters ints doubles factors LETTERS
-2   ...     ...  ...     ...     ...     ...
-3             t   20    20.5       T       T
-4   ---       u   21    21.5       U       U
-5             v   22    22.5       V       V
-6   ...     ...  ...     ...     ...     ...
-... ...     ...  ...     ...     ...     ...
-11   @@ letters ints doubles factors LETTERS
-21  ...     ...  ...     ...     ...     ...
-31            t   20    20.5       T       T
-41  ---       u   21    21.5       U       U
-51            v   22    22.5       V       V
-61  ...     ...  ...     ...     ...     ...
+    letters ints doubles factors LETTERS lL  ...
+... ...     ...  ...     ...     ...     ... ...
+    t       20   20.5    T       T       t T ...
+--- u       21   21.5    U       U       u U ...
+    v       22   22.5    V       V       v V ...
+... ...     ...  ...     ...     ...     ... ...
+... ...     ...  ...     ...     ...     ... ...
+... ...     ...  ...     ...     ...     ... ...
+    t       20   20.5    T       T       t T ...
+--- u       21   21.5    U       U       u U ...
+    v       22   22.5    V       V       v V ...
+... ...     ...  ...     ...     ...     ... ...
 
 > 
 > # add a column
@@ -172,20 +166,20 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do(df.ref, df)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2   3         4      5
-1     !              ...              +++
-2    @@ letters ints ... unchanged addded
-3     +       a    1 ...        aA      1
-4     +       b    2 ...        bB      2
-5     +       c    3 ...        cC      3
-6     +       d    4 ...        dD      4
-... ...     ...  ... ...       ...    ...
-23    +       u   21 ...        uU     21
-24    +       v   22 ...        vV     22
-25    +       w   23 ...        wW     23
-26    +       x   24 ...        xX     24
-27    +       y   25 ...        yY     25
-28    +       z   26 ...        zZ     26
+                 ...           +++   
+@@  letters ints ... unchanged addded
++   a       1    ... aA        1     
++   b       2    ... bB        2     
++   c       3    ... cC        3     
++   d       4    ... dD        4     
++   e       5    ... eE        5     
+... ...     ...  ... ...       ...   
++   u       21   ... uU        21    
++   v       22   ... vV        22    
++   w       23   ... wW        23    
++   x       24   ... xX        24    
++   y       25   ... yY        25    
++   z       26   ... zZ        26    
 
 > 
 > # remove a column
@@ -193,12 +187,10 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do(df.ref, df)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1
-1     !        
-2    @@ letters
-... ...     ...
-11    !        
-21   @@ letters
+                 ---             ...
+@@  letters ints doubles factors ...
+... ...     ...  ...     ...     ...
+@@  letters ints doubles factors ...
 
 > 
 > df <- df.changed
@@ -211,38 +203,38 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do(df.ref, df, always_show_header=TRUE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             b    2     2.5       B       B        b B        bB
-4    -> c->NULL    3     3.5       C       C        c C        cC
-5    ->     d->    4     4.5       D       D        d D        dD
-6    ->    e->E    5     5.5       E       E        e E        eE
-... ...     ...  ...     ...     ...     ...        ...       ...
-21   ->       u   21    21.5     U->       U u U-> u U         uU
-22   ->       v   22    22.5       V       V v V-> v V         vV
-23   ->       w   23    23.5       W       W w W-> w W         wW
-24   ->       x   24    24.5       X       X x X-> x X         xX
-25   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-26   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    b       2    2.5     B       B       b B        bB       
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(df.ref, df, always_show_header=FALSE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1   2    3   4   5          6   7
-1   ...     ... ...  ... ... ...        ... ...
-2             b   2  2.5   B   B        b B  bB
-3    -> c->NULL   3  3.5   C   C        c C  cC
-4    ->     d->   4  4.5   D   D        d D  dD
-5    ->    e->E   5  5.5   E   E        e E  eE
-6    ->   f->fg   6  6.5   F   F        f F  fF
-... ...     ... ...  ... ... ...        ... ...
-20   ->       u  21 21.5 U->   U u U-> u U   uU
-21   ->       v  22 22.5   V   V v V-> v V   vV
-22   ->       w  23 23.5   W   W w W-> w W   wW
-23   ->       x  24 24.5   X   X x X-> x X   xX
-24   ->       y  25 25.5   Y   Y y Y-> y Y   yY
-25   ->       z  26 26.5   Z   Z z Z-> z Z   zZ
+    ...     ... ...  ... ... ...        ...
+    b       2   2.5  B   B   b B        bB 
+->  c->NULL 3   3.5  C   C   c C        cC 
+->  d->     4   4.5  D   D   d D        dD 
+->  e->E    5   5.5  E   E   e E        eE 
+->  f->fg   6   6.5  F   F   f F        fF 
+    g       7   7.5  G   G   g G        gG 
+... ...     ... ...  ... ... ...        ...
+->  u       21  21.5 U-> U   u U-> u U  uU 
+->  v       22  22.5 V   V   v V-> v V  vV 
+->  w       23  23.5 W   W   w W-> w W  wW 
+->  x       24  24.5 X   X   x X-> x X  xX 
+->  y       25  25.5 Y   Y   y Y-> y Y  yY 
+->  z       26  26.5 Z   Z   z Z-> z Z  zZ 
 
 > 
 > 
@@ -251,38 +243,38 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do(always_show_order=FALSE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             b    2     2.5       B       B        b B        bB
-4    -> c->NULL    3     3.5       C       C        c C        cC
-5    ->     d->    4     4.5       D       D        d D        dD
-6    ->    e->E    5     5.5       E       E        e E        eE
-... ...     ...  ...     ...     ...     ...        ...       ...
-21   ->       u   21    21.5     U->       U u U-> u U         uU
-22   ->       v   22    22.5       V       V v V-> v V         vV
-23   ->       w   23    23.5       W       W w W-> w W         wW
-24   ->       x   24    24.5       X       X x X-> x X         xX
-25   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-26   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    b       2    2.5     B       B       b B        bB       
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(always_show_order=TRUE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-        0   1       2    3       4       5       6          7         8
-1     @:@         0:0  1:1     2:2     3:3     4:4        5:5       6:6
-2          @@ letters ints doubles factors LETTERS         lL unchanged
-3         ...     ...  ...     ...     ...     ...        ...       ...
-4     2:2           b    2     2.5       B       B        b B        bB
-5     3:3  -> c->NULL    3     3.5       C       C        c C        cC
-6     4:4  ->     d->    4     4.5       D       D        d D        dD
-...   ... ...     ...  ...     ...     ...     ...        ...       ...
-22  21:21  ->       u   21    21.5     U->       U u U-> u U         uU
-23  22:22  ->       v   22    22.5       V       V v V-> v V         vV
-24  23:23  ->       w   23    23.5       W       W w W-> w W         wW
-25  24:24  ->       x   24    24.5       X       X x X-> x X         xX
-26  25:25  ->       y   25    25.5       Y       Y y Y-> y Y         yY
-27  26:26  ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+          A:A     B:B  C:C     D:D     E:E     F:F        G:G      
+      @@  letters ints doubles factors LETTERS lL         unchanged
+      ... ...     ...  ...     ...     ...     ...        ...      
+2:2       b       2    2.5     B       B       b B        bB       
+3:3   ->  c->NULL 3    3.5     C       C       c C        cC       
+4:4   ->  d->     4    4.5     D       D       d D        dD       
+5:5   ->  e->E    5    5.5     E       E       e E        eE       
+...   ... ...     ...  ...     ...     ...     ...        ...      
+21:21 ->  u       21   21.5    U->     U       u U-> u U  uU       
+22:22 ->  v       22   22.5    V       V       v V-> v V  vV       
+23:23 ->  w       23   23.5    W       W       w W-> w W  wW       
+24:24 ->  x       24   24.5    X       X       x X-> x X  xX       
+25:25 ->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+26:26 ->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > 
 > df.ref <- df.orig
@@ -290,74 +282,74 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do(columns_to_ignore=NULL)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             b    2     2.5       B       B        b B        bB
-4    -> c->NULL    3     3.5       C       C        c C        cC
-5    ->     d->    4     4.5       D       D        d D        dD
-6    ->    e->E    5     5.5       E       E        e E        eE
-... ...     ...  ...     ...     ...     ...        ...       ...
-21   ->       u   21    21.5     U->       U u U-> u U         uU
-22   ->       v   22    22.5       V       V v V-> v V         vV
-23   ->       w   23    23.5       W       W w W-> w W         wW
-24   ->       x   24    24.5       X       X x X-> x X         xX
-25   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-26   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    b       2    2.5     B       B       b B        bB       
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(columns_to_ignore=c())
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             b    2     2.5       B       B        b B        bB
-4    -> c->NULL    3     3.5       C       C        c C        cC
-5    ->     d->    4     4.5       D       D        d D        dD
-6    ->    e->E    5     5.5       E       E        e E        eE
-... ...     ...  ...     ...     ...     ...        ...       ...
-21   ->       u   21    21.5     U->       U u U-> u U         uU
-22   ->       v   22    22.5       V       V v V-> v V         vV
-23   ->       w   23    23.5       W       W w W-> w W         wW
-24   ->       x   24    24.5       X       X x X-> x X         xX
-25   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-26   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    b       2    2.5     B       B       b B        bB       
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(columns_to_ignore=c("ints", "letters"))
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0        1       2       3          4         5
-1    @@  doubles factors LETTERS         lL unchanged
-2   ...      ...     ...     ...        ...       ...
-3           10.5       J       J        j J        jJ
-4    ->     11.5       K       K  k K-> k K        kK
-5    ->     12.5       L       L  l L-> l L        lL
-6    -> 13.5->NA       M       M  m M-> m M        mM
-... ...      ...     ...     ...        ...       ...
-14   ->     21.5     U->       U u U-> u U         uU
-15   ->     22.5       V       V v V-> v V         vV
-16   ->     23.5       W       W w W-> w W         wW
-17   ->     24.5       X       X x X-> x X         xX
-18   ->     25.5       Y       Y y Y-> y Y         yY
-19   ->     26.5       Z       Z z Z-> z Z         zZ
+    doubles   factors LETTERS lL         unchanged
+... ...       ...     ...     ...        ...      
+    10.5      J       J       j J        jJ       
+->  11.5      K       K       k K-> k K  kK       
+->  12.5      L       L       l L-> l L  lL       
+->  13.5->NA  M       M       m M-> m M  mM       
+->  14.5->0.1 N       N       n N-> n N  nN       
+... ...       ...     ...     ...        ...      
+->  21.5      U->     U       u U-> u U  uU       
+->  22.5      V       V       v V-> v V  vV       
+->  23.5      W       W       w W-> w W  wW       
+->  24.5      X       X       x X-> x X  xX       
+->  25.5      Y       Y       y Y-> y Y  yY       
+->  26.5      Z       Z       z Z-> z Z  zZ       
 
 > do(columns_to_ignore=c("letters"))
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0    1        2       3       4          5         6
-1    @@ ints  doubles factors LETTERS         lL unchanged
-2   ...  ...      ...     ...     ...        ...       ...
-3         10     10.5       J       J        j J        jJ
-4    ->   11     11.5       K       K  k K-> k K        kK
-5    ->   12     12.5       L       L  l L-> l L        lL
-6    ->   13 13.5->NA       M       M  m M-> m M        mM
-... ...  ...      ...     ...     ...        ...       ...
-14   ->   21     21.5     U->       U u U-> u U         uU
-15   ->   22     22.5       V       V v V-> v V         vV
-16   ->   23     23.5       W       W w W-> w W         wW
-17   ->   24     24.5       X       X x X-> x X         xX
-18   ->   25     25.5       Y       Y y Y-> y Y         yY
-19   ->   26     26.5       Z       Z z Z-> z Z         zZ
+    ints doubles   factors LETTERS lL         unchanged
+... ...  ...       ...     ...     ...        ...      
+    10   10.5      J       J       j J        jJ       
+->  11   11.5      K       K       k K-> k K  kK       
+->  12   12.5      L       L       l L-> l L  lL       
+->  13   13.5->NA  M       M       m M-> m M  mM       
+->  14   14.5->0.1 N       N       n N-> n N  nN       
+... ...  ...       ...     ...     ...        ...      
+->  21   21.5      U->     U       u U-> u U  uU       
+->  22   22.5      V       V       v V-> v V  vV       
+->  23   23.5      W       W       w W-> w W  wW       
+->  24   24.5      X       X       x X-> x X  xX       
+->  25   25.5      Y       Y       y Y-> y Y  yY       
+->  26   26.5      Z       Z       z Z-> z Z  zZ       
 
 > 
 > 
@@ -366,56 +358,56 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do(count_like_a_spreadsheet=NULL,  always_show_order=TRUE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-        0   1       2    3       4       5       6          7         8
-1     @:@         A:A  B:B     C:C     D:D     E:E        F:F       G:G
-2          @@ letters ints doubles factors LETTERS         lL unchanged
-3         ...     ...  ...     ...     ...     ...        ...       ...
-4     2:2           b    2     2.5       B       B        b B        bB
-5     3:3  -> c->NULL    3     3.5       C       C        c C        cC
-6     4:4  ->     d->    4     4.5       D       D        d D        dD
-...   ... ...     ...  ...     ...     ...     ...        ...       ...
-22  21:21  ->       u   21    21.5     U->       U u U-> u U         uU
-23  22:22  ->       v   22    22.5       V       V v V-> v V         vV
-24  23:23  ->       w   23    23.5       W       W w W-> w W         wW
-25  24:24  ->       x   24    24.5       X       X x X-> x X         xX
-26  25:25  ->       y   25    25.5       Y       Y y Y-> y Y         yY
-27  26:26  ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+          A:A     B:B  C:C     D:D     E:E     F:F        G:G      
+      @@  letters ints doubles factors LETTERS lL         unchanged
+      ... ...     ...  ...     ...     ...     ...        ...      
+2:2       b       2    2.5     B       B       b B        bB       
+3:3   ->  c->NULL 3    3.5     C       C       c C        cC       
+4:4   ->  d->     4    4.5     D       D       d D        dD       
+5:5   ->  e->E    5    5.5     E       E       e E        eE       
+...   ... ...     ...  ...     ...     ...     ...        ...      
+21:21 ->  u       21   21.5    U->     U       u U-> u U  uU       
+22:22 ->  v       22   22.5    V       V       v V-> v V  vV       
+23:23 ->  w       23   23.5    W       W       w W-> w W  wW       
+24:24 ->  x       24   24.5    X       X       x X-> x X  xX       
+25:25 ->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+26:26 ->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(count_like_a_spreadsheet=TRUE,  always_show_order=TRUE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-        0   1       2    3       4       5       6          7         8
-1     @:@         A:A  B:B     C:C     D:D     E:E        F:F       G:G
-2          @@ letters ints doubles factors LETTERS         lL unchanged
-3         ...     ...  ...     ...     ...     ...        ...       ...
-4     2:2           b    2     2.5       B       B        b B        bB
-5     3:3  -> c->NULL    3     3.5       C       C        c C        cC
-6     4:4  ->     d->    4     4.5       D       D        d D        dD
-...   ... ...     ...  ...     ...     ...     ...        ...       ...
-22  21:21  ->       u   21    21.5     U->       U u U-> u U         uU
-23  22:22  ->       v   22    22.5       V       V v V-> v V         vV
-24  23:23  ->       w   23    23.5       W       W w W-> w W         wW
-25  24:24  ->       x   24    24.5       X       X x X-> x X         xX
-26  25:25  ->       y   25    25.5       Y       Y y Y-> y Y         yY
-27  26:26  ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+          A:A     B:B  C:C     D:D     E:E     F:F        G:G      
+      @@  letters ints doubles factors LETTERS lL         unchanged
+      ... ...     ...  ...     ...     ...     ...        ...      
+2:2       b       2    2.5     B       B       b B        bB       
+3:3   ->  c->NULL 3    3.5     C       C       c C        cC       
+4:4   ->  d->     4    4.5     D       D       d D        dD       
+5:5   ->  e->E    5    5.5     E       E       e E        eE       
+...   ... ...     ...  ...     ...     ...     ...        ...      
+21:21 ->  u       21   21.5    U->     U       u U-> u U  uU       
+22:22 ->  v       22   22.5    V       V       v V-> v V  vV       
+23:23 ->  w       23   23.5    W       W       w W-> w W  wW       
+24:24 ->  x       24   24.5    X       X       x X-> x X  xX       
+25:25 ->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+26:26 ->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(count_like_a_spreadsheet=FALSE, always_show_order=TRUE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-        0   1       2    3       4       5       6          7         8
-1     @:@         0:0  1:1     2:2     3:3     4:4        5:5       6:6
-2          @@ letters ints doubles factors LETTERS         lL unchanged
-3         ...     ...  ...     ...     ...     ...        ...       ...
-4     2:2           b    2     2.5       B       B        b B        bB
-5     3:3  -> c->NULL    3     3.5       C       C        c C        cC
-6     4:4  ->     d->    4     4.5       D       D        d D        dD
-...   ... ...     ...  ...     ...     ...     ...        ...       ...
-22  21:21  ->       u   21    21.5     U->       U u U-> u U         uU
-23  22:22  ->       v   22    22.5       V       V v V-> v V         vV
-24  23:23  ->       w   23    23.5       W       W w W-> w W         wW
-25  24:24  ->       x   24    24.5       X       X x X-> x X         xX
-26  25:25  ->       y   25    25.5       Y       Y y Y-> y Y         yY
-27  26:26  ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+          0:0     1:1  2:2     3:3     4:4     5:5        6:6      
+      @@  letters ints doubles factors LETTERS lL         unchanged
+      ... ...     ...  ...     ...     ...     ...        ...      
+2:2       b       2    2.5     B       B       b B        bB       
+3:3   ->  c->NULL 3    3.5     C       C       c C        cC       
+4:4   ->  d->     4    4.5     D       D       d D        dD       
+5:5   ->  e->E    5    5.5     E       E       e E        eE       
+...   ... ...     ...  ...     ...     ...     ...        ...      
+21:21 ->  u       21   21.5    U->     U       u U-> u U  uU       
+22:22 ->  v       22   22.5    V       V       v V-> v V  vV       
+23:23 ->  w       23   23.5    W       W       w W-> w W  wW       
+24:24 ->  x       24   24.5    X       X       x X-> x X  xX       
+25:25 ->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+26:26 ->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > 
 > 
@@ -426,56 +418,56 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do(ids=NULL)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1      2       3       4       5          6         7
-1    @@ letters   ints doubles factors LETTERS         lL unchanged
-2    ->       a  1->18     1.5       A       A        a A    aA->zZ
-3    ->       b   2->1     2.5       B       B        b B    bB->yY
-4    -> c->NULL  3->22     3.5       C       C        c C    cC->xX
-5    ->     d->   4->1     4.5       D       D        d D    dD->wW
-6    ->    e->E   5->6     5.5       E       E        e E    eE->vV
-... ...     ...    ...     ...     ...     ...        ...       ...
-22   ->       u     21    21.5     U->       U u U-> u U     uU->fF
-23   ->       v  22->2    22.5       V       V v V-> v V     vV->eE
-24   ->       w 23->20    23.5       W       W w W-> w W     wW->dD
-25   ->       x 24->18    24.5       X       X x X-> x X     xX->cC
-26   ->       y  25->5    25.5       Y       Y y Y-> y Y     yY->bB
-27   ->       z  26->7    26.5       Z       Z z Z-> z Z     zZ->aA
+    letters ints   doubles factors LETTERS lL         unchanged
+->  a       1->18  1.5     A       A       a A        aA->zZ   
+->  b       2->1   2.5     B       B       b B        bB->yY   
+->  c->NULL 3->22  3.5     C       C       c C        cC->xX   
+->  d->     4->1   4.5     D       D       d D        dD->wW   
+->  e->E    5->6   5.5     E       E       e E        eE->vV   
+->  f->fg   6->24  6.5     F       F       f F        fF->uU   
+... ...     ...    ...     ...     ...     ...        ...      
+->  u       21     21.5    U->     U       u U-> u U  uU->fF   
+->  v       22->2  22.5    V       V       v V-> v V  vV->eE   
+->  w       23->20 23.5    W       W       w W-> w W  wW->dD   
+->  x       24->18 24.5    X       X       x X-> x X  xX->cC   
+->  y       25->5  25.5    Y       Y       y Y-> y Y  yY->bB   
+->  z       26->7  26.5    Z       Z       z Z-> z Z  zZ->aA   
 
 > do(ids=c("ints", "letters"))
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1      2       3       4       5          6         7
-1    @@ letters   ints doubles factors LETTERS         lL unchanged
-2    ->       a  1->18     1.5       A       A        a A    aA->zZ
-3    ->       b   2->1     2.5       B       B        b B    bB->yY
-4    -> c->NULL  3->22     3.5       C       C        c C    cC->xX
-5    ->     d->   4->1     4.5       D       D        d D    dD->wW
-6    ->    e->E   5->6     5.5       E       E        e E    eE->vV
-... ...     ...    ...     ...     ...     ...        ...       ...
-22   ->       u     21    21.5     U->       U u U-> u U     uU->fF
-23   ->       v  22->2    22.5       V       V v V-> v V     vV->eE
-24   ->       w 23->20    23.5       W       W w W-> w W     wW->dD
-25   ->       x 24->18    24.5       X       X x X-> x X     xX->cC
-26   ->       y  25->5    25.5       Y       Y y Y-> y Y     yY->bB
-27   ->       z  26->7    26.5       Z       Z z Z-> z Z     zZ->aA
+    letters ints   doubles factors LETTERS lL         unchanged
+->  a       1->18  1.5     A       A       a A        aA->zZ   
+->  b       2->1   2.5     B       B       b B        bB->yY   
+->  c->NULL 3->22  3.5     C       C       c C        cC->xX   
+->  d->     4->1   4.5     D       D       d D        dD->wW   
+->  e->E    5->6   5.5     E       E       e E        eE->vV   
+->  f->fg   6->24  6.5     F       F       f F        fF->uU   
+... ...     ...    ...     ...     ...     ...        ...      
+->  u       21     21.5    U->     U       u U-> u U  uU->fF   
+->  v       22->2  22.5    V       V       v V-> v V  vV->eE   
+->  w       23->20 23.5    W       W       w W-> w W  wW->dD   
+->  x       24->18 24.5    X       X       x X-> x X  xX->cC   
+->  y       25->5  25.5    Y       Y       y Y-> y Y  yY->bB   
+->  z       26->7  26.5    Z       Z       z Z-> z Z  zZ->aA   
 
 > do(ids=c(""))
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1      2       3       4       5          6         7
-1    @@ letters   ints doubles factors LETTERS         lL unchanged
-2    ->       a  1->18     1.5       A       A        a A    aA->zZ
-3    ->       b   2->1     2.5       B       B        b B    bB->yY
-4    -> c->NULL  3->22     3.5       C       C        c C    cC->xX
-5    ->     d->   4->1     4.5       D       D        d D    dD->wW
-6    ->    e->E   5->6     5.5       E       E        e E    eE->vV
-... ...     ...    ...     ...     ...     ...        ...       ...
-22   ->       u     21    21.5     U->       U u U-> u U     uU->fF
-23   ->       v  22->2    22.5       V       V v V-> v V     vV->eE
-24   ->       w 23->20    23.5       W       W w W-> w W     wW->dD
-25   ->       x 24->18    24.5       X       X x X-> x X     xX->cC
-26   ->       y  25->5    25.5       Y       Y y Y-> y Y     yY->bB
-27   ->       z  26->7    26.5       Z       Z z Z-> z Z     zZ->aA
+    letters ints   doubles factors LETTERS lL         unchanged
+->  a       1->18  1.5     A       A       a A        aA->zZ   
+->  b       2->1   2.5     B       B       b B        bB->yY   
+->  c->NULL 3->22  3.5     C       C       c C        cC->xX   
+->  d->     4->1   4.5     D       D       d D        dD->wW   
+->  e->E    5->6   5.5     E       E       e E        eE->vV   
+->  f->fg   6->24  6.5     F       F       f F        fF->uU   
+... ...     ...    ...     ...     ...     ...        ...      
+->  u       21     21.5    U->     U       u U-> u U  uU->fF   
+->  v       22->2  22.5    V       V       v V-> v V  vV->eE   
+->  w       23->20 23.5    W       W       w W-> w W  wW->dD   
+->  x       24->18 24.5    X       X       x X-> x X  xX->cC   
+->  y       25->5  25.5    Y       Y       y Y-> y Y  yY->bB   
+->  z       26->7  26.5    Z       Z       z Z-> z Z  zZ->aA   
 
 > 
 > df.ref <- df.orig
@@ -483,74 +475,74 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do()
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             b    2     2.5       B       B        b B        bB
-4    -> c->NULL    3     3.5       C       C        c C        cC
-5    ->     d->    4     4.5       D       D        d D        dD
-6    ->    e->E    5     5.5       E       E        e E        eE
-... ...     ...  ...     ...     ...     ...        ...       ...
-21   ->       u   21    21.5     U->       U u U-> u U         uU
-22   ->       v   22    22.5       V       V v V-> v V         vV
-23   ->       w   23    23.5       W       W w W-> w W         wW
-24   ->       x   24    24.5       X       X x X-> x X         xX
-25   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-26   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    b       2    2.5     B       B       b B        bB       
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(ignore_whitespace=NULL)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5   6
-1    @@ letters ints doubles factors LETTERS ...
-2   ...     ...  ...     ...     ...     ... ...
-3             b    2     2.5       B       B ...
-4    -> c->NULL    3     3.5       C       C ...
-5    ->     d->    4     4.5       D       D ...
-6    ->    e->E    5     5.5       E       E ...
-... ...     ...  ...     ...     ...     ... ...
-16   ->       r   18    18.5 R->NULL       R ...
-17   ->       s   19    19.5    S->Z       S ...
-18   ->       t   20    20.5    T->t       T ...
-19   ->       u   21    21.5     U->       U ...
-20            v   22    22.5       V       V ...
-21  ...     ...  ...     ...     ...     ... ...
+    letters ints doubles factors LETTERS ...
+... ...     ...  ...     ...     ...     ...
+    b       2    2.5     B       B       ...
+->  c->NULL 3    3.5     C       C       ...
+->  d->     4    4.5     D       D       ...
+->  e->E    5    5.5     E       E       ...
+->  f->fg   6    6.5     F       F       ...
+... ...     ...  ...     ...     ...     ...
+->  r       18   18.5    R->NULL R       ...
+->  s       19   19.5    S->Z    S       ...
+->  t       20   20.5    T->t    T       ...
+->  u       21   21.5    U->     U       ...
+    v       22   22.5    V       V       ...
+... ...     ...  ...     ...     ...     ...
 
 > do(ignore_whitespace=FALSE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             b    2     2.5       B       B        b B        bB
-4    -> c->NULL    3     3.5       C       C        c C        cC
-5    ->     d->    4     4.5       D       D        d D        dD
-6    ->    e->E    5     5.5       E       E        e E        eE
-... ...     ...  ...     ...     ...     ...        ...       ...
-21   ->       u   21    21.5     U->       U u U-> u U         uU
-22   ->       v   22    22.5       V       V v V-> v V         vV
-23   ->       w   23    23.5       W       W w W-> w W         wW
-24   ->       x   24    24.5       X       X x X-> x X         xX
-25   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-26   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    b       2    2.5     B       B       b B        bB       
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(ignore_whitespace=TRUE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5   6
-1    @@ letters ints doubles factors LETTERS ...
-2   ...     ...  ...     ...     ...     ... ...
-3             b    2     2.5       B       B ...
-4    -> c->NULL    3     3.5       C       C ...
-5    ->     d->    4     4.5       D       D ...
-6    ->    e->E    5     5.5       E       E ...
-... ...     ...  ...     ...     ...     ... ...
-16   ->       r   18    18.5 R->NULL       R ...
-17   ->       s   19    19.5    S->Z       S ...
-18   ->       t   20    20.5    T->t       T ...
-19   ->       u   21    21.5     U->       U ...
-20            v   22    22.5       V       V ...
-21  ...     ...  ...     ...     ...     ... ...
+    letters ints doubles factors LETTERS ...
+... ...     ...  ...     ...     ...     ...
+    b       2    2.5     B       B       ...
+->  c->NULL 3    3.5     C       C       ...
+->  d->     4    4.5     D       D       ...
+->  e->E    5    5.5     E       E       ...
+->  f->fg   6    6.5     F       F       ...
+... ...     ...  ...     ...     ...     ...
+->  r       18   18.5    R->NULL R       ...
+->  s       19   19.5    S->Z    S       ...
+->  t       20   20.5    T->t    T       ...
+->  u       21   21.5    U->     U       ...
+    v       22   22.5    V       V       ...
+... ...     ...  ...     ...     ...     ...
 
 > 
 > df.ref <- df.orig
@@ -558,74 +550,74 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do()
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             b    2     2.5       B       B        b B        bB
-4    -> c->NULL    3     3.5       C       C        c C        cC
-5    ->     d->    4     4.5       D       D        d D        dD
-6    ->    e->E    5     5.5       E       E        e E        eE
-... ...     ...  ...     ...     ...     ...        ...       ...
-21   ->       u   21    21.5     U->       U u U-> u U         uU
-22   ->       v   22    22.5       V       V v V-> v V         vV
-23   ->       w   23    23.5       W       W w W-> w W         wW
-24   ->       x   24    24.5       X       X x X-> x X         xX
-25   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-26   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    b       2    2.5     B       B       b B        bB       
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(never_show_order=NULL)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             b    2     2.5       B       B        b B        bB
-4    -> c->NULL    3     3.5       C       C        c C        cC
-5    ->     d->    4     4.5       D       D        d D        dD
-6    ->    e->E    5     5.5       E       E        e E        eE
-... ...     ...  ...     ...     ...     ...        ...       ...
-21   ->       u   21    21.5     U->       U u U-> u U         uU
-22   ->       v   22    22.5       V       V v V-> v V         vV
-23   ->       w   23    23.5       W       W w W-> w W         wW
-24   ->       x   24    24.5       X       X x X-> x X         xX
-25   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-26   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    b       2    2.5     B       B       b B        bB       
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(never_show_order=FALSE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             b    2     2.5       B       B        b B        bB
-4    -> c->NULL    3     3.5       C       C        c C        cC
-5    ->     d->    4     4.5       D       D        d D        dD
-6    ->    e->E    5     5.5       E       E        e E        eE
-... ...     ...  ...     ...     ...     ...        ...       ...
-21   ->       u   21    21.5     U->       U u U-> u U         uU
-22   ->       v   22    22.5       V       V v V-> v V         vV
-23   ->       w   23    23.5       W       W w W-> w W         wW
-24   ->       x   24    24.5       X       X x X-> x X         xX
-25   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-26   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    b       2    2.5     B       B       b B        bB       
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(never_show_order=TRUE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             b    2     2.5       B       B        b B        bB
-4    -> c->NULL    3     3.5       C       C        c C        cC
-5    ->     d->    4     4.5       D       D        d D        dD
-6    ->    e->E    5     5.5       E       E        e E        eE
-... ...     ...  ...     ...     ...     ...        ...       ...
-21   ->       u   21    21.5     U->       U u U-> u U         uU
-22   ->       v   22    22.5       V       V v V-> v V         vV
-23   ->       w   23    23.5       W       W w W-> w W         wW
-24   ->       x   24    24.5       X       X x X-> x X         xX
-25   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-26   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    b       2    2.5     B       B       b B        bB       
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > 
 > tmp <- df.changed
@@ -633,74 +625,74 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do(y=tmp)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             b    2     2.5       B       B        b B        bB
-4    -> c->NULL    3     3.5       C       C        c C        cC
-5    ->     d->    4     4.5       D       D        d D        dD
-6    ->    e->E    5     5.5       E       E        e E        eE
-... ...     ...  ...     ...     ...     ...        ...       ...
-21   ->       u   21    21.5     U->       U u U-> u U         uU
-22   ->       v   22    22.5       V       V v V-> v V         vV
-23   ->       w   23    23.5       W       W w W-> w W         wW
-24   ->       x   24    24.5       X       X x X-> x X         xX
-25   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-26   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    b       2    2.5     B       B       b B        bB       
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(y=tmp, ordered=NULL)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             b    2     2.5       B       B        b B        bB
-4    -> c->NULL    3     3.5       C       C        c C        cC
-5    ->     d->    4     4.5       D       D        d D        dD
-6    ->    e->E    5     5.5       E       E        e E        eE
-... ...     ...  ...     ...     ...     ...        ...       ...
-21   ->       u   21    21.5     U->       U u U-> u U         uU
-22   ->       v   22    22.5       V       V v V-> v V         vV
-23   ->       w   23    23.5       W       W w W-> w W         wW
-24   ->       x   24    24.5       X       X x X-> x X         xX
-25   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-26   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    b       2    2.5     B       B       b B        bB       
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(y=tmp, ordered=TRUE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             b    2     2.5       B       B        b B        bB
-4    -> c->NULL    3     3.5       C       C        c C        cC
-5    ->     d->    4     4.5       D       D        d D        dD
-6    ->    e->E    5     5.5       E       E        e E        eE
-... ...     ...  ...     ...     ...     ...        ...       ...
-21   ->       u   21    21.5     U->       U u U-> u U         uU
-22   ->       v   22    22.5       V       V v V-> v V         vV
-23   ->       w   23    23.5       W       W w W-> w W         wW
-24   ->       x   24    24.5       X       X x X-> x X         xX
-25   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-26   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    b       2    2.5     B       B       b B        bB       
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(y=tmp, ordered=FALSE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             b    2     2.5       B       B        b B        bB
-4    -> c->NULL    3     3.5       C       C        c C        cC
-5    ->     d->    4     4.5       D       D        d D        dD
-6    ->    e->E    5     5.5       E       E        e E        eE
-... ...     ...  ...     ...     ...     ...        ...       ...
-21   ->       u   21    21.5     U->       U u U-> u U         uU
-22   ->       v   22    22.5       V       V v V-> v V         vV
-23   ->       w   23    23.5       W       W w W-> w W         wW
-24   ->       x   24    24.5       X       X x X-> x X         xX
-25   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-26   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    b       2    2.5     B       B       b B        bB       
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > 
 > df.ref <- df.orig
@@ -708,74 +700,74 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do(padding_strategy="auto"  )
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             t   20    20.5       T       T        t T        tT
-4    ->       u   21    21.5     U->       U u U-> u U         uU
-5    ->       v   22    22.5       V       V v V-> v V         vV
-6    ->       w   23    23.5       W       W w W-> w W         wW
-... ...     ...  ...     ...     ...     ...        ...       ...
-41   ->       u   21    21.5     U->       U u U-> u U         uU
-51   ->       v   22    22.5       V       V v V-> v V         vV
-61   ->       w   23    23.5       W       W w W-> w W         wW
-7    ->       x   24    24.5       X       X x X-> x X         xX
-8    ->       y   25    25.5       Y       Y y Y-> y Y         yY
-9    ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    t       20   20.5    T       T       t T        tT       
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(padding_strategy="smart" )
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             t   20    20.5       T       T        t T        tT
-4    ->       u   21    21.5     U->       U u U-> u U         uU
-5    ->       v   22    22.5       V       V v V-> v V         vV
-6    ->       w   23    23.5       W       W w W-> w W         wW
-... ...     ...  ...     ...     ...     ...        ...       ...
-41   ->       u   21    21.5     U->       U u U-> u U         uU
-51   ->       v   22    22.5       V       V v V-> v V         vV
-61   ->       w   23    23.5       W       W w W-> w W         wW
-7    ->       x   24    24.5       X       X x X-> x X         xX
-8    ->       y   25    25.5       Y       Y y Y-> y Y         yY
-9    ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    t       20   20.5    T       T       t T        tT       
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(padding_strategy="dense" )
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             t   20    20.5       T       T        t T        tT
-4    ->       u   21    21.5     U->       U u U-> u U         uU
-5    ->       v   22    22.5       V       V v V-> v V         vV
-6    ->       w   23    23.5       W       W w W-> w W         wW
-... ...     ...  ...     ...     ...     ...        ...       ...
-41   ->       u   21    21.5     U->       U u U-> u U         uU
-51   ->       v   22    22.5       V       V v V-> v V         vV
-61   ->       w   23    23.5       W       W w W-> w W         wW
-7    ->       x   24    24.5       X       X x X-> x X         xX
-8    ->       y   25    25.5       Y       Y y Y-> y Y         yY
-9    ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    t       20   20.5    T       T       t T        tT       
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(padding_strategy="sparse")
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             t   20    20.5       T       T        t T        tT
-4    ->       u   21    21.5     U->       U u U-> u U         uU
-5    ->       v   22    22.5       V       V v V-> v V         vV
-6    ->       w   23    23.5       W       W w W-> w W         wW
-... ...     ...  ...     ...     ...     ...        ...       ...
-41   ->       u   21    21.5     U->       U u U-> u U         uU
-51   ->       v   22    22.5       V       V v V-> v V         vV
-61   ->       w   23    23.5       W       W w W-> w W         wW
-7    ->       x   24    24.5       X       X x X-> x X         xX
-8    ->       y   25    25.5       Y       Y y Y-> y Y         yY
-9    ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    t       20   20.5    T       T       t T        tT       
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > 
 > df.ref <- df.orig
@@ -783,38 +775,38 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do(show_unchanged=TRUE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2             a    1     1.5       A    <NA>        a A      <NA>
-3             b    2     2.5       B    <NA>        b B      <NA>
-4             c    3     3.5       C    <NA>        c C      <NA>
-5             d    4     4.5       D    <NA>        d D      <NA>
-6             e    5     5.5       E    <NA>        e E      <NA>
-... ...     ...  ...     ...     ...     ...        ...       ...
-42   ->       u   21    21.5     U->       U u U-> u U         uU
-43   ->       v   22    22.5       V       V v V-> v V         vV
-44   ->       w   23    23.5       W       W w W-> w W         wW
-45   ->       x   24    24.5       X       X x X-> x X         xX
-46   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-47   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+    a       1    1.5     A       <NA>    a A        <NA>     
+    b       2    2.5     B       <NA>    b B        <NA>     
+    c       3    3.5     C       <NA>    c C        <NA>     
+    d       4    4.5     D       <NA>    d D        <NA>     
+    e       5    5.5     E       <NA>    e E        <NA>     
+    f       6    6.5     F       <NA>    f F        <NA>     
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(show_unchanged=FALSE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             t   20    20.5       T       T        t T        tT
-4   +++       a    1     1.5       A       A        a A        aA
-5   +++       b    2     2.5       B       B        b B        bB
-6   +++    <NA>    3     3.5       C       C        c C        cC
-... ...     ...  ...     ...     ...     ...        ...       ...
-24   ->       u   21    21.5     U->       U u U-> u U         uU
-25   ->       v   22    22.5       V       V v V-> v V         vV
-26   ->       w   23    23.5       W       W w W-> w W         wW
-27   ->       x   24    24.5       X       X x X-> x X         xX
-28   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-29   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    t       20   20.5    T       T       t T        tT       
++++ a       1    1.5     A       A       a A        aA       
++++ b       2    2.5     B       B       b B        bB       
++++ <NA>    3    3.5     C       C       c C        cC       
++++         4    4.5     D       D       d D        dD       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > 
 > 
@@ -823,38 +815,38 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do(show_unchanged_columns=TRUE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5   6         7
-1    @@ letters ints doubles factors LETTERS  lL unchanged
-2   ...     ...  ...     ...     ...     ... ...       ...
-3             b    2     2.5       B       B b B        bB
-4    -> c->NULL    3     3.5       C       C c C        cC
-5    ->     d->    4     4.5       D       D d D        dD
-6    ->    e->E    5     5.5       E       E e E        eE
-... ...     ...  ...     ...     ...     ... ...       ...
-41   -> c->NULL    3     3.5       C       C c C        cC
-51   ->     d->    4     4.5       D       D d D        dD
-61   ->    e->E    5     5.5       E       E e E        eE
-7    ->   f->fg    6     6.5       F       F f F        fF
-8             g    7     7.5       G       G g G        gG
-9   ...     ...  ...     ...     ...     ... ...       ...
+    letters ints doubles factors LETTERS lL  unchanged
+... ...     ...  ...     ...     ...     ... ...      
+    b       2    2.5     B       B       b B bB       
+->  c->NULL 3    3.5     C       C       c C cC       
+->  d->     4    4.5     D       D       d D dD       
+->  e->E    5    5.5     E       E       e E eE       
+->  f->fg   6    6.5     F       F       f F fF       
+... ...     ...  ...     ...     ...     ... ...      
+->  c->NULL 3    3.5     C       C       c C cC       
+->  d->     4    4.5     D       D       d D dD       
+->  e->E    5    5.5     E       E       e E eE       
+->  f->fg   6    6.5     F       F       f F fF       
+    g       7    7.5     G       G       g G gG       
+... ...     ...  ...     ...     ...     ... ...      
 
 > do(show_unchanged_columns=FALSE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3   4
-1    @@ letters ints doubles ...
-2   ...     ...  ...     ... ...
-3             b    2     2.5 ...
-4    -> c->NULL    3     3.5 ...
-5    ->     d->    4     4.5 ...
-6    ->    e->E    5     5.5 ...
-... ...     ...  ...     ... ...
-41   -> c->NULL    3     3.5 ...
-51   ->     d->    4     4.5 ...
-61   ->    e->E    5     5.5 ...
-7    ->   f->fg    6     6.5 ...
-8             g    7     7.5 ...
-9   ...     ...  ...     ... ...
+    letters ints doubles ...
+... ...     ...  ...     ...
+    b       2    2.5     ...
+->  c->NULL 3    3.5     ...
+->  d->     4    4.5     ...
+->  e->E    5    5.5     ...
+->  f->fg   6    6.5     ...
+... ...     ...  ...     ...
+->  c->NULL 3    3.5     ...
+->  d->     4    4.5     ...
+->  e->E    5    5.5     ...
+->  f->fg   6    6.5     ...
+    g       7    7.5     ...
+... ...     ...  ...     ...
 
 > 
 > # Test 'meta' changes in column type
@@ -863,7 +855,7 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > df$letters
  [1] a    b    <NA>      E    fg   g    h    i    j    k    l    m    n    o   
 [16] p    q    r    s    t    u    v    w    x    y    z   
-Levels:  a b E fg g h i j k l m n o p q r s t u v w x y z
+Levels:  E a b fg g h i j k l m n o p q r s t u v w x y z
 > df$ints     <- as.character(df$ints)
 > df$ints
  [1] "1"  "2"  "3"  "4"  "5"  "6"  "7"  "8"  "9"  "10" "11" "12" "13" "14" "15"
@@ -875,58 +867,90 @@ Levels:  a b E fg g h i j k l m n o p q r s t u v w x y z
 +           )
 Daff Comparison: ‘as.data.frame(sapply(df.ref, class))’ vs. ‘as.data.frame(sapply(df, class))’ 
   First 6 and last 6 patch lines:
-      0                       1
-1     ! (sapply(df.ref, class))
-2    @@       sapply(df, class)
-3   +++                  factor
-4   +++               character
-5   +++                 numeric
-6   +++                  factor
-... ...                     ...
-61  +++                  factor
-7   +++               character
-8   +++               character
-9   +++               character
-10                    character
-11  ...                     ...
+    (sapply(df.ref, class))
+@@  sapply(df, class)      
++++ factor                 
++++ character              
++++ numeric                
++++ factor                 
++++ character              
+... ...                    
++++ factor                 
++++ character              
++++ character              
++++ character              
+    character              
+... ...                    
 
 > 
 > do(df.ref, show_unchanged_meta=TRUE)   #! doesn't seem to be working!!
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1       2    3       4   5         6
-1     !     +++          ---     --- ---       ---
-2    @@ letters letters ints doubles  lL unchanged
-3     +       a       a    1     1.5 a A        aA
-4     +       b       b    2     2.5 b B        bB
-5          <NA>       c    3     3.5 c C        cC
-6                     d    4     4.5 d D        dD
-... ...     ...     ...  ...     ... ...       ...
-23    +       u       u   21    21.5 u U        uU
-24    +       v       v   22    22.5 v V        vV
-25    +       w       w   23    23.5 w W        wW
-26    +       x       x   24    24.5 x X        xX
-27    +       y       y   25    25.5 y Y        yY
-28    +       z       z   26    26.5 z Z        zZ
+                                                              +++       +++   
+@@  letters ints doubles factors LETTERS lL         unchanged letters.1 ints.1
++   a       1    1.5     A       A       a A        aA        a         1     
++   b       2    2.5     B       B       b B        bB        b         2     
+->  c->NULL 3    3.5     C       C       c C        cC        c         3     
+->  d->     4    4.5     D       D       d D        dD        d         4     
+->  e->E    5    5.5     E       E       e E        eE        e         5     
+... ...     ...  ...     ...     ...     ...        ...       ...       ...   
+->  u       21   21.5    U->     U       u U-> u U  uU        u         21    
+->  v       22   22.5    V       V       v V-> v V  vV        v         22    
+->  w       23   23.5    W       W       w W-> w W  wW        w         23    
+->  x       24   24.5    X       X       x X-> x X  xX        x         24    
+->  y       25   25.5    Y       Y       y Y-> y Y  yY        y         25    
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ        z         26    
+    +++       +++       +++       +++  +++        
+@@  doubles.1 factors.1 LETTERS.1 lL.1 unchanged.1
++   1.5       A         A         a A  aA         
++   2.5       B         B         b B  bB         
+->  3.5       C         C         c C  cC         
+->  4.5       D         D         d D  dD         
+->  5.5       E         E         e E  eE         
+... ...       ...       ...       ...  ...        
+->  21.5      U         U         u U  uU         
+->  22.5      V         V         v V  vV         
+->  23.5      W         W         w W  wW         
+->  24.5      X         X         x X  xX         
+->  25.5      Y         Y         y Y  yY         
+->  26.5      Z         Z         z Z  zZ         
 
+Warning message:
+In diff_data(df.ref, df, ...) : Column names have been made unique in ‘df’.
 > do(show_unchanged_meta=FALSE)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1       2    3       4   5         6
-1     !     +++          ---     --- ---       ---
-2    @@ letters letters ints doubles  lL unchanged
-3     +       a       a    1     1.5 a A        aA
-4     +       b       b    2     2.5 b B        bB
-5          <NA>       c    3     3.5 c C        cC
-6                     d    4     4.5 d D        dD
-... ...     ...     ...  ...     ... ...       ...
-23    +       u       u   21    21.5 u U        uU
-24    +       v       v   22    22.5 v V        vV
-25    +       w       w   23    23.5 w W        wW
-26    +       x       x   24    24.5 x X        xX
-27    +       y       y   25    25.5 y Y        yY
-28    +       z       z   26    26.5 z Z        zZ
+                                                              +++       +++   
+@@  letters ints doubles factors LETTERS lL         unchanged letters.1 ints.1
++   a       1    1.5     A       A       a A        aA        a         1     
++   b       2    2.5     B       B       b B        bB        b         2     
+->  c->NULL 3    3.5     C       C       c C        cC        c         3     
+->  d->     4    4.5     D       D       d D        dD        d         4     
+->  e->E    5    5.5     E       E       e E        eE        e         5     
+... ...     ...  ...     ...     ...     ...        ...       ...       ...   
+->  u       21   21.5    U->     U       u U-> u U  uU        u         21    
+->  v       22   22.5    V       V       v V-> v V  vV        v         22    
+->  w       23   23.5    W       W       w W-> w W  wW        w         23    
+->  x       24   24.5    X       X       x X-> x X  xX        x         24    
+->  y       25   25.5    Y       Y       y Y-> y Y  yY        y         25    
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ        z         26    
+    +++       +++       +++       +++  +++        
+@@  doubles.1 factors.1 LETTERS.1 lL.1 unchanged.1
++   1.5       A         A         a A  aA         
++   2.5       B         B         b B  bB         
+->  3.5       C         C         c C  cC         
+->  4.5       D         D         d D  dD         
+->  5.5       E         E         e E  eE         
+... ...       ...       ...       ...  ...        
+->  21.5      U         U         u U  uU         
+->  22.5      V         V         v V  vV         
+->  23.5      W         W         w W  wW         
+->  24.5      X         X         x X  xX         
+->  25.5      Y         Y         y Y  yY         
+->  26.5      Z         Z         z Z  zZ         
 
+Warning message:
+In diff_data(df.ref, df, ...) : Column names have been made unique in ‘df’.
 > 
 > 
 > # Test context vars
@@ -936,78 +960,194 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do(unchanged_column_context=0)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4   5          6   7
-1    @@ letters ints doubles factors ...         lL ...
-2   ...     ...  ...     ...     ... ...        ... ...
-3             b    2     2.5       B ...        b B ...
-4    -> c->NULL    3     3.5       C ...        c C ...
-5    ->     d->    4     4.5       D ...        d D ...
-6    ->    e->E    5     5.5       E ...        e E ...
-... ...     ...  ...     ...     ... ...        ... ...
-21   ->       u   21    21.5     U-> ... u U-> u U  ...
-22   ->       v   22    22.5       V ... v V-> v V  ...
-23   ->       w   23    23.5       W ... w W-> w W  ...
-24   ->       x   24    24.5       X ... x X-> x X  ...
-25   ->       y   25    25.5       Y ... y Y-> y Y  ...
-26   ->       z   26    26.5       Z ... z Z-> z Z  ...
+    letters ints doubles factors ... lL         ...
+... ...     ...  ...     ...     ... ...        ...
+    b       2    2.5     B       ... b B        ...
+->  c->NULL 3    3.5     C       ... c C        ...
+->  d->     4    4.5     D       ... d D        ...
+->  e->E    5    5.5     E       ... e E        ...
+->  f->fg   6    6.5     F       ... f F        ...
+... ...     ...  ...     ...     ... ...        ...
+->  u       21   21.5    U->     ... u U-> u U  ...
+->  v       22   22.5    V       ... v V-> v V  ...
+->  w       23   23.5    W       ... w W-> w W  ...
+->  x       24   24.5    X       ... x X-> x X  ...
+->  y       25   25.5    Y       ... y Y-> y Y  ...
+->  z       26   26.5    Z       ... z Z-> z Z  ...
 
 > do(unchanged_column_context=5)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2   ...     ...  ...     ...     ...     ...        ...       ...
-3             b    2     2.5       B       B        b B        bB
-4    -> c->NULL    3     3.5       C       C        c C        cC
-5    ->     d->    4     4.5       D       D        d D        dD
-6    ->    e->E    5     5.5       E       E        e E        eE
-... ...     ...  ...     ...     ...     ...        ...       ...
-21   ->       u   21    21.5     U->       U u U-> u U         uU
-22   ->       v   22    22.5       V       V v V-> v V         vV
-23   ->       w   23    23.5       W       W w W-> w W         wW
-24   ->       x   24    24.5       X       X x X-> x X         xX
-25   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-26   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+... ...     ...  ...     ...     ...     ...        ...      
+    b       2    2.5     B       B       b B        bB       
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > 
 > do(unchanged_context=0)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2    -> c->NULL    3     3.5       C       C        c C        cC
-3    ->     d->    4     4.5       D       D        d D        dD
-4    ->    e->E    5     5.5       E       E        e E        eE
-5    ->   f->fg    6     6.5       F       F        f F        fF
-6    ->       k   11    11.5       K       K  k K-> k K        kK
-... ...     ...  ...     ...     ...     ...        ...       ...
-16   ->       u   21    21.5     U->       U u U-> u U         uU
-17   ->       v   22    22.5       V       V v V-> v V         vV
-18   ->       w   23    23.5       W       W w W-> w W         wW
-19   ->       x   24    24.5       X       X x X-> x X         xX
-20   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-21   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+->  k       11   11.5    K       K       k K-> k K  kK       
+->  l       12   12.5    L       L       l L-> l L  lL       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(unchanged_context=5)
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-      0       1    2       3       4       5          6         7
-1    @@ letters ints doubles factors LETTERS         lL unchanged
-2             a    1     1.5       A       A        a A        aA
-3             b    2     2.5       B       B        b B        bB
-4    -> c->NULL    3     3.5       C       C        c C        cC
-5    ->     d->    4     4.5       D       D        d D        dD
-6    ->    e->E    5     5.5       E       E        e E        eE
-... ...     ...  ...     ...     ...     ...        ...       ...
-22   ->       u   21    21.5     U->       U u U-> u U         uU
-23   ->       v   22    22.5       V       V v V-> v V         vV
-24   ->       w   23    23.5       W       W w W-> w W         wW
-25   ->       x   24    24.5       X       X x X-> x X         xX
-26   ->       y   25    25.5       Y       Y y Y-> y Y         yY
-27   ->       z   26    26.5       Z       Z z Z-> z Z         zZ
+    letters ints doubles factors LETTERS lL         unchanged
+    a       1    1.5     A       A       a A        aA       
+    b       2    2.5     B       B       b B        bB       
+->  c->NULL 3    3.5     C       C       c C        cC       
+->  d->     4    4.5     D       D       d D        dD       
+->  e->E    5    5.5     E       E       e E        eE       
+->  f->fg   6    6.5     F       F       f F        fF       
+... ...     ...  ...     ...     ...     ...        ...      
+->  u       21   21.5    U->     U       u U-> u U  uU       
+->  v       22   22.5    V       V       v V-> v V  vV       
+->  w       23   23.5    W       W       w W-> w W  wW       
+->  x       24   24.5    X       X       x X-> x X  xX       
+->  y       25   25.5    Y       Y       y Y-> y Y  yY       
+->  z       26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > 
 > 
+> # add and reorder column
+> df <- df.orig[, c(1:2, 4, 3, 5:7)]
+> df <- cbind(df, added1=1:nrow(df.orig), added2=1:nrow(df.orig))
+> do(df.ref, df)
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+  First 6 and last 6 patch lines:
+          A:A     B:B  D:C     C:D     E:E     F:F G:G       -:H    -:I   
+      !                        :                             +++    +++   
+      @@  letters ints factors doubles LETTERS lL  unchanged added1 added2
+1:1   +   a       1    A       1.5     A       a A aA        1      1     
+2:2   +   b       2    B       2.5     B       b B bB        2      2     
+3:3   +   c       3    C       3.5     C       c C cC        3      3     
+4:4   +   d       4    D       4.5     D       d D dD        4      4     
+...   ... ...     ...  ...     ...     ...     ... ...       ...    ...   
+21:21 +   u       21   U       21.5    U       u U uU        21     21    
+22:22 +   v       22   V       22.5    V       v V vV        22     22    
+23:23 +   w       23   W       23.5    W       w W wW        23     23    
+24:24 +   x       24   X       24.5    X       x X xX        24     24    
+25:25 +   y       25   Y       25.5    Y       y Y yY        25     25    
+26:26 +   z       26   Z       26.5    Z       z Z zZ        26     26    
+
+> 
+> 
+> # test columns with duplicate names
+> df.ref <- cbind(df.orig)
+> df     <- cbind(df, df.orig)
+> do()
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+  First 6 and last 6 patch lines:
+          A:A     B:B  D:C     C:D     E:E     F:F G:G       -:H    -:I   
+      !                        :                             +++    +++   
+      @@  letters ints factors doubles LETTERS lL  unchanged added1 added2
+1:1   +   a       1    A       1.5     A       a A aA        1      1     
+2:2   +   b       2    B       2.5     B       b B bB        2      2     
+3:3   +   c       3    C       3.5     C       c C cC        3      3     
+4:4   +   d       4    D       4.5     D       d D dD        4      4     
+...   ... ...     ...  ...     ...     ...     ... ...       ...    ...   
+21:21 +   u       21   U       21.5    U       u U uU        21     21    
+22:22 +   v       22   V       22.5    V       v V vV        22     22    
+23:23 +   w       23   W       23.5    W       w W wW        23     23    
+24:24 +   x       24   X       24.5    X       x X xX        24     24    
+25:25 +   y       25   Y       25.5    Y       y Y yY        25     25    
+26:26 +   z       26   Z       26.5    Z       z Z zZ        26     26    
+      -:J       -:K    -:L       -:M       -:N       -:O  -:P        
+      +++       +++    +++       +++       +++       +++  +++        
+      letters.1 ints.1 doubles.1 factors.1 LETTERS.1 lL.1 unchanged.1
+1:1   a         1      1.5       A         A         a A  aA         
+2:2   b         2      2.5       B         B         b B  bB         
+3:3   c         3      3.5       C         C         c C  cC         
+4:4   d         4      4.5       D         D         d D  dD         
+...   ...       ...    ...       ...       ...       ...  ...        
+21:21 u         21     21.5      U         U         u U  uU         
+22:22 v         22     22.5      V         V         v V  vV         
+23:23 w         23     23.5      W         W         w W  wW         
+24:24 x         24     24.5      X         X         x X  xX         
+25:25 y         25     25.5      Y         Y         y Y  yY         
+26:26 z         26     26.5      Z         Z         z Z  zZ         
+
+Warning message:
+In diff_data(df.ref, df, ...) : Column names have been made unique in ‘df’.
+> 
+> # test columns with duplicate names v2
+> df.ref <- cbind(df.orig, df.orig)
+> df     <- cbind(df,      df.orig)
+> do()
+Daff Comparison: ‘df.ref’ vs. ‘df’ 
+  First 6 and last 6 patch lines:
+          A:A     B:B  D:C     C:D     E:E     F:F G:G       -:H    -:I   
+      !                        :                             +++    +++   
+      @@  letters ints factors doubles LETTERS lL  unchanged added1 added2
+1:1   +   a       1    A       1.5     A       a A aA        1      1     
+2:2   +   b       2    B       2.5     B       b B bB        2      2     
+3:3   +   c       3    C       3.5     C       c C cC        3      3     
+4:4   +   d       4    D       4.5     D       d D dD        4      4     
+...   ... ...     ...  ...     ...     ...     ... ...       ...    ...   
+21:21 +   u       21   U       21.5    U       u U uU        21     21    
+22:22 +   v       22   V       22.5    V       v V vV        22     22    
+23:23 +   w       23   W       23.5    W       w W wW        23     23    
+24:24 +   x       24   X       24.5    X       x X xX        24     24    
+25:25 +   y       25   Y       25.5    Y       y Y yY        25     25    
+26:26 +   z       26   Z       26.5    Z       z Z zZ        26     26    
+      H:J       I:K    J:L       K:M       L:N       M:O  N:P         -:Q      
+                                                                      +++      
+      letters.1 ints.1 doubles.1 factors.1 LETTERS.1 lL.1 unchanged.1 letters.2
+1:1   a         1      1.5       A         A         a A  aA          a        
+2:2   b         2      2.5       B         B         b B  bB          b        
+3:3   c         3      3.5       C         C         c C  cC          c        
+4:4   d         4      4.5       D         D         d D  dD          d        
+...   ...       ...    ...       ...       ...       ...  ...         ...      
+21:21 u         21     21.5      U         U         u U  uU          u        
+22:22 v         22     22.5      V         V         v V  vV          v        
+23:23 w         23     23.5      W         W         w W  wW          w        
+24:24 x         24     24.5      X         X         x X  xX          x        
+25:25 y         25     25.5      Y         Y         y Y  yY          y        
+26:26 z         26     26.5      Z         Z         z Z  zZ          z        
+      -:R    -:S       -:T       -:U       -:V  -:W        
+      +++    +++       +++       +++       +++  +++        
+      ints.2 doubles.2 factors.2 LETTERS.2 lL.2 unchanged.2
+1:1   1      1.5       A         A         a A  aA         
+2:2   2      2.5       B         B         b B  bB         
+3:3   3      3.5       C         C         c C  cC         
+4:4   4      4.5       D         D         d D  dD         
+...   ...    ...       ...       ...       ...  ...        
+21:21 21     21.5      U         U         u U  uU         
+22:22 22     22.5      V         V         v V  vV         
+23:23 23     23.5      W         W         w W  wW         
+24:24 24     24.5      X         X         x X  xX         
+25:25 25     25.5      Y         Y         y Y  yY         
+26:26 26     26.5      Z         Z         z Z  zZ         
+
+Warning messages:
+1: In diff_data(df.ref, df, ...) :
+  Column names have been made unique in ‘df.ref’.
+2: In diff_data(df.ref, df, ...) :
+  Column names have been made unique in ‘df’.
+> 
 > proc.time()
    user  system elapsed 
-  2.710   0.102   2.895 
+  2.718   0.132   2.891 
