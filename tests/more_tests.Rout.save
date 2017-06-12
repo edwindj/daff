@@ -1,7 +1,7 @@
 
-R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
-Copyright (C) 2016 The R Foundation for Statistical Computing
-Platform: x86_64-apple-darwin13.4.0 (64-bit)
+R version 3.4.0 (2017-04-21) -- "You Stupid Darkness"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -16,6 +16,8 @@ Type 'contributors()' for more information and
 Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
+
+[Previously saved workspace restored]
 
 > library(daff)
 > set.seed(42)
@@ -101,13 +103,13 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
       @@  letters ints ...
 24:1  :   x       24   ...
 26:2  :   z       26   ...
-7:3       g       7    ...
+7:3   :   g       7    ...
 20:4  :   t       20   ...
-15:5      o       15   ...
+15:5  :   o       15   ...
 ...   ... ...     ...  ...
-17:21     q       17   ...
+17:21 :   q       17   ...
 1:22  :   a       1    ...
-25:23     y       25   ...
+25:23 :   y       25   ...
 19:24 :   s       19   ...
 5:25  :   e       5    ...
 9:26  :   i       9    ...
@@ -119,10 +121,10 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
         C:A     F:B G:C       D:D     E:E     B:F  A:G    
-    !                         :       :       :    :      
+    !   :       :   :         :       :       :    :      
     @@  doubles lL  unchanged factors LETTERS ints letters
 ... ... ...     ... ...       ...     ...     ...  ...    
-    !                         :       :       :    :      
+    !   :       :   :         :       :       :    :      
     @@  doubles lL  unchanged factors LETTERS ints letters
 
 > 
@@ -318,38 +320,38 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > do(columns_to_ignore=c("ints", "letters"))
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-    doubles   factors LETTERS lL         unchanged
-... ...       ...     ...     ...        ...      
-    10.5      J       J       j J        jJ       
-->  11.5      K       K       k K-> k K  kK       
-->  12.5      L       L       l L-> l L  lL       
-->  13.5->NA  M       M       m M-> m M  mM       
-->  14.5->0.1 N       N       n N-> n N  nN       
-... ...       ...     ...     ...        ...      
-->  21.5      U->     U       u U-> u U  uU       
-->  22.5      V       V       v V-> v V  vV       
-->  23.5      W       W       w W-> w W  wW       
-->  24.5      X       X       x X-> x X  xX       
-->  25.5      Y       Y       y Y-> y Y  yY       
-->  26.5      Z       Z       z Z-> z Z  zZ       
+          C:C     D:D     E:E     F:F        G:G      
+      !   :       :       :       :          :        
+      @@  doubles factors LETTERS lL         unchanged
+      ... ...     ...     ...     ...        ...      
+10:10     10.5    J       J       j J        jJ       
+11:11 ->  11.5    K       K       k K-> k K  kK       
+12:12 ->  12.5    L       L       l L-> l L  lL       
+...   ... ...     ...     ...     ...        ...      
+21:21 ->  21.5    U->     U       u U-> u U  uU       
+22:22 ->  22.5    V       V       v V-> v V  vV       
+23:23 ->  23.5    W       W       w W-> w W  wW       
+24:24 ->  24.5    X       X       x X-> x X  xX       
+25:25 ->  25.5    Y       Y       y Y-> y Y  yY       
+26:26 ->  26.5    Z       Z       z Z-> z Z  zZ       
 
 > do(columns_to_ignore=c("letters"))
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
-    ints doubles   factors LETTERS lL         unchanged
-... ...  ...       ...     ...     ...        ...      
-    10   10.5      J       J       j J        jJ       
-->  11   11.5      K       K       k K-> k K  kK       
-->  12   12.5      L       L       l L-> l L  lL       
-->  13   13.5->NA  M       M       m M-> m M  mM       
-->  14   14.5->0.1 N       N       n N-> n N  nN       
-... ...  ...       ...     ...     ...        ...      
-->  21   21.5      U->     U       u U-> u U  uU       
-->  22   22.5      V       V       v V-> v V  vV       
-->  23   23.5      W       W       w W-> w W  wW       
-->  24   24.5      X       X       x X-> x X  xX       
-->  25   25.5      Y       Y       y Y-> y Y  yY       
-->  26   26.5      Z       Z       z Z-> z Z  zZ       
+          B:B  C:C     D:D     E:E     F:F        G:G      
+      !   :    :       :       :       :          :        
+      @@  ints doubles factors LETTERS lL         unchanged
+      ... ...  ...     ...     ...     ...        ...      
+10:10     10   10.5    J       J       j J        jJ       
+11:11 ->  11   11.5    K       K       k K-> k K  kK       
+12:12 ->  12   12.5    L       L       l L-> l L  lL       
+...   ... ...  ...     ...     ...     ...        ...      
+21:21 ->  21   21.5    U->     U       u U-> u U  uU       
+22:22 ->  22   22.5    V       V       v V-> v V  vV       
+23:23 ->  23   23.5    W       W       w W-> w W  wW       
+24:24 ->  24   24.5    X       X       x X-> x X  xX       
+25:25 ->  25   25.5    Y       Y       y Y-> y Y  yY       
+26:26 ->  26   26.5    Z       Z       z Z-> z Z  zZ       
 
 > 
 > 
@@ -855,7 +857,7 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 > df$letters
  [1] a    b    <NA>      E    fg   g    h    i    j    k    l    m    n    o   
 [16] p    q    r    s    t    u    v    w    x    y    z   
-Levels:  E a b fg g h i j k l m n o p q r s t u v w x y z
+Levels:  a b E fg g h i j k l m n o p q r s t u v w x y z
 > df$ints     <- as.character(df$ints)
 > df$ints
  [1] "1"  "2"  "3"  "4"  "5"  "6"  "7"  "8"  "9"  "10" "11" "12" "13" "14" "15"
@@ -1039,7 +1041,7 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
           A:A     B:B  D:C     C:D     E:E     F:F G:G       -:H    -:I   
-      !                        :                             +++    +++   
+      !                :       :       :       :   :         +++    +++   
       @@  letters ints factors doubles LETTERS lL  unchanged added1 added2
 1:1   +   a       1    A       1.5     A       a A aA        1      1     
 2:2   +   b       2    B       2.5     B       b B bB        2      2     
@@ -1062,7 +1064,7 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
           A:A     B:B  D:C     C:D     E:E     F:F G:G       -:H    -:I   
-      !                        :                             +++    +++   
+      !                :       :       :       :   :         +++    +++   
       @@  letters ints factors doubles LETTERS lL  unchanged added1 added2
 1:1   +   a       1    A       1.5     A       a A aA        1      1     
 2:2   +   b       2    B       2.5     B       b B bB        2      2     
@@ -1100,7 +1102,7 @@ In diff_data(df.ref, df, ...) : Column names have been made unique in ‘df’.
 Daff Comparison: ‘df.ref’ vs. ‘df’ 
   First 6 and last 6 patch lines:
           A:A     B:B  D:C     C:D     E:E     F:F G:G       -:H    -:I   
-      !                        :                             +++    +++   
+      !                :       :       :       :   :         +++    +++   
       @@  letters ints factors doubles LETTERS lL  unchanged added1 added2
 1:1   +   a       1    A       1.5     A       a A aA        1      1     
 2:2   +   b       2    B       2.5     B       b B bB        2      2     
@@ -1114,7 +1116,7 @@ Daff Comparison: ‘df.ref’ vs. ‘df’
 25:25 +   y       25   Y       25.5    Y       y Y yY        25     25    
 26:26 +   z       26   Z       26.5    Z       z Z zZ        26     26    
       H:J       I:K    J:L       K:M       L:N       M:O  N:P         -:Q      
-                                                                      +++      
+      :         :      :         :         :         :    :           +++      
       letters.1 ints.1 doubles.1 factors.1 LETTERS.1 lL.1 unchanged.1 letters.2
 1:1   a         1      1.5       A         A         a A  aA          a        
 2:2   b         2      2.5       B         B         b B  bB          b        
@@ -1150,4 +1152,4 @@ Warning messages:
 > 
 > proc.time()
    user  system elapsed 
-  2.718   0.132   2.891 
+  2.813   0.115   2.928 
