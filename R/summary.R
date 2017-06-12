@@ -12,9 +12,7 @@ summary.data_diff <- function(object, ...)
 #' @importFrom utils head tail
 print.data_diff_summary <- function(x, n=6, show.patch=TRUE, ...)
 {
-  cat("\nData diff:\n")
-
-  cat(" Comparison:", sQuote(x$source_name), "vs.", sQuote(x$target_name), "\n")
+  cat("\nData diff:", sQuote(x$source_name), "vs.", sQuote(x$target_name), "\n")
 
   row.data <- c("#"       = x$row_count_change_text,
                 Modified  = x$row_updates,
