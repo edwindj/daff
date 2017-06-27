@@ -35,3 +35,4 @@ which_conflicts(merged)
 \seealso{
 \code{\link{merge_data}}
 }
+
