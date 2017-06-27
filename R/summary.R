@@ -10,6 +10,7 @@ summary.data_diff <- function(object, ...)
 }
 
 #' @importFrom utils head tail
+#' @export
 print.data_diff_summary <- function(x, n=6, show.patch=TRUE, ...)
 {
   cat("\nData diff:", sQuote(x$source_name), "vs.", sQuote(x$target_name), "\n")
