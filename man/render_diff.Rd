@@ -64,4 +64,3 @@ y_patched <- patch_data(y, patch)
 \seealso{
 data_diff
 }
-
