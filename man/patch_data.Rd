@@ -30,4 +30,3 @@ iris_patched <- patch_data(iris, patch)
 
 iris_patched[1,1] == 1000
 }
-
