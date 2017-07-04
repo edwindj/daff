@@ -5,7 +5,8 @@
 \title{Render a data_diff to html}
 \usage{
 render_diff(diff, file = tempfile(fileext = ".html"), view = interactive(),
-  fragment = FALSE, pretty = TRUE, title, summary = !fragment)
+  fragment = FALSE, pretty = TRUE, title, summary = !fragment,
+  use.DataTables = !fragment)
 }
 \arguments{
 \item{diff}{\code{diff_data object} generated with \code{\link{diff_data}}}
@@ -27,6 +28,16 @@ separated by 'vs.'}
 
 \item{summary}{\code{logical}          Should a summary of changes be shown above
 the HTML table?}
+
+\item{use.DataTables}{\code{logical}    Include jQuery DataTables plugin and enable:
+- pagination (10,25,50,100,All)
+- searching
+- filtering
+- column visibility (individually enable/disable)
+- copy/csv/excel/pdf export buttons
+- column reorder (drag and drop)
+- row reorder (drag and drop)
+- row/multirow select}
 }
 \value{
 generated html

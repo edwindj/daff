@@ -3,16 +3,6 @@ summary.data_diff <- function(object, ...)
 {
   retval <- attr(object, "summary") # everything is pre-computed
 
-  if(is.null(retval$col_updates))  # Until col_updates is supported, calculate locally
-  {
-    flags <- apply(object$get_matrix(), 2, function(X) any(grepl("-->", X)) )
-
-    retval$col_updates <- sum(flags, na.rm=TRUE)
-    #NB: if row_updates > 0, there may be row update markers in one column,
-    #    so check and decrement if true.
-    if(retval$row_updates > 0 && retval$col_updates > 0) retval$col_updates <- retval$col_updates - 1
-  }
-
   retval$data <- object$get_matrix()
   class(retval) <- "data_diff_summary"
 
@@ -20,11 +10,10 @@ summary.data_diff <- function(object, ...)
 }
 
 #' @importFrom utils head tail
+#' @export
 print.data_diff_summary <- function(x, n=6, show.patch=TRUE, ...)
 {
-  cat("\nData diff:\n")
-
-  cat(" Comparison:", sQuote(x$source_name), "vs.", sQuote(x$target_name), "\n")
+  cat("\nData diff:", sQuote(x$source_name), "vs.", sQuote(x$target_name), "\n")
 
   row.data <- c("#"       = x$row_count_change_text,
                 Modified  = x$row_updates,

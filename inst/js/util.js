@@ -34,7 +34,7 @@ function diff(src, target, flags){
   var data_diff = [];
   var table_diff = new daff.TableView(data_diff);
   highlighter.hilite(table_diff);
-  table_diff.summary = highlighter.getSummary()
+  table_diff.summary = highlighter.getSummary();
   return table_diff;
 }
 
