@@ -1,0 +1,115 @@
+---
+title: "Daff"
+author: "Edwin de Jonge (@edwindjonge), Gregory Warnes"
+date: "UseR!2017, July 6, 2017"
+output:
+  beamer_presentation:
+    keep_tex: yes
+    includes:
+      in_header: header.tex
+    theme: "Frankfurt"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Who am I (Edwin)
+
+- @edwindjonge
+- Statistical consultant
+- Statistics Netherlands (CBS): all official statistics of NL
+- US Census + Labor Statistics + Economic Statistics + Agriculture etc.
+
+
+## What is daff?
+
+### Short version
+
+__ Daff is a diff for data __
+
+Capture differences in data.frames.
+
+## Why o why?
+
+- Supports version control of data. Just like `diff` for source code, but optimized
+for `data`.
+ 
+## Black boxes
+
+\begin{picture}(200,200)
+  \put(0,0){\includegraphics[height=0.7\textheight]{fig/blackbox}}
+\end{picture}
+
+## 
+
+- Many operations work on data.frame (tibble, data.table)
+
+- You would like to log and trace changes to the data
+
+## Changing a value
+
+```{r, echo=TRUE}
+library(daff)
+y <- iris[1:2,]
+x <- y
+x$Sepal.Length[1] <- 0
+p <- daff::diff_data(x, y)
+p$get_data()
+```
+## Detecting changes
+
+`daff` detects the following changes:
+
+- changing a value
+
+- adding a row
+
+- removing a row
+
+- adding a column
+
+- removing a column
+
+- changing type of a column (partially)
+
+## detect a value change
+
+```{r, echo=TRUE}
+x <- data.frame(a=1, b=2)
+y <- data.frame(a=1, b=3)
+p <- diff_data(x, y)
+p$get_data()
+```
+## apply patch
+
+```{r, echo=TRUE}
+x
+patch_data(x, p)
+```
+
+
+## detect a row addition
+
+```{r, echo=TRUE}
+y <- data.frame(a=1, b=2)
+
+```
+
+
+## Implementation
+
+- Wraps the excellent library `daff` javascript, by Paul Fitzpatrick (@fitzyfitzyfitzy).
+- library actually written 
+- Uses `V8` to run the javascript.
+
+## 
+
+Thank you for your attention!
+
+Interested?
+
+`install.packages("daff")`
+
+http://github.com/edwindj/daff
+@edwindjonge
