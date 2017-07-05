@@ -16,7 +16,9 @@ LazyData: true
 Imports:
     V8 (>= 0.6),
     jsonlite,
-    utils
+    utils,
+    R6
+Enhances: lumberjack
 URL: http://github.com/edwindj/daff
 Suggests:
     testthat
