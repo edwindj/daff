@@ -12,76 +12,79 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(magrittr)
 ```
 
 ## Who am I (Edwin)
 
-- @edwindjonge
-- Statistical consultant
+- Statistical consultant / methodologist
 - Statistics Netherlands (CBS): all official statistics of NL
 - US Census + Labor Statistics + Economic Statistics + Agriculture etc.
-
 
 ## What is daff?
 
 ### Short version
 
-__ Daff is a diff for data __
+> Daff is a diff for `data.frame`s
 
-Capture differences in data.frames.
+- Detect changes: **`diff_data`**, **`differs_from`**
+- Store and restore diff: **`write_diff`**, **`read_diff`**
+- Patch updated data: **`patch_data`**, **`merge_data`**
+- Render a diff: **`render_diff`**
 
 ## Why o why?
+- log changes of data.
+- support version control of `data.frame`
+- subsequent steps in data process: what did these steps do?
+- Supports version control of data. 
+- Just like `diff` for source code, but optimized for `data.frame`.
 
-- Supports version control of data. Just like `diff` for source code, but optimized
-for `data`.
- 
-## Black boxes
+## Use case: data update
 
-\begin{picture}(200,200)
-  \put(0,0){\includegraphics[height=0.7\textheight]{fig/blackbox}}
-\end{picture}
+### Raw data update
 
-## 
+- You have build a nice R script:
+    - takes raw data as input
+    - removes errors
+    - fits a model
+    - calculates output
 
-- Many operations work on data.frame (tibble, data.table)
+You get an updated raw data file: what are the changes?
 
-- You would like to log and trace changes to the data
+## Use case: manual editing
 
-## Changing a value
+- out of your control, there is a manual editing step:
+- *bad practice*, but it happens: e.g. implausible values, manual data correction.
 
-```{r, echo=TRUE}
-library(daff)
-y <- iris[1:2,]
-x <- y
-x$Sepal.Length[1] <- 0
-p <- daff::diff_data(x, y)
-p$get_data()
-```
+### Manual editing
+
+\begin{center}
+  \includegraphics[height=0.3\textheight]{fig/blackbox}
+\end{center}
+- Compare the input and output
+- Make the manual step _reproducible_: all process steps can be automated.
+
 ## Detecting changes
 
 `daff` detects the following changes:
 
 - changing a value
-
 - adding a row
-
 - removing a row
-
 - adding a column
-
 - removing a column
-
 - changing type of a column (partially)
 
-## detect a value change
+## `diff_data`: value change
 
 ```{r, echo=TRUE}
-x <- data.frame(a=1, b=2)
-y <- data.frame(a=1, b=3)
-p <- diff_data(x, y)
-p$get_data()
+library(daff)
+x         <- data.frame(a=1, b=2)
+x_changed <- data.frame(a=1, b=3)
+p <- diff_data(x, x_changed)
+print(p)
 ```
-## apply patch
+## `patch_data`: apply the change
 
 ```{r, echo=TRUE}
 x
@@ -92,24 +95,52 @@ patch_data(x, p)
 ## detect a row addition
 
 ```{r, echo=TRUE}
-y <- data.frame(a=1, b=2)
+x <- data.frame(a=1, b=2)
+x_changed <- data.frame(a=1:2, b=2:3)
+diff_data(x,x_changed)
+```
 
+## `diff_data`: detect a row deletion
+
+```{r, echo=TRUE}
+x <- data.frame(a=1:2, b=2:3)
+x_changed <- data.frame(a=1, b=2)
+diff_data(x,x_changed)
+```
+
+## diff_data options
+
+```{r, echo=TRUE, eval=FALSE}
+diff_data( data_ref, data
+         , always_show_header       = TRUE
+         , always_show_order        = FALSE
+         , columns_to_ignore        = c()
+         , count_like_a_spreadsheet = TRUE
+         , ids                      = c()
+         , ignore_whitespace        = FALSE
+         , never_show_order         = FALSE
+         , ordered                  = TRUE
+         , ... 
+         )
 ```
 
 
 ## Implementation
 
 - Wraps the excellent library `daff` javascript, by Paul Fitzpatrick (@fitzyfitzyfitzy).
-- library actually written 
-- Uses `V8` to run the javascript.
+- library actually written in Haxe, which compiles to js, python, C++
+- Uses R package `V8` to run javascript (Thanks Jeroen Ooms!)
 
 ## 
 
-Thank you for your attention!
+\Large{Thank you for your attention!}
 
 Interested?
 
-`install.packages("daff")`
+```{r, echo=TRUE, eval=FALSE}
+install.packages("daff")`
+```
 
-http://github.com/edwindj/daff
-@edwindjonge
+or visit: 
+
+- http://github.com/edwindj/daff

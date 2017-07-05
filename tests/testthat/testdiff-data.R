@@ -13,6 +13,16 @@ test_that("Diff changed value works",{
   expect_equal(diff_data(x,y)$to_csv(), "@@,a,b\n->,1->10,2\n")
 })
 
+test_that("Ignoring column works",{
+  x <- data.frame(a=1, b=2)
+  y <- x
+  y$a <- 10
+  p <- diff_data(x,y, columns_to_ignore = "a")
+  expect_equal(p$to_csv(), "@@,b\n")
+
+  p <- diff_data(x,y, columns_to_ignore = "b")
+  expect_equal(p$to_csv(), "@@,a\n->,1->10\n")
+})
 
 test_that("Adding row works",{
   x <- data.frame(a=1, b=2)

@@ -63,7 +63,7 @@ TableView <- function(ctx, df, var_name){
 #' @export
 print.TableView <- function(x, n=6, ...)
 {
-  N <- nrow(x$get_data())
+  N <- NROW(x$get_data())
   if (N > 2*n){
     cat("  First", n, "and last", n, "patch lines:\n")
   }
