@@ -237,7 +237,9 @@ x_changed %>%
 
 - Wraps the excellent library `daff` javascript, by Paul Fitzpatrick (@fitzyfitzyfitzy).
 - library actually written in Haxe, which compiles to js, python, C++
-- Uses R package `V8` to run javascript (Thanks Jeroen Ooms!)
+- Uses R package `V8` to run javascript (Thanks Jeroen Ooms!):
+  
+    - With `V8` any js library can be run from R!
 
 ## 
 
