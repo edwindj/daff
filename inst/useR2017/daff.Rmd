@@ -36,6 +36,8 @@ library(magrittr)
 - Patch updated data: **`patch_data`**, **`merge_data`**
 - Render a diff: **`render_diff`**
 
+And now for the long version...
+
 ## Diff?
 
 ### `diff`
@@ -55,11 +57,11 @@ library(magrittr)
 
 ## Why o why?
 
-- Support version control of `data.frame`.
+- To support version control of `data.frame`.
 - To log changes of data.
 - e.g. subsequent steps in data process: what did these steps do?
-- Supports monitoring external data changes beyond your control.
-- Makes even manual editing reproducible (_Note: manual editing is really bad_).
+- To support monitoring external data changes beyond your control.
+- To make even manual editing reproducible (_Note: manual editing is really really bad_).
 
 ## Use case: data update
 
@@ -106,12 +108,12 @@ You get an updated raw data file: what are the changes?
 
 `daff` detects the following changes:
 
-- changing a value.
-- adding a row.
-- removing a row.
-- adding a column.
-- removing a column.
-- changing type of a column (partially)
+- changed a value.
+- row added.
+- row removed.
+- column added.
+- column removed
+- type change of a column (partially)
 
     - `daff` supports it, but highlighter format not
 
@@ -212,10 +214,13 @@ merge_data(x, x_a, x_b)
 ```{r, echo=TRUE}
 x         <- data.frame(A = 1, B =   1)
 x_changed <- data.frame(A = 1, B = 100)
-diff <- diff_data(x, x_changed)
-write_diff(diff, "diff.csv")
-diff2 <- read_diff("diff.csv")
-patch_data(x, diff2)
+# write diff to disk
+diff_data(x, x_changed) %>% 
+  write_diff("diff.csv")
+
+# and read it again from disk
+read_diff("diff.csv") %>% 
+  patch_data(x, .)
 ```
 
 ## Render diff
