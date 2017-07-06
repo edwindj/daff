@@ -18,12 +18,16 @@ library(magrittr)
 
 ## Who am I (Edwin)
 
+\begin{picture}(0,0)
+  \put(280,0){\includegraphics[width=1cm]{fig/cbs}}
+\end{picture}
+
 - Statistical consultant / methodologist
 - Statistics Netherlands (CBS): all official statistics of NL
 - twitter: @edwindjonge
 - github: https://github.com/edwindj
 
-**Stepping in for [Greg Warnes](https://github.com/warnes)**
+**Stepping in for [Greg Warnes, coauthor](https://github.com/warnes)**
 
 ## What is daff? 
 
@@ -49,6 +53,10 @@ And now for the long version...
 
 ### `daff`
 
+\begin{picture}(0,0)
+  \put(250,-70){\includegraphics[width=2cm]{fig/utility.png}}
+\end{picture}
+
 - Utility for comparing tables
 - `daff` compares *records* and *columns*: 
       - which values changed
@@ -57,6 +65,10 @@ And now for the long version...
 
 ## Why o why?
 
+\begin{picture}(0,0)
+  \put(120,-60){\includegraphics[width=5cm]{fig/why.png}}
+\end{picture}
+
 - To support version control of `data.frame`.
 - To log changes of data.
 - e.g. subsequent steps in data process: what did these steps do?
@@ -64,6 +76,10 @@ And now for the long version...
 - To make even manual editing reproducible (_Note: manual editing is really really bad_).
 
 ## Use case: data update
+
+\begin{picture}(0,0)
+  \put(120,-10){\includegraphics[width=2cm]{fig/update}}
+\end{picture}
 
 ### Raw data update
 
@@ -83,9 +99,9 @@ You get an updated raw data file: what are the changes?
 - **bad practice**, but it happens: e.g. implausible values, manual data correction.
 
 ### Manual editing
-\begin{center}
-  \includegraphics[height=0.3\textheight]{fig/blackbox}
-\end{center}
+\begin{picture}(0,80)
+  \put(120,0){\includegraphics[height=0.3\textheight]{fig/blackbox}}
+\end{picture}
 - Compare the input and output
 - Make the manual step _reproducible_: all process steps can be re-executed:
 
@@ -240,11 +256,26 @@ x_changed %>%
 
 ## Implementation
 
-- Wraps the excellent library `daff` javascript, by Paul Fitzpatrick (@fitzyfitzyfitzy).
+- Wraps the library **`daff.js`**, by Paul Fitzpatrick (@fitzyfitzyfitzy).
 - library actually written in Haxe, which compiles to js, python, C++
-- Uses R package `V8` to run javascript (Thanks Jeroen Ooms!):
+- Uses R package **`V8`** to run `daff.js`, by Jeroen Ooms(@opencpu):
   
     - With `V8` any js library can be run from R!
+
+## Other R libs
+
+### `diffobj`
+
+Other R library:
+
+- **`diffobj`**: very good general purpose diff for all R objects.
+- Provides nice visualizations for differences between R objects.
+- Also includes a `diffCsv` function, but more limited then `daff`.
+- `daff` specialized in `data.frame`:
+    - data aligning: `id` columns.
+    - ignoring columns.
+    - no patching of data.
+    - ...
 
 ## 
 
