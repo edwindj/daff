@@ -1,5 +1,6 @@
 ---
 title: "Daff"
+subtitke: "Diff, patch and merge for data.frames"
 author: "Edwin de Jonge (@edwindjonge), Gregory Warnes"
 date: "UseR!2017, July 6, 2017"
 output:
@@ -19,9 +20,12 @@ library(magrittr)
 
 - Statistical consultant / methodologist
 - Statistics Netherlands (CBS): all official statistics of NL
-- US Census + Labor Statistics + Economic Statistics + Agriculture etc.
+- twitter: @edwindjonge
+- github: https://github.com/edwindj
 
-## What is daff?
+**Stepping in for [Greg Warnes](https://github.com/warnes)**
+
+## What is daff? 
 
 ### Short version
 
@@ -32,12 +36,30 @@ library(magrittr)
 - Patch updated data: **`patch_data`**, **`merge_data`**
 - Render a diff: **`render_diff`**
 
+## Diff?
+
+### `diff`
+
+- Command-line utility for comparing text files.
+- Used in all source code version control systems.
+- `diff` checks *lines*:
+      - which lines have changed, removed or added.
+
+### `daff`
+
+- Utility for comparing tables
+- `daff` compares *records* and *columns*: 
+      - which values changed
+      - rows added/removed
+      - columns added/removed.
+
 ## Why o why?
 
-- log changes of data.
-- support version control of `data.frame`
-- subsequent steps in data process: what did these steps do?
-- Just like `diff` for source code, but optimized for `data.frame`.
+- Support version control of `data.frame`.
+- To log changes of data.
+- e.g. subsequent steps in data process: what did these steps do?
+- Supports monitoring external data changes beyond your control.
+- Makes even manual editing reproducible (_Note: manual editing is really bad_).
 
 ## Use case: data update
 
@@ -49,67 +71,71 @@ library(magrittr)
     - fits a model
     - calculates output
 
-You get an updated raw data file: what are the changes?
+You get an updated raw data file: what are the changes? 
+
+- Did output change?
+- Also input: should the script be adapted, e.g. data cleaning?
 
 ## Use case: manual editing
 
-- out of your control, there is a manual editing step:
-- *bad practice*, but it happens: e.g. implausible values, manual data correction.
+- **bad practice**, but it happens: e.g. implausible values, manual data correction.
 
 ### Manual editing
-
 \begin{center}
   \includegraphics[height=0.3\textheight]{fig/blackbox}
 \end{center}
 - Compare the input and output
-- Make the manual step _reproducible_: all process steps can be re-executed.
+- Make the manual step _reproducible_: all process steps can be re-executed:
+
+    - data + changes = new data
+    - in `diff` parlor: version1 + patch = version2
 
 ## Daff protocol
 
 
-### Protocol
+### Highlighter diff format
 
 - highlighter diff format: http://dataprotocols.org/tabular-diff-format
 - diff protocol for tabular data.
-- can only show rows/columns that changed
-- or show all data, including changes.
-- supports patching data
-- format itself is tabular format
-- can be stored in csv or db
+- shows rows/columns that changed.
+- supports patching data.
+- format itself is in tabular format (nifty!)
+- can be stored in txt (csv) or db.
 
 ## Detecting changes
 
 `daff` detects the following changes:
 
-- changing a value
-- adding a row
-- removing a row
-- adding a column
-- removing a column
+- changing a value.
+- adding a row.
+- removing a row.
+- adding a column.
+- removing a column.
 - changing type of a column (partially)
 
     - `daff` supports it, but highlighter format not
 
-
-
-## `diff_data`: value change
+## `diff_data`: value was changed
 
 ```{r, echo=TRUE}
 library(daff)
 x         <- data.frame(A=1, B=  1)
 x_changed <- data.frame(A=1, B=100)
-p <- diff_data(x, x_changed)
-print(p)
+patch <- diff_data(x, x_changed)
+print(patch)
 ```
 ## `patch_data`: apply the change
 
 ```{r, echo=TRUE}
 x
-patch_data(x, p)
+patch_data(x, patch)
 ```
 
+replay` the change on original data:
 
-## `diff_data`: row addition
+- when org. data is updated, same procedure!
+
+## `diff_data`: row was added
 
 ```{r, echo=TRUE}
 x         <- data.frame(A=1  , B=1)
@@ -117,22 +143,22 @@ x_changed <- data.frame(A=1:2, B=1:2)
 diff_data(x,x_changed)
 ```
 
-## `diff_data`: row deletion
+## `diff_data`: row was deleted
 
 ```{r, echo=TRUE}
-x         <- data.frame(A=1  , B=1)
-x_changed <- data.frame(A=1:2, B=1:2)
+x         <- data.frame(A=1:2, B=1:2)
+x_changed <- data.frame(A=1  , B=1)
 diff_data(x,x_changed)
 ```
 
-## `diff_data`: adding column
+## `diff_data`: column was added
 
 ```{r, echo=TRUE}
 x         <- data.frame(A=1, B=1)
 x_changed <- data.frame(A=1, B=1, C=1)
 diff_data(x,x_changed)
 ```
-## `diff_data`: removing column
+## `diff_data`: column was removed
 
 ```{r, echo=TRUE}
 x         <- data.frame(A=1, B=1, C=1)
