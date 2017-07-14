@@ -63,7 +63,10 @@ TableView <- function(ctx, df, var_name){
 #' @export
 print.TableView <- function(x, n=6, ...)
 {
-  cat("  First", n, "and last", n, "patch lines:\n")
+  N <- NROW(x$get_data())
+  if (N > 2*n){
+    cat("  First", n, "and last", n, "patch lines:\n")
+  }
   patch_data <- x$get_matrix()
 
   p <- patch_data
@@ -79,11 +82,12 @@ print.TableView <- function(x, n=6, ...)
     p           <- p[ ,-1, drop=FALSE]
   }
 
-
-  p <- rbind(head(p, n=n),
-             "..." = rep("...", length=ncol(p)),
-             tail(p, n=n)
-  )
+  if (N > 2*n){
+    p <- rbind(head(p, n=n),
+               "..." = rep("...", length=ncol(p)),
+               tail(p, n=n)
+    )
+  }
 
 
   print(p, ..., quote=FALSE, row.names=TRUE)
