@@ -17,6 +17,16 @@
 #'                                         separated by 'vs.'
 #' @param summary  \code{logical}          Should a summary of changes be shown above
 #'                                         the HTML table?
+#' @param use.DataTables \code{logical}    Include jQuery DataTables plugin and enable:
+#'                                         - pagination (10,25,50,100,All)
+#'                                         - searching
+#'                                         - filtering
+#'                                         - column visibility (individually enable/disable)
+#'                                         - copy/csv/excel/pdf export buttons
+#'                                         - column reorder (drag and drop)
+#'                                         - row reorder (drag and drop)
+#'                                         - row/multirow select
+#'
 #' @return generated html
 #'
 #' @seealso data_diff
@@ -29,6 +39,7 @@ render_diff <- function(  diff
                         , pretty=TRUE
                         , title
                         , summary=!fragment
+                        , use.DataTables=!fragment
 )
 {
   # get summary information
@@ -44,6 +55,12 @@ render_diff <- function(  diff
   # render to HTML
   ctx <- diff$ctx
   html <- ctx$call("render_diff", JS(diff$var_name), fragment, pretty)
+
+  # add id to main table so we can target it in JavaScript
+  html <- gsub("<table>",
+               "<table id='main' class='dataTable'>",
+               html
+               )
 
   if(pretty)
   {
@@ -101,40 +118,53 @@ render_diff <- function(  diff
     }
 
     html <- gsub("<div class='highlighter'>",
-                 paste0("",
-                        "<div class='highlighter' style='align:center;'>",
-                        "<table style='margin: 0px auto; margin-bottom: 2em; text-align: right'>",
-                        "   <thead>",
-                        "       <tr class='header' style='text-align: center'>",
-                        "           <th></th>",
-                        "           <th>#</th>",
-                        "           <th class='modify'>Modified</th>",
-                        "           <th               >Reordered</th>",
-                        "           <th class='remove'>Deleted</th>",
-                        "           <th class='add'>Added</th>",
-                        "   </thead>",
-                        "   <tbody>",
-                        "       <tr>",
-                        "           <td style='font-weight:bold;'>Rows</td>",
-                        "           <td>",                row_count_change_text,   "</td>",
-                        "           <td class='modify'>", s$row_updates,           "</td>",
-                        "           <td               >", s$row_reorders,          "</td>",
-                        "           <td class='remove'>", s$row_deletes,           "</td>",
-                        "           <td class='add'>"   , s$row_inserts,           "</td>",
-                        "       </tr>",
-                        "       <tr>",
-                        "           <td style='font-weight:bold;'>Columns</td>",
-                        "           <td>",                col_count_change_text, "</td>",
-                        "           <td class='modify'>", s$col_updates,           "</td>",
-                        "           <td               >", s$col_reorders,          "</td>",
-                        "           <td class='remove'>", s$col_deletes,           "</td>",
-                        "           <td class='add'>"   , s$col_inserts,           "</td>",
-                        "        </tr>",
-                        "    </tbody>",
-                        "</table>",
-                        "</div>",
-                        "<div class='highlighter'>"
-                        ),
+                 paste("",
+                       "<div class='highlighter' style='align:center;'>",
+                       "<table style='margin: 0px auto; margin-bottom: 2em; text-align: right'>",
+                       "   <thead>",
+                       "       <tr class='header' style='text-align: center'>",
+                       "           <th></th>",
+                       "           <th>#</th>",
+                       "           <th class='modify'>Modified</th>",
+                       "           <th               >Reordered</th>",
+                       "           <th class='remove'>Deleted</th>",
+                       "           <th class='add'>Added</th>",
+                       "   </thead>",
+                       "   <tbody>",
+                       "       <tr>",
+                       "           <td style='font-weight:bold;'>Rows</td>",
+                       "           <td>",                row_count_change_text,   "</td>",
+                       "           <td class='modify'>", s$row_updates,           "</td>",
+                       "           <td               >", s$row_reorders,          "</td>",
+                       "           <td class='remove'>", s$row_deletes,           "</td>",
+                       "           <td class='add'>"   , s$row_inserts,           "</td>",
+                       "       </tr>",
+                       "       <tr>",
+                       "           <td style='font-weight:bold;'>Columns</td>",
+                       "           <td>",                col_count_change_text, "</td>",
+                       "           <td class='modify'>", s$col_updates,           "</td>",
+                       "           <td               >", s$col_reorders,          "</td>",
+                       "           <td class='remove'>", s$col_deletes,           "</td>",
+                       "           <td class='add'>"   , s$col_inserts,           "</td>",
+                       "        </tr>",
+                       "    </tbody>",
+                       "</table>",
+                       "</div>",
+                       "<div class='highlighter'>",
+                       sep="\n"
+                       ),
+                 html
+                 )
+  }
+
+  if(use.DataTables && !fragment)
+  {
+    templateFile <- system.file("html_templates", "render_diff.html", package="daff", mustWork=TRUE)
+    template     <- readLines(templateFile)
+    template     <- paste(template, sep="\n", collapse="\n")
+
+    html <- gsub("</style>",
+                 template,
                  html
                  )
   }

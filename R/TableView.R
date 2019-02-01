@@ -63,13 +63,34 @@ TableView <- function(ctx, df, var_name){
 #' @export
 print.TableView <- function(x, n=6, ...)
 {
-  cat("  First", n, "and last", n, "patch lines:\n")
-  patch_data <- x$get_data()
-  p <- rbind(head(patch_data, n=n),
-             "..."=rep("...", length=ncol(patch_data)),
-             tail(patch_data, n=n)
-  )
-  print(p, ...)
+  N <- NROW(x$get_data())
+  if (N > 2*n){
+    cat("  First", n, "and last", n, "patch lines:\n")
+  }
+  patch_data <- x$get_matrix()
+
+  p <- patch_data
+  if(is.null(colnames(p)))
+  {
+    colnames(p) <- p[ 1, , drop=FALSE]
+    p           <- p[-1, , drop=FALSE]
+  }
+
+  if(is.null(rownames(p)))
+  {
+    rownames(p) <- p[ , 1, drop=FALSE]
+    p           <- p[ ,-1, drop=FALSE]
+  }
+
+  if (N > 2*n){
+    p <- rbind(head(p, n=n),
+               "..." = rep("...", length=ncol(p)),
+               tail(p, n=n)
+    )
+  }
+
+
+  print(p, ..., quote=FALSE, row.names=TRUE)
   cat("\n")
   invisible(x)
 }
