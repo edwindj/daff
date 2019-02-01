@@ -4,8 +4,9 @@
 \alias{render_diff}
 \title{Render a data_diff to html}
 \usage{
-render_diff(diff, file = tempfile(fileext = ".html"), view = interactive(),
-  fragment = FALSE, pretty = TRUE, title, summary = !fragment)
+render_diff(diff, file = tempfile(fileext = ".html"),
+  view = interactive(), fragment = FALSE, pretty = TRUE, title,
+  summary = !fragment)
 }
 \arguments{
 \item{diff}{\code{diff_data object} generated with \code{\link{diff_data}}}
@@ -53,4 +54,3 @@ y_patched <- patch_data(y, patch)
 \seealso{
 data_diff
 }
-

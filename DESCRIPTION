@@ -4,7 +4,7 @@ Title: Diff, Patch and Merge for Data.frames
 Authors@R: c( person("Paul", "Fitzpatrick", email="paul@robotrebuilt.com", role=c("aut"),
                      comment="JavaScript original, http://paulfitz.github.io/daff/"),
               person("Edwin", "de Jonge", email="edwindjonge@gmail.com", role=c("aut","cre"),
-                     comment="R wrapper"),
+                     comment=c("R wrapper", ORCID="0000-0002-6580-4718")),
               person( c("Gregory", "R."), "Warnes", email="gwarnes@mdsol.com", role=c("aut"))
               )
 Description: Diff, patch and merge for data frames. Document changes in data
@@ -20,4 +20,4 @@ Imports:
 URL: http://github.com/edwindj/daff
 Suggests:
     testthat
-RoxygenNote: 5.0.1
+RoxygenNote: 6.1.1

@@ -23,4 +23,3 @@ reversed. This is more useful when using \code{dplyr} and \code{magrittr}
 \seealso{
 diff_data
 }
-

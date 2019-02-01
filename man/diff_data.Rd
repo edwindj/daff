@@ -6,9 +6,10 @@
 \usage{
 diff_data(data_ref, data, always_show_header = TRUE,
   always_show_order = FALSE, columns_to_ignore = c(),
-  count_like_a_spreadsheet = TRUE, ids = c(), ignore_whitespace = FALSE,
-  never_show_order = FALSE, ordered = TRUE, padding_strategy = c("auto",
-  "smart", "dense", "sparse"), show_meta = TRUE, show_unchanged = FALSE,
+  count_like_a_spreadsheet = TRUE, ids = c(),
+  ignore_whitespace = FALSE, never_show_order = FALSE,
+  ordered = TRUE, padding_strategy = c("auto", "smart", "dense",
+  "sparse"), show_meta = TRUE, show_unchanged = FALSE,
   show_unchanged_columns = FALSE, show_unchanged_meta = FALSE,
   unchanged_column_context = 1L, unchanged_context = 1L)
 }
@@ -103,4 +104,3 @@ summary(dd)
 \seealso{
 differs_from
 }
-
