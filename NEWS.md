@@ -1,3 +1,8 @@
+0.3.4
+
+- Removed a RNG dependency in the tests.
+- Updated link to description of data protocol
+
 0.3.3
 
 - Update `daff.js` to https://github.com/paulfitz/daff/commit/2106718 (2017-06-23)

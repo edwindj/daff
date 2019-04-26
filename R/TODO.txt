@@ -1,3 +1,0 @@
-- Add option to mark all whitespace.
-- Submit fancy html changes to upstream.
-

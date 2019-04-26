@@ -19,7 +19,7 @@ diff object that can be used in \code{\link{patch_data}}
 }
 \description{
 The diff information is stored in the Coopy highlighter diff format:
-\url{http://dataprotocols.org/tabular-diff-format/}
+\url{https://paulfitz.github.io/daff-doc/spec.html}
 }
 \details{
 Note that type information of the target data.frame is lost when writing a patch to disk.

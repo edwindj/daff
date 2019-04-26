@@ -113,7 +113,7 @@ You get an updated raw data file: what are the changes?
 
 ### Highlighter diff format
 
-- highlighter diff format: http://dataprotocols.org/tabular-diff-format
+- highlighter diff format: https://paulfitz.github.io/daff-doc/spec.html
 - diff protocol for tabular data.
 - shows rows/columns that changed.
 - supports patching data.

@@ -1,5 +1,5 @@
 Package: daff
-Version: 0.3.3
+Version: 0.3.4
 Title: Diff, Patch and Merge for Data.frames
 Authors@R: c( person("Paul", "Fitzpatrick", email="paul@robotrebuilt.com", role=c("aut"),
                      comment="JavaScript original, http://paulfitz.github.io/daff/"),
