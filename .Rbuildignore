@@ -3,4 +3,5 @@
 ^examples
 ^\.travis\.yml$
 ^appveyor\.yml$
+R/TODO.txt
 ^.RData
