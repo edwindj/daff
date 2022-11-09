@@ -3,7 +3,6 @@
 \docType{package}
 \name{daff}
 \alias{daff}
-\alias{daff-package}
 \title{Data diff, patch and merge for R}
 \description{
 Daff calculates differences between two \code{data.frame}s. This difference can be stored and later used to

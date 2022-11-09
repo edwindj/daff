@@ -4,9 +4,16 @@
 \alias{render_diff}
 \title{Render a data_diff to html}
 \usage{
-render_diff(diff, file = tempfile(fileext = ".html"),
-  view = interactive(), fragment = FALSE, pretty = TRUE, title,
-  summary = !fragment, use.DataTables = !fragment)
+render_diff(
+  diff,
+  file = tempfile(fileext = ".html"),
+  view = interactive(),
+  fragment = FALSE,
+  pretty = TRUE,
+  title,
+  summary = !fragment,
+  use.DataTables = !fragment
+)
 }
 \arguments{
 \item{diff}{\code{diff_data object} generated with \code{\link{diff_data}}}

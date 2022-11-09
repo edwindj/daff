@@ -4,14 +4,25 @@
 \alias{diff_data}
 \title{Do a data diff}
 \usage{
-diff_data(data_ref, data, always_show_header = TRUE,
-  always_show_order = FALSE, columns_to_ignore = c(),
-  count_like_a_spreadsheet = TRUE, ids = c(),
-  ignore_whitespace = FALSE, never_show_order = FALSE,
-  ordered = TRUE, padding_strategy = c("auto", "smart", "dense",
-  "sparse"), show_meta = TRUE, show_unchanged = FALSE,
-  show_unchanged_columns = FALSE, show_unchanged_meta = FALSE,
-  unchanged_column_context = 1L, unchanged_context = 1L)
+diff_data(
+  data_ref,
+  data,
+  always_show_header = TRUE,
+  always_show_order = FALSE,
+  columns_to_ignore = c(),
+  count_like_a_spreadsheet = TRUE,
+  ids = c(),
+  ignore_whitespace = FALSE,
+  never_show_order = FALSE,
+  ordered = TRUE,
+  padding_strategy = c("auto", "smart", "dense", "sparse"),
+  show_meta = TRUE,
+  show_unchanged = FALSE,
+  show_unchanged_columns = FALSE,
+  show_unchanged_meta = FALSE,
+  unchanged_column_context = 1L,
+  unchanged_context = 1L
+)
 }
 \arguments{
 \item{data_ref}{\code{data.frame} reference data frame}

@@ -5,10 +5,12 @@ It wraps the [daff.js](http://paulfitz.github.io/daff/) library using the [V8 ](
 
 The diff format is described in https://paulfitz.github.io/daff-doc/spec.html.
 
+<!-- badges: start -->
 ![version](http://www.r-pkg.org/badges/version/daff)
+[![R-CMD-check](https://github.com/edwindj/daff/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/edwindj/daff/actions/workflows/R-CMD-check.yaml)
 ![downloads](http://cranlogs.r-pkg.org/badges/daff)
-[![Build Status](https://travis-ci.org/edwindj/daff.svg?branch=master)](https://travis-ci.org/edwindj/daff)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/edwindj/daff?branch=master)](https://ci.appveyor.com/project/edwindj/daff)
+/ci.appveyor.com/project/edwindj/daff)
+<!-- badges: end -->
 
 Working:
 
