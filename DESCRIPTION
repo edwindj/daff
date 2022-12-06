@@ -1,5 +1,5 @@
 Package: daff
-Version: 0.3.6
+Version: 0.3.8
 Title: Diff, Patch and Merge for Data.frames
 Authors@R: c( person("Paul", "Fitzpatrick", email="paul@robotrebuilt.com", role=c("aut"),
                      comment="JavaScript original, http://paulfitz.github.io/daff/"),
@@ -16,7 +16,7 @@ Imports:
     V8 (>= 0.6),
     jsonlite,
     utils
-URL: http://github.com/edwindj/daff
+URL: https://github.com/edwindj/daff
 Suggests:
     testthat
 RoxygenNote: 7.2.1

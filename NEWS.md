@@ -1,3 +1,8 @@
+0.3.8
+
+- Updated urls in documentation from http to https
+- Removed lazyData
+
 0.3.4
 
 - Removed a RNG dependency in the tests.
