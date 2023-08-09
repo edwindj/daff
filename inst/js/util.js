@@ -29,7 +29,7 @@ function to_objects(x){
 }
 
 function diff(src, target, flags){
-  var alignment = daff.compareTables(src, target).align();
+  var alignment = daff.compareTables(src, target, flags).align();
   var highlighter = new daff.TableDiff(alignment, flags);
   var data_diff = [];
   var table_diff = new daff.TableView(data_diff);
