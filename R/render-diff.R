@@ -56,9 +56,9 @@ render_diff <- function(  diff
   ctx <- diff$ctx
   html <- ctx$call("render_diff", JS(diff$var_name), fragment, pretty)
 
-  # add id to main table so we can target it in JavaScript
+  # add id to main table so we can target it in JavaScript/CSS
   html <- gsub("<table>",
-               "<table id='main' class='dataTable'>",
+               "<table id='daff-main' class='dataTable daff-dataTable'>",
                html
                )
 
@@ -68,7 +68,7 @@ render_diff <- function(  diff
     # correctly (or at all) in some browsers, notably Chrome version 50-55 on
     # some platforms.
     #
-    # **These changes should be propogated back into the underlying daff source code.**\
+    # **These changes should be propagated back into the underlying daff source code.**\
 
     # BONUS: At the start of the line, use double right arrow, allowing searches
     # to distinguish between "line contains changes" (double right) and

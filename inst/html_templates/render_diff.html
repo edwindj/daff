@@ -2,14 +2,14 @@
 
 <!-- CSS for DataTables -->
 <style>
-table.dataTable, table.dataTable th, table.dataTable td {
+table.daff-dataTable, table.daff-dataTable th, table.daff-dataTable td {
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
 }
 
-th {
-  background-color: rgb(170, 170, 255);
+daff-dataTable th {
+  background-color: bluergb(170, 170, 255);
   border: 1px solid rgb(45, 64, 104);
   border-bottom: 2px solid black;
   !font-weight: bold;
@@ -81,7 +81,7 @@ th {
 
 <script type="text/javascript">
 $(document).ready( function() {
-    var table = $("#main").DataTable(
+    var table = $("#daff-main").DataTable(
       {
          buttons: [
                        "colvis",
@@ -127,7 +127,7 @@ $(document).ready( function() {
     var table = $(e.currentTarget); //reference to the resized table
   };
 
-  $("#main").colResizable(
+  $("#daff-main").colResizable(
     {
       liveDrag:true,
       gripInnerHtml:"<div class='grip'></div>",
