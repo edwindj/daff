@@ -117,8 +117,7 @@ render_diff <- function(  diff
       col_count_change_text <- gsub("-->", "&rarr;", col_count_change_text)
     }
 
-    html <- gsub("<div class='highlighter'>",
-                 paste("",
+    summary_html <- paste("",
                        "<div class='highlighter' style='align:center;'>",
                        "<table style='margin: 0px auto; margin-bottom: 2em; text-align: right'>",
                        "   <thead>",
@@ -152,12 +151,18 @@ render_diff <- function(  diff
                        "</div>",
                        "<div class='highlighter'>",
                        sep="\n"
-                       ),
-                 html
-                 )
+                       )
+
+    if(fragment)
+      html <- paste0(summary_html, html, "</div>", sep="\n")
+    else
+      html <- gsub("<div class='highlighter'>",
+                   summary_html,
+                   html
+      )
   }
 
-  if(use.DataTables && !fragment)
+  if(use.DataTables)
   {
     templateFile <- system.file("html_templates", "render_diff.html", package="daff", mustWork=TRUE)
     template     <- readLines(templateFile)
