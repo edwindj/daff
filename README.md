@@ -62,7 +62,7 @@ write_diff(patch, "patch.csv")
 
 `render_diff(patch)` will generate the following HTML page:
 
-![render_diff](tools/render_diff.png "render_diff")
+![render_diff](man/render_diff.png "render_diff")
 
 
 ## patch_data
