@@ -1,5 +1,18 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
 <!-- badges: start -->
 
 ![version](http://www.r-pkg.org/badges/version/daff)
@@ -20,6 +33,7 @@ difference to patch a `data.frame`. It can also merge two versions of a
 The diff format is described in
 <https://paulfitz.github.io/daff-doc/spec.html>.
 
+
 Functions:
 
 - diff: `diff_data`
@@ -28,10 +42,10 @@ Functions:
 - render to html: `render_diff`
 - merge two tables based on a same version: `merge_data`
 
+
 ## Installation
 
-You can install the development version of daff from
-[GitHub](https://github.com/) with:
+You can install the development version of daff from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -64,9 +78,7 @@ write_diff(patch, "patch.csv")
 
 <figure>
 <img src="man/render_diff.png" title="render_diff" alt="render_diff" />
-<figcaption aria-hidden="true">
-render_diff
-</figcaption>
+<figcaption aria-hidden="true">render_diff</figcaption>
 </figure>
 
 ## patch_data
