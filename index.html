@@ -69,14 +69,14 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
+
+<!-- badges: end -->
 <div class="section level1">
 <div class="page-header"><h1 id="daff-diff-patch-and-merge-for-dataframes">Daff: diff, patch and merge for data.frames<a class="anchor" aria-label="anchor" href="#daff-diff-patch-and-merge-for-dataframes"></a>
 </h1></div>
 <p>daff is an R package that can find difference in values between <code>data.frames</code>, store this difference, render it and apply this difference to patch a <code>data.frame</code>. It can also merge two versions of a <code>data.frame</code> having a common parent. It wraps the <a href="http://paulfitz.github.io/daff/" class="external-link">daff.js</a> library using the <a href="https://github.com/jeroen/v8" class="external-link">V8</a> package.</p>
 <p>The diff format is described in <a href="https://paulfitz.github.io/daff-doc/spec.html" class="external-link uri">https://paulfitz.github.io/daff-doc/spec.html</a>.</p>
-<!-- badges: start -->
-
-<p>Working:</p>
+<p>Functions:</p>
 <ul>
 <li>diff: <code>diff_data</code>
 </li>
@@ -89,22 +89,14 @@
 <li>merge two tables based on a same version: <code>merge_data</code>
 </li>
 </ul>
-<p>TODO:</p>
-<ul>
-<li>add htmlwidgets</li>
-<li>implement extra parameters for <code>diff_data</code>: <code>ids</code>, <code>ignore</code> etc.</li>
-<li>make column type changes explicit (is now internally available)</li>
-<li>see if daff can be implemented in C++, using the Haxe C++ target of daff: this would remove the V8/jsonlite dependency</li>
-</ul>
-</div>
-<div class="section level1">
-<h1 id="install">Install<a class="anchor" aria-label="anchor" href="#install"></a>
-</h1>
-<p>Install from CRAN</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the development version of daff from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'daff'</span><span class="op">)</span></span></code></pre></div>
-<p>The latest version of <code>daff</code> can be installed with <code>devtools</code></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode s"><code class="sourceCode gnuassembler"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">devtools::</span>install_github<span class="op">(</span><span class="st">"edwindj/daff"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"edwindj/daff"</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level1">
 <h1 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -113,7 +105,7 @@
 <h2 id="diff_data">diff_data<a class="anchor" aria-label="anchor" href="#diff_data"></a>
 </h2>
 <p>Calculate the difference between a reference and a changed <code>data.frame</code></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/edwindj/daff" class="external-link">daff</a></span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,<span class="op">]</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">y</span></span>
@@ -128,15 +120,15 @@
 <span><span class="co"># write a patch to disk</span></span>
 <span><span class="fu"><a href="reference/readwrite.html">write_diff</a></span><span class="op">(</span><span class="va">patch</span>, <span class="st">"patch.csv"</span><span class="op">)</span></span></code></pre></div>
 <p><code>render_diff(patch)</code> will generate the following HTML page:</p>
-<div class="figure">
-<img src="man/render_diff.png" title="render_diff" alt=""><p class="caption">render_diff</p>
-</div>
+<figure><img src="man/render_diff.png" title="render_diff" alt="render_diff"><figcaption aria-hidden="true">
+render_diff
+</figcaption></figure>
 </div>
 <div class="section level2">
 <h2 id="patch_data">patch_data<a class="anchor" aria-label="anchor" href="#patch_data"></a>
 </h2>
 <p>Patch a <code>data.frame</code> using a diff generated with <code>diff_data</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># read a diff from disk</span></span>
 <span><span class="va">patch</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/readwrite.html">read_diff</a></span><span class="op">(</span><span class="st">"patch.csv"</span><span class="op">)</span></span>
 <span></span>
@@ -147,7 +139,7 @@
 <h2 id="merge_data">merge_data<a class="anchor" aria-label="anchor" href="#merge_data"></a>
 </h2>
 <p>Merge two <code>data.frame</code>s that have diverged from a common parent <code>data.frame</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">parent</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op">&lt;-</span> <span class="va">b</span> <span class="op">&lt;-</span> <span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,<span class="op">]</span></span>
 <span><span class="va">a</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
 <span><span class="va">b</span><span class="op">[</span><span class="fl">2</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">11</span></span>
