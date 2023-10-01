@@ -1,3 +1,12 @@
+# daff 1.0.0
+
+- Upgrade daff javascript library to 1.3.48 from https://github.com/paulfitz/daff
+- Resolves issue #31: "diff_data detects changes in primary keys, even if ids is specified"
+- `render_diff`: Remove duplicated CSS styling 
+- `render_diff`: Improve handling of `fragment=TRUE` to respect `summary=TRUE` 
+  and `use.DataTables=TRUE`.  Note that the html generate when `fragment=TRUE` 
+  now encloses the changes table in a `div` of class `highlighter`.
+
 # daff 0.3.8
 
 * Updated urls in documentation from http to https
