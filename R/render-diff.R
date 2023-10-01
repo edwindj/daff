@@ -56,9 +56,9 @@ render_diff <- function(  diff
   ctx <- diff$ctx
   html <- ctx$call("render_diff", JS(diff$var_name), fragment, pretty)
 
-  # add id to main table so we can target it in JavaScript
+  # add id to main table so we can target it in JavaScript/CSS
   html <- gsub("<table>",
-               "<table id='main' class='dataTable'>",
+               "<table id='daff-main' class='dataTable daff-dataTable'>",
                html
                )
 
@@ -68,7 +68,7 @@ render_diff <- function(  diff
     # correctly (or at all) in some browsers, notably Chrome version 50-55 on
     # some platforms.
     #
-    # **These changes should be propogated back into the underlying daff source code.**\
+    # **These changes should be propagated back into the underlying daff source code.**\
 
     # BONUS: At the start of the line, use double right arrow, allowing searches
     # to distinguish between "line contains changes" (double right) and
@@ -117,8 +117,7 @@ render_diff <- function(  diff
       col_count_change_text <- gsub("-->", "&rarr;", col_count_change_text)
     }
 
-    html <- gsub("<div class='highlighter'>",
-                 paste("",
+    summary_html <- paste("",
                        "<div class='highlighter' style='align:center;'>",
                        "<table style='margin: 0px auto; margin-bottom: 2em; text-align: right'>",
                        "   <thead>",
@@ -152,12 +151,18 @@ render_diff <- function(  diff
                        "</div>",
                        "<div class='highlighter'>",
                        sep="\n"
-                       ),
-                 html
-                 )
+                       )
+
+    if(fragment)
+      html <- paste0(summary_html, html, "</div>", sep="\n")
+    else
+      html <- gsub("<div class='highlighter'>",
+                   summary_html,
+                   html
+      )
   }
 
-  if(use.DataTables && !fragment)
+  if(use.DataTables)
   {
     templateFile <- system.file("html_templates", "render_diff.html", package="daff", mustWork=TRUE)
     template     <- readLines(templateFile)
