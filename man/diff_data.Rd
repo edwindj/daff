@@ -40,14 +40,14 @@ If you'd like that extra row/column to always be included,
 turn on this flag, and turn off never_show_order.}
 
 \item{columns_to_ignore}{\code{character}
-List of columns to ignore in all calculations.  Changes
-related to these columns should be discounted.}
+List of columns to ignore in all calculations. Changes
+related to these columns are ignored.}
 
 \item{count_like_a_spreadsheet}{\code{logical}
 Should column numbers, if present, be rendered spreadsheet-style
 as A,B,C,...,AA,BB,CC?  Defaults to TRUE.}
 
-\item{ids}{\code{charcter}
+\item{ids}{\code{character}
 List of columns that make up a primary key, if known. Otherwise
 heuristics are used to find a decent key (or a set of decent keys).}
 
