@@ -77,7 +77,7 @@ write_diff(patch, "patch.csv")
 `render_diff(patch)` will generate the following HTML page:
 
 <figure>
-<img src="man/render_diff.png" title="render_diff" alt="render_diff" />
+<img src="man/figures/render_diff.png" title="render_diff" alt="render_diff" />
 <figcaption aria-hidden="true">render_diff</figcaption>
 </figure>
 

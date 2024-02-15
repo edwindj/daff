@@ -1,4 +1,4 @@
-# daff 1.1.0
+# daff 1.1.1
 
 - update for coming update of V8, now includes underscore.js. Thanks to @jeroenooms
 
