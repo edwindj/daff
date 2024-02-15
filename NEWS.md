@@ -1,3 +1,7 @@
+# daff 1.1.0
+
+- update for coming update of V8, now includes underscore.js. Thanks to @jeroenooms
+
 # daff 1.0.0
 
 - Upgrade daff javascript library to 1.3.48 from https://github.com/paulfitz/daff
