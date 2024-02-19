@@ -16,7 +16,7 @@ Imports:
     V8 (>= 0.6),
     jsonlite,
     utils
-URL: https://github.com/edwindj/daff
+URL: https://edwindj.github.io/daff/, https://github.com/edwindj/daff
 Suggests:
     testthat
 RoxygenNote: 7.2.3
